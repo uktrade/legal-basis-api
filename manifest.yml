@@ -1,0 +1,13 @@
+---
+applications:
+- name: legal-basis-api-dev
+  services:
+    - legal-basis-api-dev
+  buildpacks:
+    - python_buildpack
+  env:
+    DJANGO_ENV: "production"
+    DJANGO_SECRET_KEY: "secret"
+    DOMAIN_NAME: "legal-basis-api-dev.london.cloudapps.digital"
+  command:
+    sh ./bin/run.sh

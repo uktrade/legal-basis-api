@@ -1,0 +1,14 @@
+# The humans responsible & technology colophon
+# http://humanstxt.org/
+
+
+## Department for International Trade
+
+Team:
+
+
+## Technologies
+
+Language: English
+Doctype: HTML5
+Technologies: Python, Django
