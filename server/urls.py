@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """
 Main URL mapping configuration file.
 
@@ -18,6 +16,7 @@ from django.urls import include, path
 from django.views.generic import TemplateView
 from health_check import urls as health_urls
 
+from server.apps.api import urls as api_urls
 from server.apps.main import urls as main_urls
 from server.apps.main.views import index
 
@@ -27,6 +26,7 @@ admin.autodiscover()
 urlpatterns = [
     # Apps:
     path('main/', include(main_urls, namespace='main')),
+    path('api/', include(api_urls, namespace='api')),
 
     # Health checks:
     path('health/', include(health_urls)),  # noqa: DJ05

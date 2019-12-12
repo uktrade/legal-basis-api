@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """
 This file contains all the settings that defines the development server.
 
@@ -25,10 +23,9 @@ ALLOWED_HOSTS = [
 
 
 # Installed apps for developement only:
-INSTALLED_APPS = \
-    (
-        'whitenoise.runserver_nostatic',
-    ) + INSTALLED_APPS
+INSTALLED_APPS = (
+    'whitenoise.runserver_nostatic',
+) + INSTALLED_APPS
 
 INSTALLED_APPS += (
     'debug_toolbar',

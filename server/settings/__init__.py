@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """
 This is a django-split-settings main file.
 
@@ -23,7 +21,7 @@ base_settings = [
     'components/logging.py',
     'components/csp.py',
     'components/caches.py',
-
+    'components/drf.py',
     # You can even use glob:
     # 'components/*.py'
 

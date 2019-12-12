@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """
 This package is a place for your business logic.
 

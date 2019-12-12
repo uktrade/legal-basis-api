@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """
 Django settings for server project.
 
@@ -10,12 +8,11 @@ For the full list of settings and their config, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
+import os
 from typing import Dict, List, Tuple, Union
 
-import os
+from dj_database_url import parse as db_url  # noqa: WPS347
 from django.utils.translation import ugettext_lazy as ugt
-
-import dj_database_url
 
 from server.settings.components import BASE_DIR, config
 
@@ -29,6 +26,11 @@ SECRET_KEY = config('DJANGO_SECRET_KEY')
 INSTALLED_APPS: Tuple[str, ...] = (
     # Your apps go here:
     'server.apps.main',
+    'server.apps.api',
+
+    # 3rd party django apps
+    'rest_framework',
+    'drf_yasg',
 
     # Default django apps:
     'django.contrib.auth',
@@ -86,8 +88,13 @@ WSGI_APPLICATION = 'server.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
+
+
 DATABASES = {
-    'default': dj_database_url.config(conn_max_age=600, ssl_require=True)
+    'default': config(
+        'DATABASE_URL',
+        cast=db_url,
+    ),
 }
 
 # Internationalization
