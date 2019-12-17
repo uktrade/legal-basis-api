@@ -26,7 +26,7 @@ admin.autodiscover()
 urlpatterns = [
     # Apps:
     path('main/', include(main_urls, namespace='main')),
-    path('api/', include(api_urls, namespace='api')),
+    path('api/v1/', include(api_urls, namespace='v1')),
 
     # Health checks:
     path('health/', include(health_urls)),  # noqa: DJ05
@@ -38,10 +38,6 @@ urlpatterns = [
     # Text and xml static files:
     path('robots.txt', TemplateView.as_view(
         template_name='txt/robots.txt',
-        content_type='text/plain',
-    )),
-    path('humans.txt', TemplateView.as_view(
-        template_name='txt/humans.txt',
         content_type='text/plain',
     )),
 

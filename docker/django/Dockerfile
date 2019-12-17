@@ -17,10 +17,8 @@ ENV DJANGO_ENV=${DJANGO_ENV} \
   PIP_NO_CACHE_DIR=off \
   PIP_DISABLE_PIP_VERSION_CHECK=on \
   PIP_DEFAULT_TIMEOUT=100 \
-  # dockerize:
-  DOCKERIZE_VERSION=v0.6.1 \
   # poetry:
-  POETRY_VERSION=0.12.17
+  POETRY_VERSION=1.0.0
 
 
 # System deps:
@@ -40,12 +38,7 @@ RUN apk --no-cache add \
   # Installing `poetry` package manager:
   # https://github.com/sdispater/poetry
   && pip install -U "pip<19.0" \
-  && pip install "poetry==$POETRY_VERSION" \
-  # Installing `dockerize` utility:
-  # https://github.com/jwilder/dockerize
-  && wget "https://github.com/jwilder/dockerize/releases/download/${DOCKERIZE_VERSION}/dockerize-alpine-linux-amd64-${DOCKERIZE_VERSION}.tar.gz" \
-  && tar -C /usr/local/bin -xzvf "dockerize-alpine-linux-amd64-${DOCKERIZE_VERSION}.tar.gz" \
-  && rm "dockerize-alpine-linux-amd64-${DOCKERIZE_VERSION}.tar.gz"
+  && pip install "poetry==$POETRY_VERSION"
 
 # Copy only requirements, to cache them in docker layer:
 WORKDIR /pysetup
@@ -55,19 +48,10 @@ COPY ./poetry.lock ./pyproject.toml /pysetup/
 COPY ./docker/django/entrypoint.sh /docker-entrypoint.sh
 
 # Project initialization:
-RUN chmod +x "/docker-entrypoint.sh" \
-  && poetry config settings.virtualenvs.create false \
+RUN poetry config virtualenvs.create false \
   && poetry install $(test "$DJANGO_ENV" == production && echo "--no-dev") --no-interaction --no-ansi
 
 # This dir will become the mountpoint of development code:
 WORKDIR /code
-
-ENTRYPOINT ["/sbin/tini", "--", "/docker-entrypoint.sh"]
-
-
-# The following stage is only for Prod:
-# https://wemake-django-template.readthedocs.io/en/latest/pages/template/production.html
-
-FROM development_build as production_build
 
 COPY . /code

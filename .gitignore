@@ -190,6 +190,7 @@ cmake-build-debug/
 
 ## File-based project format:
 *.iws
+*.iml
 
 ## Plugin-specific files:
 
@@ -243,3 +244,6 @@ artifacts/
 
 # pytest:
 .pytest_cache/
+
+# poetry
+./requirements.txt
