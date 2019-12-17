@@ -9,6 +9,7 @@ from typing import List
 
 from server.settings.components import config
 from server.settings.components.common import INSTALLED_APPS, MIDDLEWARE
+from server.settings.components.logging import LOGGING
 
 # Setting the development status:
 
@@ -81,3 +82,10 @@ MIDDLEWARE = (  # noqa: WPS440
 # NPLUSONE_RAISE = True  # comment out if you want to allow N+1 requests
 NPLUSONE_LOGGER = logging.getLogger('django')
 NPLUSONE_LOG_LEVEL = logging.WARN
+
+LOGGING["loggers"] = {
+    "django_structlog": {
+        "handlers": ["console"],
+        "level": "INFO",
+    }
+}

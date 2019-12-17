@@ -1,6 +1,6 @@
-from django.contrib import admin  # noqa: F401
+from django.contrib import admin
 
-from server.apps.main.models import LegalBasis, Consent
+from server.apps.main.models import Consent, LegalBasis
 
 # Register your models here.
 admin.site.register(LegalBasis)
