@@ -10,6 +10,7 @@ class Consent(models.Model):
     def __str__(self) -> str:
         return f"{self.name}"
 
+
 @final
 class LegalBasis(models.Model):
     """
@@ -28,5 +29,3 @@ class LegalBasis(models.Model):
     def __str__(self) -> str:
         """All django models should have this method."""
         return f"{self.email}"
-
-

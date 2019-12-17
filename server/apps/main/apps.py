@@ -5,4 +5,4 @@ class MainConfig(AppConfig):
     name = 'server.apps.main'
 
     def ready(self):
-        from . import signals
+        from server.apps.main import signals  # noqa: F401
