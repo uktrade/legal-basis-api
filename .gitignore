@@ -246,4 +246,4 @@ artifacts/
 .pytest_cache/
 
 # poetry
-./requirements.txt
+/requirements.txt
