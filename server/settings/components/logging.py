@@ -10,7 +10,7 @@ LOGGING = {
         },
         "color": {
             "()": structlog.stdlib.ProcessorFormatter,
-            "processor": structlog.dev.ConsoleRenderer(colors=True),
+            "processor": structlog.dev.ConsoleRenderer(),
         }
     },
     "handlers": {
