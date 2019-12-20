@@ -14,4 +14,5 @@ class LegalBasisSerializer(serializers.ModelSerializer):
     class Meta:
         model = LegalBasis
         fields = '__all__'
+        depth = 1
         queryset = LegalBasis.objects.prefetch_related('consent_set').all()
