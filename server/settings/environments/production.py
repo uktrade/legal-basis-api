@@ -4,6 +4,9 @@ This file contains all the settings used in production.
 This file is required and if development.py is present these
 values are overridden.
 """
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+
 from server.settings.components import config
 
 # Production flags:
@@ -52,3 +55,9 @@ SECURE_SSL_REDIRECT = True
 
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
+
+sentry_sdk.init(
+    dsn=config('SENTRY_DSN'),
+    integrations=[DjangoIntegration()],
+    send_default_pii=True
+)
