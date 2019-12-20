@@ -55,7 +55,8 @@ LOGGING = {
         },
         'django_structlog': {
             'handlers': ['structlog'],
-            'level': LOGLEVEL
+            'level': LOGLEVEL,
+            'propagate': False,
         },
         'django.server': {
             'handlers': ['django.server'],
