@@ -30,6 +30,7 @@ INSTALLED_APPS: Tuple[str, ...] = (
 
     # 3rd party django apps
     'rest_framework',
+    'rest_framework.authtoken',
     'drf_yasg',
 
     # Default django apps:
@@ -56,11 +57,13 @@ INSTALLED_APPS: Tuple[str, ...] = (
 
     # Third party apps
     'django_http_referrer_policy',
+    'hawkrest',
 )
 
 MIDDLEWARE: Tuple[str, ...] = (
-    # Content Security Policy:
     'whitenoise.middleware.WhiteNoiseMiddleware',
+
+    # Content Security Policy:
     'csp.middleware.CSPMiddleware',
 
     # Django:
@@ -73,9 +76,10 @@ MIDDLEWARE: Tuple[str, ...] = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
     # Axes:
     'axes.middleware.AxesMiddleware',
+    # hawk rest
+    'hawkrest.middleware.HawkResponseMiddleware',
 
     # Django HTTP Referrer Policy:
     'django_http_referrer_policy.middleware.ReferrerPolicyMiddleware',

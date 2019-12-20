@@ -30,6 +30,7 @@ djangorestframework = "^3.10.3"
 drf-yasg = {extras = ["validation"], version = "^1.17.0"}
 psycopg2-binary = "^2.8.4"
 django-structlog = "^1.3.4"
+hawkrest = "^1.0.1"
 
 
 [tool.poetry.dev-dependencies]
