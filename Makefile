@@ -37,3 +37,31 @@ deploy: requirements
 test:
 > poetry run pytest
 .PHONY: test
+
+lint-migrations:
+> poetry run ./manage.py lintmigrations --exclude-apps=axes
+.PHONY: lint-migrations
+
+flake8:
+> poetry run flake8 .
+.PHONY: flake8
+
+lint-types:
+> poetry run mypy server
+.PHONY: lint-types
+
+lint-dotenv:
+> dotenv-linter config/.env config/.env.template
+.PHONY: lint-dotenv
+
+lint-pip:
+> poetry check && poetry run pip check
+.PHONY: lint-pip
+
+lint-code-quality:
+> poetry run xenon --max-absolute A --max-modules A --max-average A server
+.PHONY: lint-code-quality
+
+lint: lint-migrations flake8 lint-types lint-dotenv lint-pip lint-code-quality
+> @echo "Running lint"
+.PHONY: lint
