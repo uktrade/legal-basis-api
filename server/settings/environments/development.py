@@ -83,9 +83,4 @@ MIDDLEWARE = (  # noqa: WPS440
 NPLUSONE_LOGGER = logging.getLogger('django')
 NPLUSONE_LOG_LEVEL = logging.WARN
 
-LOGGING["loggers"] = {
-    "django_structlog": {
-        "handlers": ["console"],
-        "level": "INFO",
-    }
-}
+LOGGING["loggers"]["django_structlog"]["handlers"] = ["console"]
