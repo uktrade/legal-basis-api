@@ -13,7 +13,7 @@ from django.conf import settings
 from django.contrib import admin
 from django.contrib.admindocs import urls as admindocs_urls
 from django.urls import include, path
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, RedirectView
 from health_check import urls as health_urls
 
 from server.apps.api import urls as api_urls
@@ -31,8 +31,12 @@ urlpatterns = [
     # Health checks:
     path('health/', include(health_urls)),  # noqa: DJ05
 
+    # Django Admin Oauth2
+    path("auth/", include("authbroker_client.urls")),
+
     # django-admin:
     path('admin/doc/', include(admindocs_urls)),  # noqa: DJ05
+    path('admin/login/', RedirectView.as_view(pattern_name="authbroker_client:login", permanent=False)),
     path('admin/', admin.site.urls),
 
     # Text and xml static files:

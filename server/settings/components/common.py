@@ -13,6 +13,7 @@ from typing import Dict, List, Tuple, Union
 
 from dj_database_url import parse as db_url  # noqa: WPS347
 from django.utils.translation import ugettext_lazy as ugt
+from django.urls import reverse_lazy
 
 from server.settings.components import BASE_DIR, config
 
@@ -58,6 +59,7 @@ INSTALLED_APPS: Tuple[str, ...] = (
     # Third party apps
     'django_http_referrer_policy',
     'hawkrest',
+    'authbroker_client',
 )
 
 MIDDLEWARE: Tuple[str, ...] = (
@@ -175,6 +177,7 @@ MEDIA_ROOT = BASE_DIR.joinpath('media')
 AUTHENTICATION_BACKENDS = (
     'axes.backends.AxesBackend',
     'django.contrib.auth.backends.ModelBackend',
+    'authbroker_client.backends.AuthbrokerBackend',
 )
 
 PASSWORD_HASHERS = [
@@ -205,3 +208,13 @@ FEATURE_POLICY: Dict[str, Union[str, List[str]]] = {}  # noqa: TAE002
 
 # Timeouts
 EMAIL_TIMEOUT = 5
+
+# Authbroker
+AUTHBROKER_URL = "https://sso.trade.gov.uk/"
+AUTHBROKER_CLIENT_ID = "B9xGM4WWRuQ2eYTALaV3RTS8AV4beSyTnTSk6tO1"
+AUTHBROKER_CLIENT_SECRET = "d5Yv2YijSSMj0VNxUZ570JEjVpKh5yzqmkHcWixALz5MsR0seCwn2GP1DO3fPqbSma1jBpuIkHdKeIlKHGk5PFDb6D6qU1uWDlgu5r0sfQJtTEw4BEkonTOuFWdDJayG"
+
+LOGIN_URL = reverse_lazy("authbroker_client:login")
+LOGIN_REDIRECT_URL = reverse_lazy("admin:index")
+
+INTERNAL_IPS = ('127.0.0.1')
