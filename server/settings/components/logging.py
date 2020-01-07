@@ -1,5 +1,6 @@
 import os
 import sys
+
 import structlog
 
 LOGLEVEL = os.environ.get("LOGLEVEL", "info").upper()

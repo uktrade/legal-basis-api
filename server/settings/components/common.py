@@ -12,8 +12,8 @@ import os
 from typing import Dict, List, Tuple, Union
 
 from dj_database_url import parse as db_url  # noqa: WPS347
-from django.utils.translation import ugettext_lazy as ugt
 from django.urls import reverse_lazy
+from django.utils.translation import ugettext_lazy as ugt
 
 from server.settings.components import BASE_DIR, config
 
