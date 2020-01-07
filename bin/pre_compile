@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+set -ex
+export POETRY_VERSION=1.0.0
+curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python
+source $HOME/.poetry/env
+poetry export --without-hashes -f requirements.txt -o requirements.txt

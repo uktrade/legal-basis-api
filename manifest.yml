@@ -4,7 +4,7 @@ applications:
   services:
     - legal-basis-api-dev
   buildpacks:
-    - python_buildpack
+    - https://github.com/cloudfoundry/python-buildpack.git#v1.7.5
   env:
     DJANGO_ENV: "production"
     DJANGO_SECRET_KEY: "secret"
