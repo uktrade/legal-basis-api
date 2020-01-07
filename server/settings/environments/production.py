@@ -16,7 +16,7 @@ DEBUG = False
 
 ALLOWED_HOSTS = [
     # TODO: check production hosts
-    config("DOMAIN_NAME"),
+    config("DOMAIN_NAME")
 ]
 
 
@@ -28,10 +28,10 @@ ALLOWED_HOSTS = [
 
 _PASS = "django.contrib.auth.password_validation"  # noqa: S105
 AUTH_PASSWORD_VALIDATORS = [
-    {"NAME": "{0}.UserAttributeSimilarityValidator".format(_PASS),},
-    {"NAME": "{0}.MinimumLengthValidator".format(_PASS),},
-    {"NAME": "{0}.CommonPasswordValidator".format(_PASS),},
-    {"NAME": "{0}.NumericPasswordValidator".format(_PASS),},
+    {"NAME": "{0}.UserAttributeSimilarityValidator".format(_PASS)},
+    {"NAME": "{0}.MinimumLengthValidator".format(_PASS)},
+    {"NAME": "{0}.CommonPasswordValidator".format(_PASS)},
+    {"NAME": "{0}.NumericPasswordValidator".format(_PASS)},
 ]
 
 
@@ -48,6 +48,6 @@ SECURE_SSL_REDIRECT = True
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 
-sentry_sdk.init(
+sentry_sdk.hub.init(
     dsn=config("SENTRY_DSN"), integrations=[DjangoIntegration()], send_default_pii=True
 )

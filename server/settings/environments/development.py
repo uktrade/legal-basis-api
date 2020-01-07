@@ -15,12 +15,7 @@ from server.settings.components.logging import LOGGING
 
 DEBUG = True
 
-ALLOWED_HOSTS = [
-    config("DOMAIN_NAME"),
-    "localhost",
-    "127.0.0.1",
-    "[::1]",
-]
+ALLOWED_HOSTS = [config("DOMAIN_NAME"), "localhost", "127.0.0.1", "[::1]"]
 
 
 # Installed apps for developement only:
@@ -57,7 +52,7 @@ def custom_show_toolbar(request):
 
 
 DEBUG_TOOLBAR_CONFIG = {
-    "SHOW_TOOLBAR_CALLBACK": "server.settings.environments.development.custom_show_toolbar",
+    "SHOW_TOOLBAR_CALLBACK": "server.settings.environments.development.custom_show_toolbar"
 }
 
 # This will make debug toolbar to work with django-csp,
@@ -77,4 +72,4 @@ MIDDLEWARE = ("nplusone.ext.django.NPlusOneMiddleware",) + MIDDLEWARE  # noqa: W
 NPLUSONE_LOGGER = logging.getLogger("django")
 NPLUSONE_LOG_LEVEL = logging.WARN
 
-LOGGING["loggers"]["django_structlog"]["handlers"] = ["console"]
+LOGGING["loggers"]["django_structlog"]["handlers"] = ["console"]  # type: ignore
