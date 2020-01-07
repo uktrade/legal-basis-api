@@ -29,9 +29,11 @@
       -->
 
     <h1>django-template</h1>
-    <div style="font-family: 'Courier New', Courier, monospace;">
       <h2>request.user</h2>
-      <dl>
+      <dl style="font-family: 'Courier New', Courier, monospace;">
+        <dt>request.user.is_authenticated</dt>
+        <dd>{{ request.user.is_authenticated }}</dd>
+
         <dt>request.user.id</dt>
         <dd>{{ request.user.id }}</dd>
 
@@ -47,9 +49,11 @@
         <dt>request.user.is_staff</dt>
         <dd>{{ request.user.is_staff }}</dd>
 
+        <dt>request.user.is_superuser</dt>
+        <dd>{{ request.user.is_superuser }}</dd>
+
         <dt>request.user.is_active</dt>
         <dd>{{ request.user.is_active }}</dd>
-      </dl>
-    </div>
+      </dlstyle="font-family: 'Courier New', Courier, monospace;">
   </body>
 </html>
