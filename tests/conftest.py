@@ -12,26 +12,24 @@ import pytest
 @pytest.fixture(autouse=True)
 def _media_root(settings, tmpdir_factory):
     """Forces django to save media files into temp folder."""
-    settings.MEDIA_ROOT = tmpdir_factory.mktemp('media', numbered=True)
+    settings.MEDIA_ROOT = tmpdir_factory.mktemp("media", numbered=True)
 
 
 @pytest.fixture(autouse=True)
 def _password_hashers(settings):
     """Forces django to use fast password hashers for tests."""
     settings.PASSWORD_HASHERS = [
-        'django.contrib.auth.hashers.MD5PasswordHasher',
+        "django.contrib.auth.hashers.MD5PasswordHasher",
     ]
 
 
 @pytest.fixture(autouse=True)
 def _auth_backends(settings):
     """Deactivates security backend from Axes app."""
-    settings.AUTHENTICATION_BACKENDS = (
-        'django.contrib.auth.backends.ModelBackend',
-    )
+    settings.AUTHENTICATION_BACKENDS = ("django.contrib.auth.backends.ModelBackend",)
 
 
 @pytest.fixture()
 def main_heading():
     """An example fixture containing some html fragment."""
-    return '<h1>wemake-django-template</h1>'
+    return "<h1>wemake-django-template</h1>"

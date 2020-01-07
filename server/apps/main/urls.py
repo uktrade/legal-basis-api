@@ -4,8 +4,8 @@ from server.apps.main.views import index
 
 # Place your URLs here:
 
-app_name = 'main'
+app_name = "main"
 
 urlpatterns = [
-    path('hello', index, name='hello'),
+    path("hello", index, name="hello"),
 ]

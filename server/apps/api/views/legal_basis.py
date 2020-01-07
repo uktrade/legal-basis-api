@@ -8,7 +8,8 @@ class LegalBasisViewSet(viewsets.ModelViewSet):
     """
     This viewset automatically provides `create`, `update`, `list` and `detail` actions.
     """
+
     queryset = LegalBasis.objects.all()
     serializer_class = LegalBasisSerializer
     lookup_value_regex = r"[^/]+"
-    lookup_field = 'email'
+    lookup_field = "email"

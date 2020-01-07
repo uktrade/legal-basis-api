@@ -8,4 +8,4 @@ admin.site.register(LegalBasis)
 admin.site.register(Consent)
 
 # Recommended by drf docs: https://www.django-rest-framework.org/api-guide/authentication/#with-django-admin
-TokenAdmin.raw_id_fields = ['user']
+TokenAdmin.raw_id_fields = ["user"]
