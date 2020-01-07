@@ -36,7 +36,6 @@ urlpatterns = [
 
     # django-admin:
     path('admin/doc/', include(admindocs_urls)),  # noqa: DJ05
-    path('admin/login/', RedirectView.as_view(pattern_name="authbroker_client:login", permanent=False)),
     path('admin/', admin.site.urls),
 
     # Text and xml static files:
