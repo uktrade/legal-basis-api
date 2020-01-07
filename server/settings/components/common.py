@@ -210,9 +210,9 @@ FEATURE_POLICY: Dict[str, Union[str, List[str]]] = {}  # noqa: TAE002
 EMAIL_TIMEOUT = 5
 
 # Authbroker
-AUTHBROKER_URL = "https://sso.trade.gov.uk/"
-AUTHBROKER_CLIENT_ID = "B9xGM4WWRuQ2eYTALaV3RTS8AV4beSyTnTSk6tO1"
-AUTHBROKER_CLIENT_SECRET = "d5Yv2YijSSMj0VNxUZ570JEjVpKh5yzqmkHcWixALz5MsR0seCwn2GP1DO3fPqbSma1jBpuIkHdKeIlKHGk5PFDb6D6qU1uWDlgu5r0sfQJtTEw4BEkonTOuFWdDJayG"
+AUTHBROKER_URL = config("AUTHBROKER_URL")
+AUTHBROKER_CLIENT_ID = config("AUTHBROKER_CLIENT_ID")
+AUTHBROKER_CLIENT_SECRET = config("AUTHBROKER_CLIENT_SECRET")
 
 LOGIN_URL = reverse_lazy("authbroker_client:login")
 LOGIN_REDIRECT_URL = reverse_lazy("admin:index")
