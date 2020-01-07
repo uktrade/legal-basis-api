@@ -11,4 +11,4 @@ def index(request: HttpRequest) -> HttpResponse:
     Returns rendered default page to the user.
     Typed with the help of ``django-stubs`` project.
     """
-    return render(request, 'main/index.html')
+    return render(request, "main/index.html")

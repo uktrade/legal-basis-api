@@ -11,12 +11,8 @@ class HawkCredentials(TypedDict):
 
 def hawk_credentials_lookup(id: str) -> HawkCredentials:
     token = Token.objects.get(user__username=id)
-    return {
-        'id': id,
-        'key': token.key,
-        'algorithm': 'sha256'
-    }
+    return {"id": id, "key": token.key, "algorithm": "sha256"}
 
 
 def hawk_user_lookup(request, credentials):
-    return User.objects.get(username=credentials['id']), None
+    return User.objects.get(username=credentials["id"]), None

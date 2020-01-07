@@ -13,23 +13,21 @@ from os import environ
 from split_settings.tools import include, optional
 
 # Managing environment via DJANGO_ENV variable:
-environ.setdefault('DJANGO_ENV', 'development')
-ENV = environ['DJANGO_ENV']
+environ.setdefault("DJANGO_ENV", "development")
+ENV = environ["DJANGO_ENV"]
 
 base_settings = [
-    'components/common.py',
-    'components/logging.py',
-    'components/csp.py',
-    'components/caches.py',
-    'components/drf.py',
+    "components/common.py",
+    "components/logging.py",
+    "components/csp.py",
+    "components/caches.py",
+    "components/drf.py",
     # You can even use glob:
     # 'components/*.py'
-
     # Select the right env:
-    'environments/{0}.py'.format(ENV),
-
+    "environments/{0}.py".format(ENV),
     # Optionally override some settings:
-    optional('environments/local.py'),
+    optional("environments/local.py"),
 ]
 
 # Include settings:
