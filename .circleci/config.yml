@@ -1,7 +1,3 @@
-# Python CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-python/ for more details
-#
 version: 2
 
 workflows:
@@ -14,8 +10,6 @@ workflows:
 jobs:
   build-and-test:
     docker:
-      # specify the version you desire here
-      # use `-browsers` prefix for selenium tests, e.g. `3.6.1-browsers`
       - image: circleci/python:3.7.6
         environment:
           DJANGO_SECRET_KEY: notreallysecret
@@ -26,9 +20,6 @@ jobs:
           DOMAIN_NAME: trade.gov.uk
           TLS_EMAIL: webmaster@trade.gov.uk
 
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
       - image: circleci/postgres:10.11
         environment:
           POSTGRES_USER: postgres
@@ -41,11 +32,9 @@ jobs:
           name: Configure poetry
           command: poetry config virtualenvs.in-project true
 
-      # Download and cache dependencies
       - restore_cache:
           keys:
             - v2-dependencies-{{ checksum "poetry.lock" }}
-            # fallback to using the latest cache if no exact match is found
             - v2-dependencies-
 
       - run:
