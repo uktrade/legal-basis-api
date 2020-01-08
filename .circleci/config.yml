@@ -35,7 +35,6 @@ jobs:
       - restore_cache:
           keys:
             - v2-dependencies-{{ checksum "poetry.lock" }}
-            - v2-dependencies-
 
       - run:
           name: Install dependencies
