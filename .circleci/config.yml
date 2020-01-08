@@ -58,5 +58,5 @@ jobs:
           key: v2-dependencies-{{ checksum "poetry.lock" }}
 
       - run:
-          name: run tests
+          name: Run tests
           command: poetry run docker/ci.sh
