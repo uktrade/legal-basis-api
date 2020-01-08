@@ -66,7 +66,7 @@ run_ci () {
   yamllint -d '{"extends": "default", "ignore": ".venv"}' -s .
 
   # Checking `.env` files:
-  dotenv-linter config/.env config/.env.template
+  # dotenv-linter config/.env config/.env.template
 
   # Checking translation files, ignoring ordering and locations:
   # polint -i location,unsorted locale
