@@ -13,7 +13,7 @@ jobs:
     docker:
       - image: circleci/python:3.7.6
         environment:
-          DJANGO_SECRET_KEY: sJFcCUMvUtbMZqRXmrwhRdD9KQYmdYhwFGjGCt6HXgqL37NxveN
+          DJANGO_SECRET_KEY: 4c1nzrs&8^g+t$tt**wl7u8)0p8ql3vr28rjn1mdcnr*crjz*#
           DATABASE_URL: postgres://postgres@127.0.0.1:5432/legal-basis
           AUTHBROKER_URL: https://sso.trade.gov.uk/
           AUTHBROKER_CLIENT_ID: client_id
