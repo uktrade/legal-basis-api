@@ -44,8 +44,4 @@ jobs:
 
       - run:
           name: run tests
-          command: poetry run pytest
-
-      - store_artifacts:
-          path: test-reports
-          destination: test-reports
+          command: poetry run docker/ci.sh
