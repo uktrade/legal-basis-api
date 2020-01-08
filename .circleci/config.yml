@@ -20,6 +20,9 @@ jobs:
         environment:
           DJANGO_SECRET_KEY: notreallysecret
           DATABASE_URL: postgres://postgres@127.0.0.1:5432/legal-basis
+          AUTHBROKER_URL: https://sso.trade.gov.uk/
+          AUTHBROKER_CLIENT_ID: client_id
+          AUTHBROKER_CLIENT_SECRET: client_secret
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
