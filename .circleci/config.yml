@@ -23,6 +23,8 @@ jobs:
           AUTHBROKER_URL: https://sso.trade.gov.uk/
           AUTHBROKER_CLIENT_ID: client_id
           AUTHBROKER_CLIENT_SECRET: client_secret
+          DOMAIN_NAME: trade.gov.uk
+          TLS_EMAIL: webmaster@trade.gov.uk
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
