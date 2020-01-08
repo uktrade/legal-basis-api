@@ -47,7 +47,7 @@ jobs:
 
       - run:
           name: Collect static assets
-          command: poetry run manage.py collectstatic
+          command: poetry run ./manage.py collectstatic
 
       - run:
           name: Run tests
