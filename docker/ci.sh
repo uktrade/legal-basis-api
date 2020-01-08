@@ -69,7 +69,7 @@ run_ci () {
   dotenv-linter config/.env config/.env.template
 
   # Checking translation files, ignoring ordering and locations:
-  polint -i location,unsorted locale
+  # polint -i location,unsorted locale
 
   echo '[ci finished]'
 }
