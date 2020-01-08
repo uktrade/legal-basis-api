@@ -32,6 +32,10 @@ jobs:
     steps:
       - checkout
 
+      - run:
+          name: Configure poetry
+          command: poetry config virtualenvs.in-project true
+
       # Download and cache dependencies
       - restore_cache:
           keys:
@@ -45,7 +49,7 @@ jobs:
 
       - save_cache:
           paths:
-            - ./venv
+            - ./.venv
           key: v1-dependencies-{{ checksum "poetry.lock" }}
 
       - run:
