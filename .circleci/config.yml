@@ -26,7 +26,7 @@ jobs:
             - v1-dependencies-
 
       - run:
-          name: install dependencies
+          name: Install dependencies
           command: poetry install
 
       - save_cache:
