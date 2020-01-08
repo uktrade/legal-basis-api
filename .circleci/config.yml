@@ -46,8 +46,8 @@ jobs:
           key: v2-dependencies-{{ checksum "poetry.lock" }}
 
       - run:
-        name: Collect static assets
-        command: poetry run manage.py collectstatic
+          name: Collect static assets
+          command: poetry run manage.py collectstatic
 
       - run:
           name: Run tests
