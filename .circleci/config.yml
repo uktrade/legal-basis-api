@@ -1,0 +1,116 @@
+---
+version: 2
+
+environment: &environment
+  DJANGO_SECRET_KEY: 4c1nzrs&8^g+t$tt**wl7u8)0p8ql3vr28rjn1mdcnr*crjz*#
+  DATABASE_URL: postgres://postgres@127.0.0.1:5432/legal-basis
+  AUTHBROKER_URL: https://sso.trade.gov.uk/
+  AUTHBROKER_CLIENT_ID: client_id
+  AUTHBROKER_CLIENT_SECRET: client_secret
+  DOMAIN_NAME: trade.gov.uk
+  TLS_EMAIL: webmaster@trade.gov.uk
+  POSTGRES_USER: postgres
+  POSTGRES_DB: legal-basis
+
+workflows:
+  version: 2
+
+  build-and-test:
+    jobs:
+      - build-and-test
+
+jobs:
+  build-and-test:
+    docker:
+      # python:3.7.6
+      - image: circleci/python@sha256:c10b2426add407d1acc7a3491c95b83ec1308920146e7e8061468959a521d98c
+        environment:
+          <<: *environment
+
+      # postgres:11.6
+      - image: circleci/postgres@sha256:be29ab5e437ef926a222081eb15f8fca602a89b4c7987b909a5b6a10f282026e
+        environment:
+          <<: *environment
+
+    steps:
+      - checkout
+
+      - run:
+          name: Configure poetry
+          command: poetry config virtualenvs.in-project true
+
+      - restore_cache:
+          keys:
+            - v2-dependencies-{{ checksum "poetry.lock" }}
+
+      - run:
+          name: Install dependencies
+          command: poetry install
+
+      - save_cache:
+          paths:
+            - ./.venv
+          key: v2-dependencies-{{ checksum "poetry.lock" }}
+
+      - run:
+          name: Run flake8
+          command: poetry run flake8 .
+
+      - run:
+          name: Check types
+          command: poetry run mypy server tests/**/*.py
+
+      - run:
+          name: Run pytest
+          command: |
+            poetry run pytest --dead-fixtures --dup-fixtures \
+              --junitxml=.test-results/pytest-fixtures/results.xml &&
+            poetry run pytest --junitxml=.test-results/pytest/results.xml \
+              --cov-report=html:coverage
+
+      - run:
+          name: Check django settings
+          command: poetry run ./manage.py check --deploy --fail-level WARNING
+          environment:
+            DJANGO_ENV: production
+
+      - run:
+          name: Validate migrations
+          command: poetry run ./manage.py makemigrations --dry-run --check
+
+      - run:
+          name: Check migrations are backwards-compatible
+          command: poetry run ./manage.py lintmigrations --exclude-apps=axes
+
+      - run:
+          name: Code quality check
+          command: |
+            poetry run xenon --max-absolute A --max-modules A \
+              --max-average A server
+
+      - run:
+          name: Check dependency vulnerabilities
+          command: poetry run safety check --bare --full-report
+
+      - run:
+          name: Check pyproject.toml
+          command: poetry check
+
+      - run:
+          name: Check dependency compatibility
+          command: poetry run pip check
+
+      - run:
+          name: Check docs
+          command: poetry run doc8 -q docs
+
+      - run:
+          name: Lint YAML
+          command: |
+            poetry run yamllint -s .
+
+      - store_test_results:
+          path: .test-results
+
+      - store_artifacts:
+          path: coverage

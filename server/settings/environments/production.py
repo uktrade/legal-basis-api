@@ -22,6 +22,7 @@ ALLOWED_HOSTS = [
 
 # Staticfiles
 # https://docs.djangoproject.com/en/2.2/ref/contrib/staticfiles/
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -48,6 +49,9 @@ SECURE_SSL_REDIRECT = True
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 
-sentry_sdk.hub.init(
-    dsn=config("SENTRY_DSN"), integrations=[DjangoIntegration()], send_default_pii=True
-)
+SENTRY_DSN = config("SENTRY_DSN", default=None)
+
+if SENTRY_DSN is not None:
+    sentry_sdk.hub.init(
+        dsn=SENTRY_DSN, integrations=[DjangoIntegration()], send_default_pii=True,
+    )

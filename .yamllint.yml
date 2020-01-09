@@ -1,0 +1,7 @@
+---
+extends: default
+
+ignore: .venv
+
+rules:
+  line-length: disable

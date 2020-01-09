@@ -34,6 +34,7 @@
         <dt>request.user.is_authenticated</dt>
         <dd>{{ request.user.is_authenticated }}</dd>
 
+        {% if request.user.is_authenticated %}
         <dt>request.user.id</dt>
         <dd>{{ request.user.id }}</dd>
 
@@ -54,6 +55,7 @@
 
         <dt>request.user.is_active</dt>
         <dd>{{ request.user.is_active }}</dd>
-      </dlstyle="font-family: 'Courier New', Courier, monospace;">
+        {% endif %}
+      </dl>
   </body>
 </html>
