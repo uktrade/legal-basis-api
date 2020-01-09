@@ -74,4 +74,3 @@ flake8-isort = "^2.8.0"
 black = {version = "^19.10b0", allow-prereleases = true}
 pylint = "^2.4.4"
 autopep8 = "^1.4.4"
-polint = "^0.4"
