@@ -64,8 +64,8 @@ jobs:
           name: Run pytest
           command: |
             poetry run pytest --dead-fixtures --dup-fixtures \
-              --junitxml=test-results/pytest-fixtures/results.xml &&
-            poetry run pytest --junitxml=test-results/pytest/results.xml \
+              --junitxml=.test-results/pytest-fixtures/results.xml &&
+            poetry run pytest --junitxml=.test-results/pytest/results.xml \
               --cov-report=html:coverage
 
       - run:
@@ -111,7 +111,7 @@ jobs:
               '{"extends": "default", "ignore": ".venv"}' -s .
 
       - store_test_results:
-          path: test-results
+          path: .test-results
 
       - store_artifacts:
           path: coverage
