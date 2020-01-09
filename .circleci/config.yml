@@ -84,7 +84,9 @@ jobs:
 
       - run:
           name: Code quality check
-          command: poetry run xenon --max-absolute A --max-modules A --max-average A server
+          command: |
+            poetry run xenon --max-absolute A --max-modules A \
+              --max-average A server
 
       - run:
           name: Check dependency vulnerabilities
@@ -104,4 +106,6 @@ jobs:
 
       - run:
           name: Lint YAML
-          command: 'poetry run yamllint -d ''{"extends": "default", "ignore": ".venv"}'' -s .'
+          command: |
+            poetry run yamllint -d \
+              '{"extends": "default", "ignore": ".venv"}' -s .
