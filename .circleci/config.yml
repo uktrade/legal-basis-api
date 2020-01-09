@@ -102,4 +102,4 @@ jobs:
 
       - run:
           name: Lint YAML
-          command: poetry run yamllint -d '{"extends": "default", "ignore": ".venv"}' -s .
+          command: 'poetry run yamllint -d ''{"extends": "default", "ignore": ".venv"}'' -s .'
