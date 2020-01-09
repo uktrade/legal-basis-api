@@ -53,6 +53,9 @@ run_ci () {
   # known vulnerabilities:
   safety check --bare --full-report
 
+  # Bandit security linting
+  bandit -r .
+
   # Checking `pyproject.toml` file contents:
   poetry check
 
@@ -63,7 +66,7 @@ run_ci () {
   doc8 -q docs
 
   # Checking `yaml` files:
-  yamllint -d '{"extends": "default", "ignore": ".venv"}' -s .
+  yamllint -s .
 
   echo '[ci finished]'
 }
