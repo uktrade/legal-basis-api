@@ -70,7 +70,9 @@ jobs:
 
       - run:
           name: Check django settings
-          command: poetry run DJANGO_ENV=production ./manage.py check --deploy --fail-level WARNING
+          command: poetry run ./manage.py check --deploy --fail-level WARNING
+          environment:
+            DJANGO_ENV: production
 
       - run:
           name: Validate migrations
