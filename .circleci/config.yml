@@ -61,8 +61,9 @@ jobs:
       - run:
           name: Run pytest
           command: |
-            poetry run pytest --dead-fixtures --dup-fixtures &&
-            poetry run pytest
+            poetry run pytest --dead-fixtures --dup-fixtures \
+              --junitxml=test-results/pytest-fixtures/results.xml &&
+            poetry run pytest --junitxml=test-results/pytest/results.xml
 
       - run:
           name: Check django settings
@@ -105,3 +106,6 @@ jobs:
           command: |
             poetry run yamllint -d \
               '{"extends": "default", "ignore": ".venv"}' -s .
+
+      - store_test_results:
+          path: test-results
