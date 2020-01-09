@@ -22,6 +22,8 @@ workflows:
 jobs:
   build-and-test:
     docker:
+      # yamllint disable rule:line-length
+
       # python:3.7.6
       - image: circleci/python@sha256:c10b2426add407d1acc7a3491c95b83ec1308920146e7e8061468959a521d98c
         environment:
@@ -31,6 +33,7 @@ jobs:
       - image: circleci/postgres@sha256:be29ab5e437ef926a222081eb15f8fca602a89b4c7987b909a5b6a10f282026e
         environment:
           <<: *environment
+          # yamllint enable
 
     steps:
       - checkout
