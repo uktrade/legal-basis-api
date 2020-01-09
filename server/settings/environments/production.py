@@ -22,6 +22,7 @@ ALLOWED_HOSTS = [
 
 # Staticfiles
 # https://docs.djangoproject.com/en/2.2/ref/contrib/staticfiles/
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
