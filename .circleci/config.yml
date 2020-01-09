@@ -107,8 +107,7 @@ jobs:
       - run:
           name: Lint YAML
           command: |
-            poetry run yamllint -d \
-              '{"extends": "default", "ignore": ".venv"}' -s .
+            poetry run yamllint -s .
 
       - store_test_results:
           path: .test-results
