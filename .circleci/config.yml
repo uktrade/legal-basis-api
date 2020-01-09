@@ -70,15 +70,15 @@ jobs:
 
       - run:
           name: Check django settings
-          command: poetry run DJANGO_ENV=production manage.py check --deploy --fail-level WARNING
+          command: poetry run DJANGO_ENV=production ./manage.py check --deploy --fail-level WARNING
 
       - run:
           name: Validate migrations
-          command: poetry run manage.py makemigrations --dry-run --check
+          command: poetry run ./manage.py makemigrations --dry-run --check
 
       - run:
           name: Check migrations are backwards-compatible
-          command: poetry run manage.py lintmigrations --exclude-apps=axes
+          command: poetry run ./manage.py lintmigrations --exclude-apps=axes
 
       - run:
           name: Code quality check
