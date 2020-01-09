@@ -93,6 +93,10 @@ jobs:
           command: poetry run safety check --bare --full-report
 
       - run:
+          name: Run Bandit security linter
+          command: poetry run bandit -r .
+
+      - run:
           name: Check pyproject.toml
           command: poetry check
 
