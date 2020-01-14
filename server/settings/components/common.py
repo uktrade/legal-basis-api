@@ -211,4 +211,4 @@ INTERNAL_IPS = ("127.0.0.1",)
 RESTRICT_ADMIN = True
 TRUST_PRIVATE_IP = True
 # comma-separated list of IPs expected
-ALLOWED_ADMIN_IPS = config("ALLOWED_ADMIN_IPS", cast=Csv())
+ALLOWED_ADMIN_IPS = config("ALLOWED_ADMIN_IPS", default="127.0.0.1,::1", cast=Csv())
