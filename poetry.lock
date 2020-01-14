@@ -280,6 +280,21 @@ bcrypt = ["bcrypt"]
 
 [[package]]
 category = "main"
+description = "A Django middleware to restrict incoming IPs to admin panel"
+name = "django-admin-ip-restrictor"
+optional = false
+python-versions = "*"
+version = "2.1.1"
+
+[package.dependencies]
+django = ">=1.11,<3"
+django-ipware = ">=2,<3"
+
+[package.extras]
+tests = ["coverage (5.0.2)", "pytest (5.3.2)", "pytest-cov (2.8.1)", "pytest-django (3.7.0)", "pytest-sugar (0.9.2)", "tox (3.14.3)"]
+
+[[package]]
+category = "main"
 description = "A django app that replaces the django admin authentication mechanism by deferring to an oauth2 provider"
 name = "django-admin-oauth2"
 optional = false
@@ -1780,7 +1795,7 @@ docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
 testing = ["pathlib2", "contextlib2", "unittest2"]
 
 [metadata]
-content-hash = "c13708902d77b63ccfd3c60d19fc1980f161079ddcbcefdf20113fab2800dbbf"
+content-hash = "5556c11aeefcb3c983d66a1697fdb4d5896b43ac5490a073d1266e066e0c86bd"
 python-versions = "3.7.*"
 
 [metadata.files]
@@ -1992,6 +2007,9 @@ dj-database-url = [
 django = [
     {file = "Django-2.2.9-py3-none-any.whl", hash = "sha256:687c37153486cf26c3fdcbdd177ef16de38dc3463f094b5f9c9955d91f277b14"},
     {file = "Django-2.2.9.tar.gz", hash = "sha256:662a1ff78792e3fd77f16f71b1f31149489434de4b62a74895bd5d6534e635a5"},
+]
+django-admin-ip-restrictor = [
+    {file = "django-admin-ip-restrictor-2.1.1.tar.gz", hash = "sha256:d7a6acc01c9d10723b79953666ff09fb96edd97e7a9960a8a4f1d302604a37e3"},
 ]
 django-admin-oauth2 = [
     {file = "django-admin-oauth2-1.2.0.tar.gz", hash = "sha256:f51b2c64e43b756aad087ad56441b3fe1fb40abf6ef306f145c56406bb3cc5b5"},
