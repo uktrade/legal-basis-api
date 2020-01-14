@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 import os
 from typing import Dict, List, Tuple, Union
 
+from decouple import Csv
 from dj_database_url import parse as db_url  # noqa: WPS347
 from django.urls import reverse_lazy
 from django.utils.translation import ugettext_lazy as ugt
@@ -77,6 +78,8 @@ MIDDLEWARE: Tuple[str, ...] = (
     # Django HTTP Referrer Policy:
     "django_http_referrer_policy.middleware.ReferrerPolicyMiddleware",
     "django_structlog.middlewares.RequestMiddleware",
+    # Admin IP restriction
+    "admin_ip_restrictor.middleware.AdminIPRestrictorMiddleware",
 )
 
 ROOT_URLCONF = "server.urls"
@@ -203,3 +206,9 @@ LOGIN_URL = reverse_lazy("authbroker_client:login")
 LOGIN_REDIRECT_URL = reverse_lazy("admin:index")
 
 INTERNAL_IPS = ("127.0.0.1",)
+
+# Admin IP restriction
+RESTRICT_ADMIN = True
+TRUST_PRIVATE_IP = True
+# comma-separated list of IPs expected
+ALLOWED_ADMIN_IPS = config("ALLOWED_ADMIN_IPS", default="127.0.0.1,::1", cast=Csv())
