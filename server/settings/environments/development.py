@@ -7,7 +7,7 @@ SECURITY WARNING: don't run with debug turned on in production!
 import logging
 from typing import List
 
-from server.settings.components import config
+from server.settings.components import env
 from server.settings.components.common import INSTALLED_APPS, MIDDLEWARE
 from server.settings.components.logging import LOGGING
 
@@ -15,7 +15,7 @@ from server.settings.components.logging import LOGGING
 
 DEBUG = True
 
-ALLOWED_HOSTS = [config("DOMAIN_NAME"), "localhost", "127.0.0.1", "[::1]"]
+ALLOWED_HOSTS = [env.str("DOMAIN_NAME"), "localhost", "127.0.0.1", "[::1]"]
 
 
 # Installed apps for developement only:

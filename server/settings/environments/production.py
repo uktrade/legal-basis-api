@@ -7,7 +7,7 @@ values are overridden.
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 
-from server.settings.components import config
+from server.settings.components import env
 
 # Production flags:
 # https://docs.djangoproject.com/en/2.2/howto/deployment/
@@ -16,7 +16,7 @@ DEBUG = False
 
 ALLOWED_HOSTS = [
     # TODO: check production hosts
-    config("DOMAIN_NAME")
+    env.str("DOMAIN_NAME")
 ]
 
 
@@ -49,7 +49,7 @@ SECURE_SSL_REDIRECT = True
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 
-SENTRY_DSN = config("SENTRY_DSN", default=None)
+SENTRY_DSN = env.str("SENTRY_DSN", default=None)
 
 if SENTRY_DSN is not None:
     sentry_sdk.hub.init(

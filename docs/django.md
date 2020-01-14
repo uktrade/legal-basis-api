@@ -1,18 +1,16 @@
-Django
-======
+# Django
 
-Configuration
--------------
+## Configuration
 
 We share the same configuration structure for almost every possible
 environment.
 
 We use:
 
--   `django-split-settings` to organize `django` settings into multiple
-    files and directories
--   `.env` files to store secret configuration
--   `python-decouple` to load `.env` files into `django`
+- `django-split-settings` to organize `django` settings into multiple
+  files and directories
+- `.env` files to store secret configuration
+- `python-decouple` to load `.env` files into `django`
 
 ### Components
 
@@ -35,14 +33,13 @@ file `server/settings/environments/local.py.template` to
 `server/settings/environments/local.py`. It will be loaded into your
 settings automatically if exists.
 
-``` {.sourceCode .bash}
+```{.sourceCode .bash}
 cp server/settings/environments/local.py.template server/settings/environments/local.py
 ```
 
 See `local.py.template` version for the reference.
 
-Secret settings
----------------
+## Secret settings
 
 We share the same mechanism for secret settings for all our tools. We
 use `.env` files for `django`, `postgres`, `docker`, etc.
@@ -50,7 +47,7 @@ use `.env` files for `django`, `postgres`, `docker`, etc.
 Initially, you will need to copy file `config/.env.template` to
 `config/.env`:
 
-``` {.sourceCode .bash}
+```{.sourceCode .bash}
 cp config/.env.template config/.env
 ```
 
@@ -60,8 +57,8 @@ When adding any new secret `django` settings you will need to:
 2.  Add new key without value to `config/.env.template`, add a comment
     on how to get this value for other users
 3.  Add new variable inside `django` settings
-4.  Use `python-decouple` to load this `env` variable like so:
-    `MY_SECRET = config('MY_SECRET')`
+4.  Use `django-environ` to load this `env` variable like so:
+    `MY_SECRET = env('MY_SECRET')`
 
 ### Secret settings in production
 
@@ -84,72 +81,69 @@ Here's an example:
 2.  Then `dump-env` dumps `SECRET_DJANGO_SECRET_KEY` as
     `DJANGO_SECRET_KEY` and writes it to `config/.env` file
 3.  Then it is loaded by `django` inside the settings:
-    `SECRET_KEY = config('DJANGO_SECRET_KEY')`
+    `SECRET_KEY = env('DJANGO_SECRET_KEY')`
 
 However, there are different options to store secret settings:
 
--   [ansible-vault](https://docs.ansible.com/ansible/2.4/vault.html)
--   [git-secret](https://github.com/sobolevn/git-secret)
--   [Vault](https://www.vaultproject.io/)
+- [ansible-vault](https://docs.ansible.com/ansible/2.4/vault.html)
+- [git-secret](https://github.com/sobolevn/git-secret)
+- [Vault](https://www.vaultproject.io/)
 
 Depending on a project we use different tools. With `dump-env` being the
 default and the simplest one.
 
-Extensions
-----------
+## Extensions
 
 We use different `django` extensions that make your life easier. Here's
 a full list of the extensions for both development and production:
 
--   [django-split-settings](https://github.com/sobolevn/django-split-settings) -
-    organize `django` settings into multiple files and directories.
-    Easily override and modify settings. Use wildcards in settings file
-    paths and mark settings files as optional
--   [django-axes](https://github.com/jazzband/django-axes) - keep track
-    of failed login attempts in `django` powered sites
--   [django-csp](https://github.com/mozilla/django-csp) - [Content
-    Security
-    Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy)
-    for `django`
--   [django-referrer-policy](https://github.com/ubernostrum/django-referrer-policy) -
-    middleware implementing the
-    [Referrer-Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy)
--   [django-health-check](https://github.com/KristianOellegaard/django-health-check) -
-    checks for various conditions and provides reports when anomalous
-    behavior is detected
--   [django-add-default-value](https://github.com/3YOURMIND/django-add-default-value) -
-    this django Migration Operation can be used to transfer a Fields
-    default value to the database scheme
--   [django-deprecate-fields](https://github.com/3YOURMIND/django-deprecate-fields) -
-    this package allows deprecating model fields and allows removing
-    them in a backwards compatible manner
--   [django-migration-linter](https://github.com/3YOURMIND/django-migration-linter) -
-    detect backward incompatible migrations for your django project
--   [zero-downtime-migrations](https://github.com/yandex/zero-downtime-migrations) -
-    apply `django` migrations on PostgreSql without long locks on tables
+- [django-split-settings](https://github.com/sobolevn/django-split-settings) -
+  organize `django` settings into multiple files and directories.
+  Easily override and modify settings. Use wildcards in settings file
+  paths and mark settings files as optional
+- [django-axes](https://github.com/jazzband/django-axes) - keep track
+  of failed login attempts in `django` powered sites
+- [django-csp](https://github.com/mozilla/django-csp) - [Content
+  Security
+  Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy)
+  for `django`
+- [django-referrer-policy](https://github.com/ubernostrum/django-referrer-policy) -
+  middleware implementing the
+  [Referrer-Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy)
+- [django-health-check](https://github.com/KristianOellegaard/django-health-check) -
+  checks for various conditions and provides reports when anomalous
+  behavior is detected
+- [django-add-default-value](https://github.com/3YOURMIND/django-add-default-value) -
+  this django Migration Operation can be used to transfer a Fields
+  default value to the database scheme
+- [django-deprecate-fields](https://github.com/3YOURMIND/django-deprecate-fields) -
+  this package allows deprecating model fields and allows removing
+  them in a backwards compatible manner
+- [django-migration-linter](https://github.com/3YOURMIND/django-migration-linter) -
+  detect backward incompatible migrations for your django project
+- [zero-downtime-migrations](https://github.com/yandex/zero-downtime-migrations) -
+  apply `django` migrations on PostgreSql without long locks on tables
 
 Development only extensions:
 
--   [django-debug-toolbar](https://github.com/jazzband/django-debug-toolbar) -
-    a configurable set of panels that display various debug information
-    about the current request/response
--   [django-querycount](https://github.com/bradmontgomery/django-querycount) -
-    middleware that prints the number of DB queries to the runserver
-    console
--   [nplusone](https://github.com/jmcarp/nplusone) - auto-detecting the
-    [n+1 queries
-    problem](https://stackoverflow.com/questions/97197/what-is-the-n1-select-query-issue)
-    in `django`
+- [django-debug-toolbar](https://github.com/jazzband/django-debug-toolbar) -
+  a configurable set of panels that display various debug information
+  about the current request/response
+- [django-querycount](https://github.com/bradmontgomery/django-querycount) -
+  middleware that prints the number of DB queries to the runserver
+  console
+- [nplusone](https://github.com/jmcarp/nplusone) - auto-detecting the
+  [n+1 queries
+  problem](https://stackoverflow.com/questions/97197/what-is-the-n1-select-query-issue)
+  in `django`
 
-Further reading
----------------
+## Further reading
 
--   [django-split-settings
-    tutorial](https://medium.com/wemake-services/managing-djangos-settings-e2b7f496120d)
--   [docker env-file docs](https://docs.docker.com/compose/env-file/)
+- [django-split-settings
+  tutorial](https://medium.com/wemake-services/managing-djangos-settings-e2b7f496120d)
+- [docker env-file docs](https://docs.docker.com/compose/env-file/)
 
 ### Django admin
 
--   [Django Admin
-    Cookbook](https://books.agiliq.com/projects/django-admin-cookbook/en/latest/)
-
+- [Django Admin
+  Cookbook](https://books.agiliq.com/projects/django-admin-cookbook/en/latest/)

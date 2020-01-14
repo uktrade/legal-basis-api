@@ -11,17 +11,15 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 import os
 from typing import Dict, List, Tuple, Union
 
-from decouple import Csv
-from dj_database_url import parse as db_url  # noqa: WPS347
 from django.urls import reverse_lazy
 from django.utils.translation import ugettext_lazy as ugt
 
-from server.settings.components import BASE_DIR, config
+from server.settings.components import BASE_DIR, env
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
-SECRET_KEY = config("DJANGO_SECRET_KEY")
+SECRET_KEY = env.str("DJANGO_SECRET_KEY")
 
 # Application definition:
 
@@ -92,7 +90,7 @@ WSGI_APPLICATION = "server.wsgi.application"
 
 
 DATABASES = {
-    "default": config("DATABASE_URL", cast=db_url,),
+    "default": env.db(),
 }
 
 # Internationalization
@@ -198,9 +196,9 @@ FEATURE_POLICY: Dict[str, Union[str, List[str]]] = {}  # noqa: TAE002
 EMAIL_TIMEOUT = 5
 
 # Authbroker
-AUTHBROKER_URL = config("AUTHBROKER_URL")
-AUTHBROKER_CLIENT_ID = config("AUTHBROKER_CLIENT_ID")
-AUTHBROKER_CLIENT_SECRET = config("AUTHBROKER_CLIENT_SECRET")
+AUTHBROKER_URL = env.url("AUTHBROKER_URL").geturl()
+AUTHBROKER_CLIENT_ID = env.str("AUTHBROKER_CLIENT_ID")
+AUTHBROKER_CLIENT_SECRET = env.str("AUTHBROKER_CLIENT_SECRET")
 
 LOGIN_URL = reverse_lazy("authbroker_client:login")
 LOGIN_REDIRECT_URL = reverse_lazy("admin:index")
@@ -211,4 +209,4 @@ INTERNAL_IPS = ("127.0.0.1",)
 RESTRICT_ADMIN = True
 TRUST_PRIVATE_IP = True
 # comma-separated list of IPs expected
-ALLOWED_ADMIN_IPS = config("ALLOWED_ADMIN_IPS", default="127.0.0.1,::1", cast=Csv())
+ALLOWED_ADMIN_IPS = env.list("ALLOWED_ADMIN_IPS", default=["127.0.0.1", "::1"])
