@@ -1,4 +1,3 @@
-import os
 from pathlib import PurePath
 
 import environ
@@ -10,4 +9,4 @@ BASE_DIR = PurePath(__file__).parent.parent.parent.parent
 # Loading `.env` files
 # See docs: https://github.com/joke2k/django-environ
 env = environ.Env()
-environ.Env.read_env(os.path.join(BASE_DIR, "config", ".env"))
+environ.Env.read_env(BASE_DIR.joinpath("config", ".env").as_posix())
