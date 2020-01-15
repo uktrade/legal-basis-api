@@ -11,6 +11,9 @@ environment: &environment
   TLS_EMAIL: webmaster@trade.gov.uk
   POSTGRES_USER: postgres
   POSTGRES_DB: legal-basis
+  ACTIVITY_STREAM_URL: https://localhost/v3/
+  ACTIVITY_STREAM_ID: fake_id
+  ACTIVITY_STREAM_KEY: fake_key
 
 workflows:
   version: 2

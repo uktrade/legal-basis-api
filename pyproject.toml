@@ -34,6 +34,10 @@ django-staff-sso-client = {git = "https://github.com/uktrade/django-staff-sso-cl
 django-admin-oauth2 = "^1.2.0"
 django-admin-ip-restrictor = "^2.1.1"
 django-environ = "^0.4.5"
+elasticsearch-dsl = ">=6.0.0,<7.0.0"
+requests_hawk = "^1.0.0"
+furl = "^2.1.0"
+django-tqdm = "^1.0.0"
 
 
 [tool.poetry.dev-dependencies]

@@ -13,6 +13,7 @@ from typing import Dict, List, Tuple, Union
 
 from django.urls import reverse_lazy
 from django.utils.translation import ugettext_lazy as ugt
+from furl import furl
 
 from server.settings.components import BASE_DIR, env
 
@@ -27,6 +28,7 @@ INSTALLED_APPS: Tuple[str, ...] = (
     # Your apps go here:
     "server.apps.main",
     "server.apps.api",
+    "server.apps.poller",
     # 3rd party django apps
     "rest_framework",
     "rest_framework.authtoken",
@@ -210,3 +212,8 @@ RESTRICT_ADMIN = True
 TRUST_PRIVATE_IP = True
 # comma-separated list of IPs expected
 ALLOWED_ADMIN_IPS = env.list("ALLOWED_ADMIN_IPS", default=["127.0.0.1", "::1"])
+
+# Activity Stream Credentials
+ACTIVITY_STREAM_URL = env('ACTIVITY_STREAM_URL', cast=furl)
+ACTIVITY_STREAM_KEY = env.str('ACTIVITY_STREAM_KEY')
+ACTIVITY_STREAM_ID = env.str('ACTIVITY_STREAM_ID')
