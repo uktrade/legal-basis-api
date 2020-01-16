@@ -13,3 +13,4 @@ exclude_patterns:
   - "**/__pycache__/"
   - ".venv/"
   - "tests/"
+  - ".cache/"
