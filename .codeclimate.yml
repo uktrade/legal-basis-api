@@ -1,0 +1,15 @@
+---
+version: "2"
+engines:
+  bandit:
+    enabled: true
+  pep8:
+    enabled: true
+  radon:
+    enabled: true
+  sonar-python:
+    enabled: true
+exclude_patterns:
+  - "**/__pycache__/"
+  - ".venv/"
+  - "tests/"
