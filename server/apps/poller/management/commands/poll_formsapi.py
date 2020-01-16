@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta
 from pprint import pformat
 from time import sleep
 
@@ -8,7 +9,7 @@ from elasticsearch import Elasticsearch, RequestsHttpConnection
 from elasticsearch_dsl.response import Hit
 from requests_hawk import HawkAuth
 
-from server.apps.main.models import LegalBasis, Consent
+from server.apps.main.models import Consent, LegalBasis
 from server.apps.poller.clients import FormsApi
 from server.apps.poller.models import ActivityStreamType
 
@@ -31,12 +32,12 @@ class Command(BaseCommand):
             action="store",
             type=int,
             help="How long to sleep for (seconds), default: 60",
-            default=60
+            default=60,
         )
 
     @cached_property
     def email_consent(self) -> Consent:
-        email_consent, _ = Consent.objects.get_or_create("email_marketing")
+        email_consent, _ = Consent.objects.get_or_create(name="email_marketing")
         return email_consent
 
     def get_client(self) -> FormsApi:
@@ -59,7 +60,7 @@ class Command(BaseCommand):
             print(f"First run for {name}. Creating model {obj}")
         return obj
 
-    def update_consent(self, object_data):
+    def update_consent(self, object_data) -> None:
         email_address = object_data["email_address"]
         email_contact_consent = object_data["email_contact_consent"]
 
@@ -71,7 +72,7 @@ class Command(BaseCommand):
         else:
             obj.consents.remove(self.email_consent)
 
-    def run(self, *args, **options):
+    def run(self, *args, **options) -> None:
         client = self.get_client()
 
         obj = self.get_activity_instance(client.name)
@@ -96,14 +97,14 @@ class Command(BaseCommand):
                 results = client.get_documents(obj.search_after)
 
     def handle(self, *args, **options):
-        self.write(pformat(options))
-
         run_forever = options.pop("forever")
+        sleep_time = options.pop("sleep_time")
 
         if run_forever:
             while True:
+                self.write("Polling activity stream")
                 self.run(args, options)
-                self.write(f"sleeping until {time.now + timedelta(seconds=60)}")
-                sleep(60)
+                self.write(f"sleeping until {datetime.now() + timedelta(seconds=60)}")
+                sleep(sleep_time)
         else:
             self.run(args, options)
