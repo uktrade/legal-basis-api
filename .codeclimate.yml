@@ -1,0 +1,30 @@
+---
+version: "2"
+checks:
+  method-complexity:
+    config:
+      threshold: 6
+  complex-logic:
+    config:
+      threshold: 5
+engines:
+  bandit:
+    enabled: true
+  pep8:
+    enabled: true
+    checks:
+      E501:
+        enabled: false
+  radon:
+    enabled: true
+  sonar-python:
+    enabled: true
+    checks:
+      python:S1066:
+        enabled: false
+      python:S125:
+        enabled: false
+exclude_patterns:
+  - "**/__pycache__/"
+  - ".venv/"
+  - "tests/"

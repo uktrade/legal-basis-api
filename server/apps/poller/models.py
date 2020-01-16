@@ -19,13 +19,5 @@ class ActivityStreamType(models.Model):
             return (self.last_document_timestamp, self.last_document_id)
         return None
 
-
-    def should_process(self, hit) -> bool:
-        if 'object' in hit:
-            if f'{self.name}:Data' in hit.object:
-                if 'email_contact_consent' in hit.object[f'{self.name}:Data']:
-                    return True
-        return False
-
     def __str__(self) -> str:
         return f"{self.name}"
