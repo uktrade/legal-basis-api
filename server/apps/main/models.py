@@ -30,3 +30,6 @@ class LegalBasis(models.Model):
     def __str__(self) -> str:
         """All django models should have this method."""
         return f"{self.email}"
+
+    class Meta:
+        verbose_name_plural = "LegalBases"
