@@ -1,3 +1,4 @@
+from django.contrib.postgres.fields import CIEmailField
 from django.db import models
 from typing_extensions import final
 
@@ -19,7 +20,7 @@ class LegalBasis(models.Model):
     email address has consented to.
     """
 
-    email = models.EmailField(primary_key=True)
+    email = CIEmailField(primary_key=True)
 
     consents = models.ManyToManyField(Consent)
 
