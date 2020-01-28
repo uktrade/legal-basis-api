@@ -381,6 +381,17 @@ Django = ">=1.11"
 
 [[package]]
 category = "main"
+description = "Django-filter is a reusable Django application for allowing users to filter querysets dynamically."
+name = "django-filter"
+optional = false
+python-versions = ">=3.4"
+version = "2.2.0"
+
+[package.dependencies]
+Django = ">=1.11"
+
+[[package]]
+category = "main"
 description = "Run checks on services like databases, queue servers, celery processes, etc."
 name = "django-health-check"
 optional = false
@@ -456,6 +467,7 @@ test = ["pytest", "pytest-cov", "pytest-sugar", "flake8 (3.0.4)", "requests-mock
 reference = "c9e58f82003433cad5a870caccd12fed079326c9"
 type = "git"
 url = "https://github.com/uktrade/django-staff-sso-client.git"
+
 [[package]]
 category = "main"
 description = "Structured Logging for Django"
@@ -1886,7 +1898,7 @@ docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
 testing = ["pathlib2", "contextlib2", "unittest2"]
 
 [metadata]
-content-hash = "eaa00c7d2f2212fb48b635482825e25e96ddea31106b38cb1389649f56f198d2"
+content-hash = "c49b51c77a88a7005aa11334aa288ecb612a58511e844027f98ef1d16b43d983"
 python-versions = "3.7.*"
 
 [metadata.files]
@@ -2129,6 +2141,10 @@ django-extensions = [
 django-feature-policy = [
     {file = "django-feature-policy-3.1.0.tar.gz", hash = "sha256:32cdd45521e77fbb2f8dc7a6fb984da98024abf9347bb94b6ad3d242d5d57676"},
     {file = "django_feature_policy-3.1.0-py3-none-any.whl", hash = "sha256:3ecacae01322abbc8c3313d8c6e46840d2ec045f2854ffa2bb91607daba9c4c1"},
+]
+django-filter = [
+    {file = "django-filter-2.2.0.tar.gz", hash = "sha256:c3deb57f0dd7ff94d7dce52a047516822013e2b441bed472b722a317658cfd14"},
+    {file = "django_filter-2.2.0-py3-none-any.whl", hash = "sha256:558c727bce3ffa89c4a7a0b13bc8976745d63e5fd576b3a9a851650ef11c401b"},
 ]
 django-health-check = [
     {file = "django-health-check-3.12.1.tar.gz", hash = "sha256:0563827e003d25fd4d9ebbd7467dea5f390435628d645aaa63f8889deaded73a"},
