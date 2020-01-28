@@ -33,6 +33,7 @@ INSTALLED_APPS: Tuple[str, ...] = (
     "rest_framework",
     "rest_framework.authtoken",
     "drf_yasg",
+    "django_filters",
     # Default django apps:
     "django.contrib.auth",
     "django.contrib.contenttypes",

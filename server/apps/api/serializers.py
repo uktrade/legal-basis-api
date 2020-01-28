@@ -17,4 +17,11 @@ class LegalBasisSerializer(serializers.ModelSerializer):
         model = LegalBasis
         fields = "__all__"
         depth = 1
-        queryset = LegalBasis.objects.prefetch_related("consent_set").all()
+
+
+class EmailListField(serializers.ListField):
+    child = serializers.EmailField()
+
+
+class ListOfEmailsSerializer(serializers.Serializer):
+    emails = EmailListField()
