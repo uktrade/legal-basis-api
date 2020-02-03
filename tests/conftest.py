@@ -33,3 +33,11 @@ def _auth_backends(settings):
 def main_heading():
     """An example fixture containing some html fragment."""
     return "<h1>django-template</h1>"
+
+@pytest.fixture()
+def authenticated_client(client, django_user_model):
+    username = "user1"
+    password = "bar"
+    django_user_model.objects.create_user(username=username, password=password)
+    client.login(username=username, password=password)
+    return client

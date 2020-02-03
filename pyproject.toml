@@ -80,3 +80,4 @@ black = {version = "^19.10b0", allow-prereleases = true}
 pylint = "^2.4.4"
 autopep8 = "^1.4.4"
 bandit = "^1.6.2"
+mixer = "^6.1.3"
