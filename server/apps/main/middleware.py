@@ -1,9 +1,11 @@
-# from functools import partial
-
 import uuid
+from typing import Callable, Dict, List, Optional
 
 from actstream import action
+from django.db.models import Model
 from django.db.models.signals import m2m_changed, post_delete, post_save
+from django.http import HttpRequest
+from typing_extensions import final
 
 from server.apps.main.models import Consent, LegalBasis
 
@@ -26,7 +28,8 @@ class AuditLogMiddleware:
 
         return response
 
-    def get_signal_calls(self, request):
+    @final
+    def get_signal_calls(self, request: HttpRequest) -> List[Dict]:
         return [
             {
                 "signal": signal,
@@ -55,8 +58,9 @@ class AuditLogMiddleware:
             ]
         ]
 
-    def make_m2m_changed_signal_receiver(self, request):
-        def inner(sender, **kwargs):
+    @final
+    def make_m2m_changed_signal_receiver(self, request: HttpRequest) -> Callable:
+        def inner(sender: Model, **kwargs) -> None:
             action_kwargs = {
                 "sender": request.user,
                 "action_object": kwargs["instance"],
@@ -81,8 +85,11 @@ class AuditLogMiddleware:
 
         return inner
 
-    def make_save_delete_signal_receiver(self, request, verb):
-        def inner(sender, **kwargs):
+    @final
+    def make_save_delete_signal_receiver(
+        self, request: HttpRequest, verb: str
+    ) -> Callable:
+        def inner(sender: Model, **kwargs) -> None:
             action_kwargs = {
                 "sender": request.user,
                 "action_object": kwargs["instance"],
@@ -95,9 +102,9 @@ class AuditLogMiddleware:
 
         return inner
 
-    def get_remote_addr(self, request):
-        return (
-            request.META.get("HTTP_X_FORWARDED_FOR").split(",")[0]
-            if request.META.get("HTTP_X_FORWARDED_FOR")
-            else request.META.get("REMOTE_ADDR")
-        )
+    @final
+    def get_remote_addr(self, request: HttpRequest) -> Optional[str]:
+        remote_addr = request.META.get("HTTP_X_FORWARDED_FOR")
+        if remote_addr is not None:
+            return remote_addr.split(",")[0]
+        return request.META.get("REMOTE_ADDR")
