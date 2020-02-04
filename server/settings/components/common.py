@@ -40,6 +40,7 @@ INSTALLED_APPS: Tuple[str, ...] = (
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.sites",
     # django-admin:
     "django.contrib.admin",
     "django.contrib.admindocs",
@@ -56,6 +57,8 @@ INSTALLED_APPS: Tuple[str, ...] = (
     "django_http_referrer_policy",
     "hawkrest",
     "authbroker_client",
+    # Activity Stream
+    "actstream",
 )
 
 MIDDLEWARE: Tuple[str, ...] = (
@@ -72,6 +75,7 @@ MIDDLEWARE: Tuple[str, ...] = (
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "server.apps.main.middleware.AuditLogMiddleware",
     # Axes:
     "axes.middleware.AxesMiddleware",
     # hawk rest
@@ -95,6 +99,9 @@ WSGI_APPLICATION = "server.wsgi.application"
 DATABASES = {
     "default": env.db(),
 }
+
+# Django Sites
+SITE_ID = 1
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
@@ -215,6 +222,11 @@ TRUST_PRIVATE_IP = True
 ALLOWED_ADMIN_IPS = env.list("ALLOWED_ADMIN_IPS", default=["127.0.0.1", "::1"])
 
 # Activity Stream Credentials
-ACTIVITY_STREAM_URL = env('ACTIVITY_STREAM_URL', cast=furl)
-ACTIVITY_STREAM_KEY = env.str('ACTIVITY_STREAM_KEY')
-ACTIVITY_STREAM_ID = env.str('ACTIVITY_STREAM_ID')
+ACTIVITY_STREAM_URL = env("ACTIVITY_STREAM_URL", cast=furl)
+ACTIVITY_STREAM_KEY = env.str("ACTIVITY_STREAM_KEY")
+ACTIVITY_STREAM_ID = env.str("ACTIVITY_STREAM_ID")
+
+# This app's Activity Stream config
+ACTSTREAM_SETTINGS = {
+    "USE_JSONFIELD": True,
+}
