@@ -275,6 +275,14 @@ bcrypt = ["bcrypt"]
 
 [[package]]
 category = "main"
+description = "Generate generic activity streams from the actions on your site. Users can follow any actors' activities for personalized streams."
+name = "django-activity-stream"
+optional = false
+python-versions = "*"
+version = "0.8.0"
+
+[[package]]
+category = "main"
 description = "A Django middleware to restrict incoming IPs to admin panel"
 name = "django-admin-ip-restrictor"
 optional = false
@@ -470,6 +478,7 @@ test = ["pytest", "pytest-cov", "pytest-sugar", "flake8 (3.0.4)", "requests-mock
 reference = "c9e58f82003433cad5a870caccd12fed079326c9"
 type = "git"
 url = "https://github.com/uktrade/django-staff-sso-client.git"
+
 [[package]]
 category = "main"
 description = "Structured Logging for Django"
@@ -1931,7 +1940,7 @@ docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
 testing = ["jaraco.itertools"]
 
 [metadata]
-content-hash = "4a7c4190b1d30b955ab906078581b15d3864e09fe7014b00fc77dbcc7226c4f5"
+content-hash = "d0c96151b7e90ecc1e3f9c3a95adc7dc8c1f44ad140087236593b3123badde3f"
 python-versions = "3.7.*"
 
 [metadata.files]
@@ -2138,6 +2147,9 @@ decorator = [
 django = [
     {file = "Django-2.2.10-py3-none-any.whl", hash = "sha256:9a4635813e2d498a3c01b10c701fe4a515d76dd290aaa792ccb65ca4ccb6b038"},
     {file = "Django-2.2.10.tar.gz", hash = "sha256:1226168be1b1c7efd0e66ee79b0e0b58b2caa7ed87717909cd8a57bb13a7079a"},
+]
+django-activity-stream = [
+    {file = "django-activity-stream-0.8.0.tar.gz", hash = "sha256:ef07f7242f25dbf6e198b377632a72fdd0c06ce3cd1097c394d9b7052c943b4e"},
 ]
 django-admin-ip-restrictor = [
     {file = "django-admin-ip-restrictor-2.1.1.tar.gz", hash = "sha256:d7a6acc01c9d10723b79953666ff09fb96edd97e7a9960a8a4f1d302604a37e3"},
