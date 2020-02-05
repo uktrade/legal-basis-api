@@ -38,9 +38,13 @@ jobs:
     steps:
       - checkout
 
+      - run:
+          name: Configure poetry
+          command: poetry config virtualenvs.in-project true
+
       - restore_cache:
           keys:
-            - v3-dependencies-{{ checksum "poetry.lock" }}
+            - v2-dependencies-{{ checksum "poetry.lock" }}
 
       - run:
           name: Install dependencies
@@ -48,8 +52,8 @@ jobs:
 
       - save_cache:
           paths:
-            - ~/.cache/pypoetry/virtualenvs
-          key: v3-dependencies-{{ checksum "poetry.lock" }}
+            - ./.venv
+          key: v2-dependencies-{{ checksum "poetry.lock" }}
 
       - run:
           name: Run flake8
