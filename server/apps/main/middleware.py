@@ -56,7 +56,6 @@ class AuditLogMiddleware:
         def inner(sender: Model, **kwargs) -> None:
             action_kwargs = {
                 "sender": request.user,
-                "action_object": kwargs["instance"],
                 "remote_addr": self.get_remote_addr(request),
             }
 
@@ -65,13 +64,15 @@ class AuditLogMiddleware:
                     action_kwargs["verb"] = (
                         "added" if kwargs["action"] == "post_add" else "removed"
                     )
-                    action_kwargs["target"] = Consent.objects.get(pk=pk)
+                    action_kwargs["action_object"] = Consent.objects.get(pk=pk)
+                    action_kwargs["target"] = kwargs["instance"]
 
                     action.send(**action_kwargs)
                     logger.info(f"Action sent: {action_kwargs}")
 
             if kwargs["action"] == "post_clear":
                 action_kwargs["verb"] = "cleared consents"
+                action_kwargs["action_object"] = kwargs["instance"]
 
                 action.send(**action_kwargs)
                 logger.info(f"Action sent: {action_kwargs}")

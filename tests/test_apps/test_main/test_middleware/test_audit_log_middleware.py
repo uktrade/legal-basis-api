@@ -132,15 +132,15 @@ class TestAuditLogMiddleWare:
 
         kwargs = {
             "sender": request.user,
-            "action_object": instance,
+            "target": instance,
             "remote_addr": "127.0.0.1",
         }
 
         action.send.assert_has_calls(
             [
-                call(verb="added", target=Consent.objects.get(pk=1), **kwargs),
-                call(verb="added", target=Consent.objects.get(pk=2), **kwargs),
-                call(verb="added", target=Consent.objects.get(pk=3), **kwargs),
+                call(verb="added", action_object=Consent.objects.get(pk=1), **kwargs),
+                call(verb="added", action_object=Consent.objects.get(pk=2), **kwargs),
+                call(verb="added", action_object=Consent.objects.get(pk=3), **kwargs),
             ]
         )
 
@@ -159,15 +159,15 @@ class TestAuditLogMiddleWare:
 
         kwargs = {
             "sender": request.user,
-            "action_object": instance,
+            "target": instance,
             "remote_addr": "127.0.0.1",
         }
 
         action.send.assert_has_calls(
             [
-                call(verb="removed", target=Consent.objects.get(pk=1), **kwargs),
-                call(verb="removed", target=Consent.objects.get(pk=2), **kwargs),
-                call(verb="removed", target=Consent.objects.get(pk=3), **kwargs),
+                call(verb="removed", action_object=Consent.objects.get(pk=1), **kwargs),
+                call(verb="removed", action_object=Consent.objects.get(pk=2), **kwargs),
+                call(verb="removed", action_object=Consent.objects.get(pk=3), **kwargs),
             ]
         )
 
