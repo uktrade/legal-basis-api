@@ -4,17 +4,17 @@ from typing import Callable, Dict, List, Optional
 from actstream import action
 from django.db.models import Model
 from django.db.models.signals import m2m_changed, post_delete, post_save
-from django.http import HttpRequest
+from django.http import HttpRequest, HttpResponse
 from typing_extensions import final
 
 from server.apps.main.models import Consent, LegalBasis
 
 
 class AuditLogMiddleware:
-    def __init__(self, get_response):
+    def __init__(self, get_response) -> None:
         self.get_response = get_response
 
-    def __call__(self, request):
+    def __call__(self, request) -> HttpResponse:
 
         signal_calls = self.get_signal_calls(request)
 
