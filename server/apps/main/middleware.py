@@ -30,6 +30,8 @@ class AuditLogMiddleware:
 
     @final
     def get_signal_calls(self, request: HttpRequest) -> List[Dict]:
+        m2m_through = LegalBasis.consents.through
+
         return [
             {
                 "signal": signal,
@@ -40,26 +42,14 @@ class AuditLogMiddleware:
                 },
             }
             for signal, sender, receiver in [
-                (
-                    post_save,
-                    LegalBasis,
-                    self.make_save_delete_signal_receiver(request, "updated"),
-                ),
-                (
-                    post_delete,
-                    LegalBasis,
-                    self.make_save_delete_signal_receiver(request, "deleted"),
-                ),
-                (
-                    m2m_changed,
-                    LegalBasis.consents.through,
-                    self.make_m2m_changed_signal_receiver(request),
-                ),
+                (post_save, LegalBasis, self.make_save_signal_receiver(request),),
+                (post_delete, LegalBasis, self.make_delete_signal_receiver(request),),
+                (m2m_changed, m2m_through, self.make_m2m_signal_receiver(request),),
             ]
         ]
 
     @final
-    def make_m2m_changed_signal_receiver(self, request: HttpRequest) -> Callable:
+    def make_m2m_signal_receiver(self, request: HttpRequest) -> Callable:
         def inner(sender: Model, **kwargs) -> None:
             action_kwargs = {
                 "sender": request.user,
@@ -86,14 +76,27 @@ class AuditLogMiddleware:
         return inner
 
     @final
-    def make_save_delete_signal_receiver(
-        self, request: HttpRequest, verb: str
-    ) -> Callable:
+    def make_save_signal_receiver(self, request: HttpRequest) -> Callable:
         def inner(sender: Model, **kwargs) -> None:
             action_kwargs = {
                 "sender": request.user,
                 "action_object": kwargs["instance"],
-                "verb": "created" if kwargs.get("created") is True else verb,
+                "verb": "created" if kwargs.get("created") is True else "updated",
+                "remote_addr": self.get_remote_addr(request),
+            }
+
+            action.send(**action_kwargs)
+            print(f"Action sent: {action_kwargs}")
+
+        return inner
+
+    @final
+    def make_delete_signal_receiver(self, request: HttpRequest) -> Callable:
+        def inner(sender: Model, **kwargs) -> None:
+            action_kwargs = {
+                "sender": request.user,
+                "action_object": kwargs["instance"],
+                "verb": "deleted",
                 "remote_addr": self.get_remote_addr(request),
             }
 
