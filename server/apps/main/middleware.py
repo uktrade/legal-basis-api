@@ -64,10 +64,11 @@ class AuditLogMiddleware:
                     action_kwargs["verb"] = (
                         "added" if kwargs["action"] == "post_add" else "removed"
                     )
-                    action_kwargs["action_object"] = Consent.objects.get(pk=pk)
+                    action_kwargs["action_object"] = Consent.objects.get(pk=pk)  # type: ignore
                     action_kwargs["target"] = kwargs["instance"]
 
                     action.send(**action_kwargs)
+                    print(f"Action sent: {action_kwargs}")
                     logger.info(f"Action sent: {action_kwargs}")
 
             if kwargs["action"] == "post_clear":
