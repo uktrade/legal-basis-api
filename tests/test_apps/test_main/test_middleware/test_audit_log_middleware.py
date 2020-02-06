@@ -1,5 +1,5 @@
 import uuid
-from unittest.mock import Mock, patch
+from unittest.mock import Mock, call, patch
 
 import pytest
 from django.db.models.signals import m2m_changed, post_delete, post_save
@@ -57,7 +57,7 @@ class TestAuditLogMiddleWare:
         assert self.is_valid_uuid(calls[2]["kwargs"]["dispatch_uid"])
 
         make_delete_signal_receiver.assert_called_once_with(request)
-        make_save_signal_receiver.called_once_with(request, "updated")
+        make_save_signal_receiver.assert_called_once_with(request)
         make_m2m_signal_receiver.assert_called_once_with(request)
 
     @patch.object(AuditLogMiddleware, "get_remote_addr")
@@ -116,6 +116,80 @@ class TestAuditLogMiddleWare:
             verb="deleted",
             remote_addr="127.0.0.1",
         )
+
+    @patch("server.apps.main.middleware.Consent")
+    @patch.object(AuditLogMiddleware, "get_remote_addr")
+    @patch("server.apps.main.middleware.action")
+    def test_m2m_signal_receiver_when_added(self, action, get_remote_addr, Consent):
+        middleware = AuditLogMiddleware(self.get_response)
+
+        get_remote_addr.return_value = "127.0.0.1"
+        instance = Mock()
+        request = Mock()
+        middleware.make_m2m_signal_receiver(request)(
+            Mock(), instance=instance, action="post_add", pk_set=[1, 2, 3]
+        )
+
+        kwargs = {
+            "sender": request.user,
+            "action_object": instance,
+            "remote_addr": "127.0.0.1",
+        }
+
+        action.send.assert_has_calls(
+            [
+                call(verb="added", target=Consent.objects.get(pk=1), **kwargs),
+                call(verb="added", target=Consent.objects.get(pk=2), **kwargs),
+                call(verb="added", target=Consent.objects.get(pk=3), **kwargs),
+            ]
+        )
+
+    @patch("server.apps.main.middleware.Consent")
+    @patch.object(AuditLogMiddleware, "get_remote_addr")
+    @patch("server.apps.main.middleware.action")
+    def test_m2m_signal_receiver_when_deleted(self, action, get_remote_addr, Consent):
+        middleware = AuditLogMiddleware(self.get_response)
+
+        get_remote_addr.return_value = "127.0.0.1"
+        instance = Mock()
+        request = Mock()
+        middleware.make_m2m_signal_receiver(request)(
+            Mock(), instance=instance, action="post_remove", pk_set=[1, 2, 3]
+        )
+
+        kwargs = {
+            "sender": request.user,
+            "action_object": instance,
+            "remote_addr": "127.0.0.1",
+        }
+
+        action.send.assert_has_calls(
+            [
+                call(verb="removed", target=Consent.objects.get(pk=1), **kwargs),
+                call(verb="removed", target=Consent.objects.get(pk=2), **kwargs),
+                call(verb="removed", target=Consent.objects.get(pk=3), **kwargs),
+            ]
+        )
+
+    @patch.object(AuditLogMiddleware, "get_remote_addr")
+    @patch("server.apps.main.middleware.action")
+    def test_m2m_signal_receiver_when_cleared(self, action, get_remote_addr):
+        middleware = AuditLogMiddleware(self.get_response)
+
+        get_remote_addr.return_value = "127.0.0.1"
+        instance = Mock()
+        request = Mock()
+        middleware.make_m2m_signal_receiver(request)(
+            Mock(), instance=instance, action="post_clear"
+        )
+
+        kwargs = {
+            "sender": request.user,
+            "action_object": instance,
+            "remote_addr": "127.0.0.1",
+        }
+
+        action.send.assert_called_once_with(verb="cleared consents", **kwargs)
 
     def test_get_remote_addr_x_forwarded_for(self):
         middleware = AuditLogMiddleware(self.get_response)
