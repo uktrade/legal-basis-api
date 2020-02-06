@@ -134,13 +134,14 @@ class TestAuditLogMiddleWare:
             "sender": request.user,
             "target": instance,
             "remote_addr": "127.0.0.1",
+            "verb": "added",
         }
 
         action.send.assert_has_calls(
             [
-                call(verb="added", action_object=Consent.objects.get(pk=1), **kwargs),
-                call(verb="added", action_object=Consent.objects.get(pk=2), **kwargs),
-                call(verb="added", action_object=Consent.objects.get(pk=3), **kwargs),
+                call(action_object=Consent.objects.get(pk=1), **kwargs),
+                call(action_object=Consent.objects.get(pk=2), **kwargs),
+                call(action_object=Consent.objects.get(pk=3), **kwargs),
             ]
         )
 
@@ -161,13 +162,14 @@ class TestAuditLogMiddleWare:
             "sender": request.user,
             "target": instance,
             "remote_addr": "127.0.0.1",
+            "verb": "removed",
         }
 
         action.send.assert_has_calls(
             [
-                call(verb="removed", action_object=Consent.objects.get(pk=1), **kwargs),
-                call(verb="removed", action_object=Consent.objects.get(pk=2), **kwargs),
-                call(verb="removed", action_object=Consent.objects.get(pk=3), **kwargs),
+                call(action_object=Consent.objects.get(pk=1), **kwargs),
+                call(action_object=Consent.objects.get(pk=2), **kwargs),
+                call(action_object=Consent.objects.get(pk=3), **kwargs),
             ]
         )
 
@@ -183,13 +185,12 @@ class TestAuditLogMiddleWare:
             Mock(), instance=instance, action="post_clear"
         )
 
-        kwargs = {
-            "sender": request.user,
-            "action_object": instance,
-            "remote_addr": "127.0.0.1",
-        }
-
-        action.send.assert_called_once_with(verb="cleared consents", **kwargs)
+        action.send.assert_called_once_with(
+            sender=request.user,
+            action_object=instance,
+            remote_addr="127.0.0.1",
+            verb="cleared consents",
+        )
 
     def test_get_remote_addr_x_forwarded_for(self):
         middleware = AuditLogMiddleware(self.get_response)
