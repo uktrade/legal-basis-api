@@ -43,7 +43,7 @@ class AuditLogMiddleware:
                 (
                     post_save,
                     LegalBasis,
-                    self.make_save_delete_signal_receiver(request, "saved"),
+                    self.make_save_delete_signal_receiver(request, "updated"),
                 ),
                 (
                     post_delete,
