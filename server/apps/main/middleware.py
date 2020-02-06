@@ -1,3 +1,4 @@
+import logging
 import uuid
 from typing import Callable, Dict, List, Optional
 
@@ -8,6 +9,8 @@ from django.http import HttpRequest, HttpResponse
 from typing_extensions import final
 
 from server.apps.main.models import Consent, LegalBasis
+
+logger = logging.getLogger(__name__)
 
 
 class AuditLogMiddleware:
@@ -65,13 +68,13 @@ class AuditLogMiddleware:
                     action_kwargs["target"] = Consent.objects.get(pk=pk)
 
                     action.send(**action_kwargs)
-                    print(f"Action sent: {action_kwargs}")
+                    logger.info(f"Action sent: {action_kwargs}")
 
             if kwargs["action"] == "post_clear":
                 action_kwargs["verb"] = "cleared consents"
 
                 action.send(**action_kwargs)
-                print(f"Action sent: {action_kwargs}")
+                logger.info(f"Action sent: {action_kwargs}")
 
         return inner
 
@@ -86,7 +89,7 @@ class AuditLogMiddleware:
             }
 
             action.send(**action_kwargs)
-            print(f"Action sent: {action_kwargs}")
+            logger.info(f"Action sent: {action_kwargs}")
 
         return inner
 
@@ -101,7 +104,7 @@ class AuditLogMiddleware:
             }
 
             action.send(**action_kwargs)
-            print(f"Action sent: {action_kwargs}")
+            logger.info(f"Action sent: {action_kwargs}")
 
         return inner
 
