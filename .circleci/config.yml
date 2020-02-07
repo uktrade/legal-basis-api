@@ -83,7 +83,7 @@ jobs:
 
       - run:
           name: Check migrations are backwards-compatible
-          command: poetry run ./manage.py lintmigrations --exclude-apps=axes
+          command: poetry run ./manage.py lintmigrations --exclude-apps axes sites
 
       - run:
           name: Code quality check
