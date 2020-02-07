@@ -31,22 +31,31 @@ class AuditLogMiddleware:
         return response
 
     def get_signal_calls(self, request: HttpRequest) -> List[Dict]:
-        m2m_through = LegalBasis.consents.through
-
         return [
             {
-                "signal": signal,
+                "signal": post_save,
                 "kwargs": {
-                    "sender": sender,
-                    "receiver": receiver,
+                    "sender": LegalBasis,
+                    "receiver": self.make_save_signal_receiver(request),
                     "dispatch_uid": uuid.uuid4(),
                 },
-            }
-            for signal, sender, receiver in [
-                (post_save, LegalBasis, self.make_save_signal_receiver(request),),
-                (post_delete, LegalBasis, self.make_delete_signal_receiver(request),),
-                (m2m_changed, m2m_through, self.make_m2m_signal_receiver(request),),
-            ]
+            },
+            {
+                "signal": post_delete,
+                "kwargs": {
+                    "sender": LegalBasis,
+                    "receiver": self.make_delete_signal_receiver(request),
+                    "dispatch_uid": uuid.uuid4(),
+                },
+            },
+            {
+                "signal": m2m_changed,
+                "kwargs": {
+                    "sender": LegalBasis.consents.through,
+                    "receiver": self.make_m2m_signal_receiver(request),
+                    "dispatch_uid": uuid.uuid4(),
+                },
+            },
         ]
 
     def make_m2m_signal_receiver(self, request: HttpRequest) -> Callable:
