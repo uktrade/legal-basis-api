@@ -6,7 +6,6 @@ from actstream import action
 from django.db.models import Model
 from django.db.models.signals import m2m_changed, post_delete, post_save
 from django.http import HttpRequest, HttpResponse
-from typing_extensions import final
 
 from server.apps.main.models import Consent, LegalBasis
 
@@ -31,7 +30,6 @@ class AuditLogMiddleware:
 
         return response
 
-    @final
     def get_signal_calls(self, request: HttpRequest) -> List[Dict]:
         m2m_through = LegalBasis.consents.through
 
@@ -51,7 +49,6 @@ class AuditLogMiddleware:
             ]
         ]
 
-    @final
     def make_m2m_signal_receiver(self, request: HttpRequest) -> Callable:
         def inner(sender: Model, **kwargs) -> None:
             action_kwargs = {
@@ -74,7 +71,6 @@ class AuditLogMiddleware:
 
         return inner
 
-    @final
     def handle_m2m_post_add_remove_actions(
         self, instance: Model, action_kwargs: Dict, action_name: str, pk_set: List
     ) -> None:
@@ -86,7 +82,6 @@ class AuditLogMiddleware:
             action.send(**action_kwargs)
             logger.info(f"Action sent: {action_kwargs}")
 
-    @final
     def handle_m2m_post_clear_action(
         self, instance: Model, action_kwargs: Dict
     ) -> None:
@@ -96,7 +91,6 @@ class AuditLogMiddleware:
         action.send(**action_kwargs)
         logger.info(f"Action sent: {action_kwargs}")
 
-    @final
     def make_save_signal_receiver(self, request: HttpRequest) -> Callable:
         def inner(sender: Model, **kwargs) -> None:
             action_kwargs = {
@@ -111,7 +105,6 @@ class AuditLogMiddleware:
 
         return inner
 
-    @final
     def make_delete_signal_receiver(self, request: HttpRequest) -> Callable:
         def inner(sender: Model, **kwargs) -> None:
             action_kwargs = {
@@ -126,7 +119,6 @@ class AuditLogMiddleware:
 
         return inner
 
-    @final
     def get_remote_addr(self, request: HttpRequest) -> Optional[str]:
         remote_addr = request.META.get("HTTP_X_FORWARDED_FOR")
         if remote_addr is not None:
