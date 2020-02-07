@@ -60,24 +60,41 @@ class AuditLogMiddleware:
             }
 
             if kwargs["action"] in ["post_add", "post_remove"]:
-                for pk in kwargs["pk_set"]:
-                    action_kwargs["verb"] = (
-                        "added" if kwargs["action"] == "post_add" else "removed"
-                    )
-                    action_kwargs["action_object"] = Consent.objects.get(pk=pk)  # type: ignore
-                    action_kwargs["target"] = kwargs["instance"]
-
-                    action.send(**action_kwargs)
-                    logger.info(f"Action sent: {action_kwargs}")
+                self.handle_m2m_post_add_remove_actions(
+                    instance=kwargs["instance"],
+                    action_kwargs=action_kwargs,
+                    action_name=kwargs["action"],
+                    pk_set=kwargs["pk_set"],
+                )
 
             if kwargs["action"] == "post_clear":
-                action_kwargs["verb"] = "cleared consents"
-                action_kwargs["action_object"] = kwargs["instance"]
-
-                action.send(**action_kwargs)
-                logger.info(f"Action sent: {action_kwargs}")
+                self.handle_m2m_post_clear_action(
+                    instance=kwargs["instance"], action_kwargs=action_kwargs
+                )
 
         return inner
+
+    @final
+    def handle_m2m_post_add_remove_actions(
+        self, instance: Model, action_kwargs: Dict, action_name: str, pk_set: List
+    ) -> None:
+        for pk in pk_set:
+            action_kwargs["verb"] = "added" if action_name == "post_add" else "removed"
+            action_kwargs["action_object"] = Consent.objects.get(pk=pk)
+            action_kwargs["target"] = instance
+
+            action.send(**action_kwargs)
+            logger.info(f"Action sent: {action_kwargs}")
+
+    @final
+    def handle_m2m_post_clear_action(
+        self, instance: Model, action_kwargs: Dict
+    ) -> None:
+        action_kwargs["verb"] = "cleared consents"
+        action_kwargs["action_object"] = instance
+
+        action.send(**action_kwargs)
+        logger.info(f"Action sent: {action_kwargs}")
 
     @final
     def make_save_signal_receiver(self, request: HttpRequest) -> Callable:
