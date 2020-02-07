@@ -40,7 +40,7 @@ test:
 .PHONY: test
 
 lint-migrations:
-> poetry run ./manage.py lintmigrations --exclude-apps=axes
+> poetry run ./manage.py lintmigrations --exclude-apps axes sites
 .PHONY: lint-migrations
 
 flake8:
