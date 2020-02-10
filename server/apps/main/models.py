@@ -56,8 +56,11 @@ class LegalBasis(models.Model):
     def save(
         self, force_insert=False, force_update=False, using=None, update_fields=None
     ):
+        if self.email:
+            self.email = self.email.lower()
+
         if not self.key:
-            to_hash = self.email + self.phone
+            to_hash = self.email + str(self.phone)
             hasher = hashlib.sha512(to_hash.encode())
             self.key = hasher.digest()
 

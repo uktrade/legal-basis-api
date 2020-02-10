@@ -23,7 +23,7 @@ class TestLegalBasisViewSet:
 
     def test_list_endpoint_with_1_item(self, authenticated_client):
         """This test ensures that list endpoint works."""
-        mixer.blend(LegalBasis, consents__name="email")
+        mixer.blend(LegalBasis, consents__name="email", key=None, phone='')
 
         response = authenticated_client.get(reverse("v1:legalbasis-list"))
 
