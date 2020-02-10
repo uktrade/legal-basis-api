@@ -1,3 +1,5 @@
+from hashlib import sha512
+
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status, viewsets
@@ -16,12 +18,21 @@ class LegalBasisViewSet(viewsets.ModelViewSet):
     and returns their consent status.
     """
 
-    queryset = LegalBasis.objects.prefetch_related("consents").all()
+    queryset = LegalBasis.objects.prefetch_related("consents").filter(current=True)
     serializer_class = LegalBasisSerializer
     filter_backends = [DjangoFilterBackend]
     lookup_value_regex = r"[^/]+"
-    lookup_field = "email"
-    filterset_fields = ["consents__name", "consents"]
+    lookup_field = "key"
+    filterset_fields = ["consents__name", "consents", "key_type"]
+    http_method_names = ["get", "put", "post", "patch", "head"]
+
+    def get_object(self):
+        # hash lookup_kwarg here, normalise email here (upper)
+
+        self.kwargs[self.lookup_field] = sha512(
+            self.kwargs[self.lookup_field].lower().encode()
+        ).digest()
+        return super().get_object()
 
     @swagger_auto_schema(
         method="post",

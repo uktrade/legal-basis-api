@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework.fields import DateTimeField
 
 from server.apps.main.models import Consent, LegalBasis
 
@@ -12,10 +13,11 @@ class LegalBasisSerializer(serializers.ModelSerializer):
         queryset=Consent.objects.all(),
         slug_field="name",
     )
+    modified_at = DateTimeField()
 
     class Meta:
         model = LegalBasis
-        fields = "__all__"
+        exclude = ["commit"]
         depth = 1
 
 
