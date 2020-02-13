@@ -2,7 +2,7 @@ from phonenumber_field.serializerfields import PhoneNumberField
 from rest_framework import serializers
 from rest_framework.fields import DateTimeField
 
-from server.apps.main.models import Consent, LegalBasis, Commit
+from server.apps.main.models import Commit, Consent, LegalBasis
 
 
 class LegalBasisSerializer(serializers.ModelSerializer):
@@ -33,7 +33,7 @@ class CreateLegalBasisSerializer(LegalBasisSerializer):
 
     def create(self, validated_data):
         commit = Commit()
-        request = self.context.get('request')
+        request = self.context.get("request")
         if request:
             commit.source = request.path
         commit.save()
@@ -44,7 +44,6 @@ class CreateLegalBasisSerializer(LegalBasisSerializer):
         if not any([attrs.get("email"), attrs.get("phone")]):
             raise serializers.ValidationError("One of email or phone must be supplied")
         return super().validate(attrs)
-
 
     class Meta(LegalBasisSerializer.Meta):
         exclude = ["commit", "key", "created_at", "current", "id"]

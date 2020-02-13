@@ -89,7 +89,7 @@ class Migration(migrations.Migration):
                 ),
                 ("consents", models.ManyToManyField(to="main.Consent")),
             ],
-            options={"verbose_name_plural": "LegalBases",},
+            options={"verbose_name_plural": "LegalBases"},
         ),
         migrations.AddIndex(
             model_name="legalbasis",

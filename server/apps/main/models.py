@@ -55,36 +55,41 @@ class LegalBasis(models.Model):
 
     def save(
         self, force_insert=False, force_update=False, using=None, update_fields=None
-    ):
-        if self.email:
-            self.email = self.email.lower()
+    ) -> None:
+        self._normalise_email()
+        self._generate_hash()
+        self._is_current()
 
-        if not self.key:
-            to_hash = self.email + str(self.phone)
-            hasher = hashlib.sha512(to_hash.encode())
-            self.key = hasher.digest()
+        return super(LegalBasis, self).save(
+            force_insert, force_update, using, update_fields
+        )
 
+    def _is_current(self) -> None:
         last_modified = (
             LegalBasis.objects.filter(key=self.key)
             .exclude(id=self.id)
             .aggregate(Max("modified_at"))["modified_at__max"]
         )
-
         if not self.modified_at:
             self.modified_at = timezone.now()
-
         if last_modified is None or self.modified_at > last_modified:
             self.current = True
             LegalBasis.objects.filter(key=self.key).exclude(id=self.id).update(
                 current=False
             )
 
-        return super(LegalBasis, self).save(
-            force_insert, force_update, using, update_fields
-        )
+    def _generate_hash(self) -> None:
+        if not self.key:
+            to_hash = self.email + str(self.phone)
+            hasher = hashlib.sha512(to_hash.encode())
+            self.key = hasher.digest()
+
+    def _normalise_email(self) -> None:
+        if self.email:
+            self.email = self.email.lower()
 
     def __str__(self) -> str:
-        return f"{self.email}"
+        return f"{self.key_type}={self.email}{self.phone}"
 
     class Meta:
         verbose_name_plural = "LegalBases"

@@ -6,14 +6,17 @@ from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
-from server.apps.api.serializers import LegalBasisSerializer, \
-    ListOfEmailsSerializer, CreateLegalBasisSerializer
+from server.apps.api.serializers import (
+    CreateLegalBasisSerializer,
+    LegalBasisSerializer,
+    ListOfEmailsSerializer,
+)
 from server.apps.main.models import LegalBasis
 
 
 class LegalBasisViewSet(viewsets.ModelViewSet):
     """
-    This viewset automatically provides `create`, `update`, `list` and `detail` actions.
+    This viewset automatically provides `create`, `list` and `detail` actions.
 
     There is also a `bulk_lookup` endpoint that takes a list of email addresses
     and returns their consent status.
@@ -60,7 +63,8 @@ class LegalBasisViewSet(viewsets.ModelViewSet):
         return Response(body.errors, status=status.HTTP_400_BAD_REQUEST)
 
     @swagger_auto_schema(
-        request_body=CreateLegalBasisSerializer
+        request_body=CreateLegalBasisSerializer,
+        responses={status.HTTP_200_OK: LegalBasisSerializer},
     )
     def create(self, request, *args, **kwargs):
         return super().create(request, *args, **kwargs)
