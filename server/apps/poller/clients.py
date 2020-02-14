@@ -35,13 +35,27 @@ class FormsApi(ActivityStreamClient):
     def should_process(self, hit: Hit) -> bool:
         if "object" in hit:
             if f"{self.name}:Data" in hit.object:
-                if "email_contact_consent" in hit.object[f"{self.name}:Data"]:
+                data = hit.object[f"{self.name}:Data"]
+                if "email_contact_consent" in data:
                     return True
+                # if "phone_number" in data:
+                #     return True
         return False
 
+    def _parse_object_key(self, hit, key) -> dict:
+        return hit.object[key].to_dict()
+
     def parse_object_data(self, hit) -> dict:
-        object_data = hit.object[f"{self.name}:Data"]
-        return object_data
+        return self._parse_object_key(hit, f"{self.name}:Data")
+
+    def parse_object_meta(self, hit) -> dict:
+        data = hit.to_dict()
+        filtered = {
+            "id": data["id"],
+            "published": data["published"],
+            "url": data.get("object", {}).get("url", "")
+        }
+        return filtered
 
     def get_documents(self, search_after: Optional[Tuple[int, str]]) -> Response:
 

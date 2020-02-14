@@ -1,6 +1,8 @@
+from phonenumber_field.serializerfields import PhoneNumberField
 from rest_framework import serializers
+from rest_framework.fields import DateTimeField
 
-from server.apps.main.models import Consent, LegalBasis
+from server.apps.main.models import Commit, Consent, LegalBasis
 
 
 class LegalBasisSerializer(serializers.ModelSerializer):
@@ -12,11 +14,40 @@ class LegalBasisSerializer(serializers.ModelSerializer):
         queryset=Consent.objects.all(),
         slug_field="name",
     )
+    modified_at = DateTimeField(required=False)
 
     class Meta:
         model = LegalBasis
-        fields = "__all__"
+        exclude = ["commit"]
         depth = 1
+
+
+class CreateLegalBasisSerializer(LegalBasisSerializer):
+
+    email = serializers.EmailField(required=False)
+    phone = PhoneNumberField(required=False)
+
+    def to_internal_value(self, data):
+        data["key_type"] = "email" if data.get("email") else "phone"
+        return super().to_internal_value(data)
+
+    def create(self, validated_data):
+        commit = Commit()
+        request = self.context.get("request")
+        if request:
+            commit.source = request.path
+        commit.save()
+        validated_data["commit_id"] = commit.pk
+        return super().create(validated_data)
+
+    def validate(self, attrs):
+        if not any([attrs.get("email"), attrs.get("phone")]):
+            raise serializers.ValidationError("One of email or phone must be supplied")
+        return super().validate(attrs)
+
+    class Meta(LegalBasisSerializer.Meta):
+        exclude = ["commit", "key", "created_at", "current", "id"]
+        read_only = ["key"]
 
 
 class EmailListField(serializers.ListField):

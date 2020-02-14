@@ -3,13 +3,15 @@ from pprint import pformat
 from time import sleep
 
 from django.conf import settings
+from django.db import transaction
 from django.utils.functional import cached_property
 from django_tqdm import BaseCommand
 from elasticsearch import Elasticsearch, RequestsHttpConnection
 from elasticsearch_dsl.response import Hit
+from phonenumber_field.phonenumber import PhoneNumber
 from requests_hawk import HawkAuth
 
-from server.apps.main.models import Consent, LegalBasis
+from server.apps.main.models import KEY_TYPE, Commit, Consent, LegalBasis
 from server.apps.poller.clients import FormsApi
 from server.apps.poller.models import ActivityStreamType
 
@@ -40,6 +42,11 @@ class Command(BaseCommand):
         email_consent, _ = Consent.objects.get_or_create(name="email_marketing")
         return email_consent
 
+    @cached_property
+    def phone_consent(self) -> Consent:
+        phone_consent, _ = Consent.objects.get_or_create(name="phone_marketing")
+        return phone_consent
+
     def get_client(self) -> FormsApi:
         es_client = Elasticsearch(
             http_auth=HawkAuth(
@@ -60,17 +67,55 @@ class Command(BaseCommand):
             print(f"First run for {name}. Creating model {obj}")
         return obj
 
-    def update_consent(self, object_data) -> None:
+    @transaction.atomic()
+    def update_consent(self, object_data, meta) -> None:
         email_address = object_data["email_address"]
         email_contact_consent = object_data["email_contact_consent"]
 
-        obj: LegalBasis
-        obj, _ = LegalBasis.objects.get_or_create(email=email_address)
+        phone_number = object_data.get("phone_number")
+        phone_number_country = object_data.get("country")
+        phone_consent = object_data.get("telephone_contact_consent")
 
-        if email_contact_consent:
-            obj.consents.add(self.email_consent)
-        else:
-            obj.consents.remove(self.email_consent)
+        commit = Commit(extra=meta)
+        commit.source = meta["url"]
+        commit.save()
+
+        self._update_email_consent(commit, email_address, email_contact_consent)
+
+        self._update_phone_consent(
+            commit, phone_consent, phone_number, phone_number_country
+        )
+
+    def _update_phone_consent(
+        self, commit, phone_consent, phone_number, phone_number_country
+    ) -> None:
+        if phone_number:
+            phone_number_parsed: PhoneNumber = PhoneNumber.from_string(
+                phone_number, region=phone_number_country
+            )
+            obj = LegalBasis(
+                phone=phone_number_parsed.as_e164,
+                commit=commit,
+                key_type=KEY_TYPE.PHONE,
+            )
+            obj.save()
+            if phone_consent:
+                obj.consents.add(self.phone_consent)
+            else:
+                obj.consents.remove(self.phone_consent)
+
+    def _update_email_consent(
+        self, commit, email_address, email_contact_consent
+    ) -> None:
+        if email_address:
+            obj: LegalBasis = LegalBasis(
+                email=email_address, commit=commit, key_type=KEY_TYPE.EMAIL
+            )
+            obj.save()
+            if email_contact_consent:
+                obj.consents.add(self.email_consent)
+            else:
+                obj.consents.remove(self.email_consent)
 
     def run(self, *args, **options) -> None:
         client = self.get_client()
@@ -86,7 +131,8 @@ class Command(BaseCommand):
                     if client.should_process(hit):
                         self.write(pformat(hit.to_dict()))
                         object_data = client.parse_object_data(hit)
-                        self.update_consent(object_data)
+                        meta = client.parse_object_meta(hit)
+                        self.update_consent(object_data, meta)
                     progress_bar.update(1)
 
                 obj.last_document_timestamp, obj.last_document_id = results.to_dict()[
