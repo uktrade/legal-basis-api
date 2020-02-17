@@ -18,6 +18,7 @@ from health_check import urls as health_urls
 
 from server.apps.api import urls as api_urls
 from server.apps.main import urls as main_urls
+from server.apps.main.feeds import W3CModelJSONActivityFeed
 from server.apps.main.views import index
 
 admin.autodiscover()
@@ -34,6 +35,12 @@ urlpatterns = [
     # django-admin:
     path("admin/doc/", include(admindocs_urls)),  # noqa: DJ05
     path("admin/", admin.site.urls),
+    # activitystream
+    path(
+        "activity/feed/<int:content_type_id>/json/",
+        W3CModelJSONActivityFeed.as_view(),
+        name="actstream_model_feed_json",
+    ),
     # Text and xml static files:
     path(
         "robots.txt",
