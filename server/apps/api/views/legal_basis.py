@@ -55,7 +55,7 @@ class LegalBasisViewSet(viewsets.ModelViewSet):
 
         if body.is_valid():
             basis_objs = self.paginate_queryset(
-                self.filter_queryset(self.queryset).filter(pk__in=body.data["emails"])
+                self.filter_queryset(self.queryset).filter(email__in=body.data["emails"])
             )
             serialized = self.get_serializer(instance=basis_objs, many=True)
             return self.get_paginated_response(serialized.data)
