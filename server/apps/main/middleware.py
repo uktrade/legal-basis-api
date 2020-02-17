@@ -84,7 +84,7 @@ class AuditLogMiddleware:
         self, instance: Model, action_kwargs: Dict, action_name: str, pk_set: List
     ) -> None:
         for pk in pk_set:
-            action_kwargs["verb"] = "added" if action_name == "post_add" else "removed"
+            action_kwargs["verb"] = "Add" if action_name == "post_add" else "Remove"
             action_kwargs["action_object"] = Consent.objects.get(pk=pk)
             action_kwargs["target"] = instance
 
@@ -94,7 +94,7 @@ class AuditLogMiddleware:
     def handle_m2m_post_clear_action(
         self, instance: Model, action_kwargs: Dict
     ) -> None:
-        action_kwargs["verb"] = "cleared consents"
+        action_kwargs["verb"] = "Update"
         action_kwargs["action_object"] = instance
 
         action.send(**action_kwargs)
@@ -105,7 +105,7 @@ class AuditLogMiddleware:
             action_kwargs = {
                 "sender": request.user,
                 "action_object": kwargs["instance"],
-                "verb": "created" if kwargs.get("created") is True else "updated",
+                "verb": "Create" if kwargs.get("created") is True else "Update",
                 "remote_addr": self.get_remote_addr(request),
             }
 
@@ -119,7 +119,7 @@ class AuditLogMiddleware:
             action_kwargs = {
                 "sender": request.user,
                 "action_object": kwargs["instance"],
-                "verb": "deleted",
+                "verb": "Delete",
                 "remote_addr": self.get_remote_addr(request),
             }
 
