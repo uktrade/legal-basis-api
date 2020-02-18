@@ -50,7 +50,7 @@ class LegalBasis(models.Model):
     commit = models.ForeignKey(Commit, on_delete=models.PROTECT)
 
     created_at = models.DateTimeField(auto_now_add=True)
-    modified_at = models.DateTimeField(auto_now=True)
+    modified_at = models.DateTimeField(default=timezone.now)
     current = models.BooleanField(default=False, db_index=True)
 
     def save(

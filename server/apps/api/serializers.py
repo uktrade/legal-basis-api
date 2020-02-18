@@ -26,6 +26,7 @@ class CreateLegalBasisSerializer(LegalBasisSerializer):
 
     email = serializers.EmailField(required=False)
     phone = PhoneNumberField(required=False)
+    modified_at = serializers.DateTimeField(required=False)
 
     def to_internal_value(self, data):
         data["key_type"] = "email" if data.get("email") else "phone"

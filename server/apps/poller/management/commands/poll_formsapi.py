@@ -2,13 +2,17 @@ from datetime import datetime, timedelta
 from pprint import pformat
 from time import sleep
 
+from actstream import action
 from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.db import transaction
+from django.db.models import Model
 from django.utils.functional import cached_property
 from django_tqdm import BaseCommand
 from elasticsearch import Elasticsearch, RequestsHttpConnection
 from elasticsearch_dsl.response import Hit
 from phonenumber_field.phonenumber import PhoneNumber
+from phonenumbers import NumberParseException
 from requests_hawk import HawkAuth
 
 from server.apps.main.models import KEY_TYPE, Commit, Consent, LegalBasis
@@ -90,19 +94,34 @@ class Command(BaseCommand):
         self, commit, phone_consent, phone_number, phone_number_country
     ) -> None:
         if phone_number:
-            phone_number_parsed: PhoneNumber = PhoneNumber.from_string(
-                phone_number, region=phone_number_country
-            )
+            try:
+                phone_number_parsed: PhoneNumber = PhoneNumber.from_string(
+                    phone_number, region=phone_number_country
+                )
+                phone_number = phone_number_parsed.as_e164
+            except NumberParseException:
+                pass
+
             obj = LegalBasis(
-                phone=phone_number_parsed.as_e164,
-                commit=commit,
-                key_type=KEY_TYPE.PHONE,
+                phone=phone_number, commit=commit, key_type=KEY_TYPE.PHONE,
             )
             obj.save()
             if phone_consent:
                 obj.consents.add(self.phone_consent)
             else:
                 obj.consents.remove(self.phone_consent)
+
+            self._send_action(obj)
+
+    def _send_action(self, instance: Model) -> None:
+        User = get_user_model()
+        directoryforms_user = User.objects.get(username="directoryforms")
+        action_kwargs = {
+            "sender": directoryforms_user,
+            "action_object": instance,
+            "verb": "Create",
+        }
+        action.send(**action_kwargs)
 
     def _update_email_consent(
         self, commit, email_address, email_contact_consent
@@ -116,6 +135,8 @@ class Command(BaseCommand):
                 obj.consents.add(self.email_consent)
             else:
                 obj.consents.remove(self.email_consent)
+
+            self._send_action(obj)
 
     def run(self, *args, **options) -> None:
         client = self.get_client()
