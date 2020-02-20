@@ -75,7 +75,7 @@ version = "1.5"
 pycodestyle = ">=2.5.0"
 
 [[package]]
-category = "dev"
+category = "main"
 description = "Internationalization utilities"
 name = "babel"
 optional = false
@@ -377,6 +377,21 @@ python-versions = "*"
 version = "0.4.5"
 
 [[package]]
+category = "main"
+description = "Little helper application to improve django choices (for fields)"
+name = "django-extended-choices"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
+version = "1.3.3"
+
+[package.dependencies]
+six = "*"
+
+[package.extras]
+dev = ["django"]
+doc = ["django", "sphinx", "sphinxcontrib-napoleon", "sphinx-rtd-theme"]
+
+[[package]]
 category = "dev"
 description = "Extensions for Django"
 name = "django-extensions"
@@ -470,6 +485,22 @@ django = ">=1.11"
 
 [package.extras]
 test = ["tox (3.14.3)", "mysqlclient (1.4.6)", "psycopg2-binary (2.8.4)", "django-add-default-value (0.3.2)"]
+
+[[package]]
+category = "main"
+description = "An international phone number field for django models."
+name = "django-phonenumber-field"
+optional = false
+python-versions = ">=3.5"
+version = "4.0.0"
+
+[package.dependencies]
+Django = ">=1.11.3"
+babel = "*"
+
+[package.extras]
+phonenumbers = ["phonenumbers (>=7.0.2)"]
+phonenumberslite = ["phonenumberslite (>=7.0.2)"]
 
 [[package]]
 category = "dev"
@@ -862,7 +893,7 @@ description = "Internationalized Domain Names in Applications (IDNA)"
 name = "idna"
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
-version = "2.8"
+version = "2.9"
 
 [[package]]
 category = "dev"
@@ -1189,6 +1220,14 @@ version = "4.8.0"
 ptyprocess = ">=0.5"
 
 [[package]]
+category = "main"
+description = "Python version of Google's common library for parsing, formatting, storing and validating international phone numbers."
+name = "phonenumberslite"
+optional = false
+python-versions = "*"
+version = "8.11.4"
+
+[[package]]
 category = "dev"
 description = "Tiny 'shelve'-like database with concurrency support"
 name = "pickleshare"
@@ -1480,16 +1519,16 @@ description = "Python HTTP for Humans."
 name = "requests"
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
-version = "2.22.0"
+version = "2.23.0"
 
 [package.dependencies]
 certifi = ">=2017.4.17"
-chardet = ">=3.0.2,<3.1.0"
-idna = ">=2.5,<2.9"
+chardet = ">=3.0.2,<4"
+idna = ">=2.5,<3"
 urllib3 = ">=1.21.1,<1.25.0 || >1.25.0,<1.25.1 || >1.25.1,<1.26"
 
 [package.extras]
-security = ["pyOpenSSL (>=0.14)", "cryptography (>=1.3.4)", "idna (>=2.0.0)"]
+security = ["pyOpenSSL (>=0.14)", "cryptography (>=1.3.4)"]
 socks = ["PySocks (>=1.5.6,<1.5.7 || >1.5.7)", "win-inet-pton"]
 
 [[package]]
@@ -1797,12 +1836,12 @@ description = "A collection of helpers and mock objects for unit tests and doc t
 name = "testfixtures"
 optional = false
 python-versions = "*"
-version = "6.13.0"
+version = "6.13.1"
 
 [package.extras]
 build = ["setuptools-git", "wheel", "twine"]
-docs = ["sphinx"]
-test = ["pytest (>=3.6)", "pytest-cov", "pytest-django", "sybil", "zope.component", "twisted", "mock", "django (<2)", "django"]
+docs = ["sphinx", "zope.component", "sybil", "twisted", "mock", "django (<2)", "django"]
+test = ["pytest (>=3.6)", "pytest-cov", "pytest-django", "zope.component", "sybil", "twisted", "mock", "django (<2)", "django"]
 
 [[package]]
 category = "dev"
@@ -1826,7 +1865,7 @@ description = "Fast, Extensible Progress Meter"
 name = "tqdm"
 optional = false
 python-versions = ">=2.6, !=3.0.*, !=3.1.*"
-version = "4.42.1"
+version = "4.43.0"
 
 [package.extras]
 dev = ["py-make (>=0.1.0)", "twine", "argopt", "pydoc-markdown"]
@@ -1979,7 +2018,7 @@ docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
 testing = ["jaraco.itertools", "func-timeout"]
 
 [metadata]
-content-hash = "defe88ed7122e377230c18097213ddc74f654a14df660ae8bc71804596f3c913"
+content-hash = "12a52284057b43b555677490f78281cfd703c6fe2720bfbe0a7e5b4abbaf2f1c"
 python-versions = "3.7.*"
 
 [metadata.files]
@@ -2216,6 +2255,10 @@ django-environ = [
     {file = "django-environ-0.4.5.tar.gz", hash = "sha256:6c9d87660142608f63ec7d5ce5564c49b603ea8ff25da595fd6098f6dc82afde"},
     {file = "django_environ-0.4.5-py2.py3-none-any.whl", hash = "sha256:c57b3c11ec1f319d9474e3e5a79134f40174b17c7cc024bbb2fad84646b120c4"},
 ]
+django-extended-choices = [
+    {file = "django-extended-choices-1.3.3.tar.gz", hash = "sha256:13c1edfb5fe8da112720f1b006866aa7142e0f62a828728e5afa638da5980387"},
+    {file = "django_extended_choices-1.3.3-py2.py3-none-any.whl", hash = "sha256:609cafc2feaf352cb92b3978a6e71fcb267dd2d3281ffa964d736b9bf71ec34b"},
+]
 django-extensions = [
     {file = "django-extensions-2.2.8.tar.gz", hash = "sha256:2699cc1d6fb4bd393c0b5832fea4bc685f2ace5800b3c9ff222b2080f161ac04"},
     {file = "django_extensions-2.2.8-py2.py3-none-any.whl", hash = "sha256:1a03c4e8bade575f8c2be6c76456f8a2be3f9b02ab9f47d3535afa9562dc0493"},
@@ -2250,6 +2293,10 @@ django-jsonfield-compat = [
 django-migration-linter = [
     {file = "django-migration-linter-1.5.0.tar.gz", hash = "sha256:c344ba3eaef2a1fe3f481b05711dc18ef81f800f03be5aa84a18edeccbe7c2de"},
     {file = "django_migration_linter-1.5.0-py2.py3-none-any.whl", hash = "sha256:e1dcb79ddb244be8bf28a302b4cae1b2ee7da4f0944d6fed4751fa78c7522946"},
+]
+django-phonenumber-field = [
+    {file = "django-phonenumber-field-4.0.0.tar.gz", hash = "sha256:d4580cc3352f4433962825f9927e6669852c1b40ec484fcb5a74064dabc1201a"},
+    {file = "django_phonenumber_field-4.0.0-py3-none-any.whl", hash = "sha256:2ca3bb0ada0ebc164bd903a981a34f1202a4294006e520b0da961bd7ce9f20a4"},
 ]
 django-querycount = [
     {file = "django-querycount-0.7.0.tar.gz", hash = "sha256:8f5123d78716ff0704f2373e746a7200b8d8417798ce4a99bf2de87e3768f9ce"},
@@ -2367,8 +2414,8 @@ hypothesis = [
     {file = "hypothesis-4.57.1.tar.gz", hash = "sha256:3c4369a4b0a1348561048bcda5f1db951a1b8e2a514ea8e8c70d36e656bf6fa0"},
 ]
 idna = [
-    {file = "idna-2.8-py2.py3-none-any.whl", hash = "sha256:ea8b7f6188e6fa117537c3df7da9fc686d485087abf6ac197f9c46432f7e4a3c"},
-    {file = "idna-2.8.tar.gz", hash = "sha256:c357b3f628cf53ae2c4c05627ecc484553142ca23264e593d327bcde5e9c3407"},
+    {file = "idna-2.9-py2.py3-none-any.whl", hash = "sha256:a068a21ceac8a4d63dbfd964670474107f541babbd2250d61922f029858365fa"},
+    {file = "idna-2.9.tar.gz", hash = "sha256:7588d1c14ae4c77d74036e8c22ff447b26d0fde8f007354fd48a7814db15b7cb"},
 ]
 imagesize = [
     {file = "imagesize-1.2.0-py2.py3-none-any.whl", hash = "sha256:6965f19a6a2039c7d48bca7dba2473069ff854c36ae6f19d2cde309d998228a1"},
@@ -2533,6 +2580,10 @@ pexpect = [
     {file = "pexpect-4.8.0-py2.py3-none-any.whl", hash = "sha256:0b48a55dcb3c05f3329815901ea4fc1537514d6ba867a152b581d69ae3710937"},
     {file = "pexpect-4.8.0.tar.gz", hash = "sha256:fc65a43959d153d0114afe13997d439c22823a27cefceb5ff35c2178c6784c0c"},
 ]
+phonenumberslite = [
+    {file = "phonenumberslite-8.11.4-py2.py3-none-any.whl", hash = "sha256:22e63a012220b52f44db34a172b59137b08c7d42226b9c59748acaa863099e21"},
+    {file = "phonenumberslite-8.11.4.tar.gz", hash = "sha256:dfb72ebe9be9eb907444cfa18aa74d8e20540d91b4509c2ea5e125c14071f248"},
+]
 pickleshare = [
     {file = "pickleshare-0.7.5-py2.py3-none-any.whl", hash = "sha256:9649af414d74d4df115d5d718f82acb59c9d418196b7b4290ed47a12ce62df56"},
     {file = "pickleshare-0.7.5.tar.gz", hash = "sha256:87683d47965c1da65cdacaf31c8441d12b8044cdec9aca500cd78fc2c683afca"},
@@ -2692,8 +2743,8 @@ regex = [
     {file = "regex-2020.2.18.tar.gz", hash = "sha256:776908974bf26133abdb4a7b83943537aa84a207e0d36b6be9b0680e0d370163"},
 ]
 requests = [
-    {file = "requests-2.22.0-py2.py3-none-any.whl", hash = "sha256:9cf5292fcd0f598c671cfc1e0d7d1a7f13bb8085e9a590f48c010551dc6c4b31"},
-    {file = "requests-2.22.0.tar.gz", hash = "sha256:11e007a8a2aa0323f5a921e9e6a2d7e4e67d9877e85773fba9ba6419025cbeb4"},
+    {file = "requests-2.23.0-py2.py3-none-any.whl", hash = "sha256:43999036bfa82904b6af1d99e4882b560e5e2c68e5c4b0aa03b655f3d7d73fee"},
+    {file = "requests-2.23.0.tar.gz", hash = "sha256:b3f43d496c6daba4493e7c431722aeb7dbc6288f52a6e04e7b6023b0247817e6"},
 ]
 requests-hawk = [
     {file = "requests-hawk-1.0.1.tar.gz", hash = "sha256:349ff5939fc80747f5fdedd249d5038f156a5404533ac3eaa4d8649f90508fe1"},
@@ -2805,8 +2856,8 @@ swagger-spec-validator = [
     {file = "swagger_spec_validator-2.4.3-py2.py3-none-any.whl", hash = "sha256:62ef22eca3f429d93fddda5d793d2a1a9057d3732e7a14606e641805326ae4a6"},
 ]
 testfixtures = [
-    {file = "testfixtures-6.13.0-py2.py3-none-any.whl", hash = "sha256:13ed160824e0eff537cbda9c7cb3c3165445e5cfa1e8eaea67cc92b9b4aa8f86"},
-    {file = "testfixtures-6.13.0.tar.gz", hash = "sha256:2c2e772e294aef07230781fda8cc83c608d28840a46dcd2bb3c40360caf81068"},
+    {file = "testfixtures-6.13.1-py2.py3-none-any.whl", hash = "sha256:ed7f36c5d426a4271368569d3b2d35590eeaf340ee9653cc3dd06ba2e21c6ba8"},
+    {file = "testfixtures-6.13.1.tar.gz", hash = "sha256:6edef5d0d39b4a11ada53307379c07c38d69db4a684d40d4e3e08ec7ba66187e"},
 ]
 text-unidecode = [
     {file = "text-unidecode-1.2.tar.gz", hash = "sha256:5a1375bb2ba7968740508ae38d92e1f889a0832913cb1c447d5e2046061a396d"},
@@ -2818,8 +2869,8 @@ toml = [
     {file = "toml-0.10.0.tar.gz", hash = "sha256:229f81c57791a41d65e399fc06bf0848bab550a9dfd5ed66df18ce5f05e73d5c"},
 ]
 tqdm = [
-    {file = "tqdm-4.42.1-py2.py3-none-any.whl", hash = "sha256:fe231261cfcbc6f4a99165455f8f6b9ef4e1032a6e29bccf168b4bf42012f09c"},
-    {file = "tqdm-4.42.1.tar.gz", hash = "sha256:251ee8440dbda126b8dfa8a7c028eb3f13704898caaef7caa699b35e119301e2"},
+    {file = "tqdm-4.43.0-py2.py3-none-any.whl", hash = "sha256:0d8b5afb66e23d80433102e9bd8b5c8b65d34c2a2255b2de58d97bd2ea8170fd"},
+    {file = "tqdm-4.43.0.tar.gz", hash = "sha256:f35fb121bafa030bd94e74fcfd44f3c2830039a2ddef7fc87ef1c2d205237b24"},
 ]
 traitlets = [
     {file = "traitlets-4.3.3-py2.py3-none-any.whl", hash = "sha256:70b4c6a1d9019d7b4f6846832288f86998aa3b9207c6821f3578a6a6a467fe44"},
