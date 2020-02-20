@@ -172,6 +172,7 @@ AUTHENTICATION_BACKENDS = (
     "axes.backends.AxesBackend",
     "django.contrib.auth.backends.ModelBackend",
     "authbroker_client.backends.AuthbrokerBackend",
+    "server.apps.main.auth.HawkUserAuthentication",
 )
 
 PASSWORD_HASHERS = [
