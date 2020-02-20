@@ -4,24 +4,26 @@ from typing import Dict, List
 from actstream.feeds import ModelJSONActivityFeed
 from actstream.models import Action
 from cursor_pagination import CursorPaginator
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.http import HttpRequest
+from django.contrib.auth import authenticate, login
+from django.http import HttpRequest, HttpResponse, HttpResponseForbidden
 from django.urls import reverse
 from django.utils.feedgenerator import rfc3339_date
+from mohawk.exc import InvalidCredentials
+from rest_framework.exceptions import AuthenticationFailed
 
 
-class W3CModelJSONActivityFeed(
-    LoginRequiredMixin, UserPassesTestMixin, ModelJSONActivityFeed
-):
-    # raise_exception = True
+class W3CModelJSONActivityFeed(ModelJSONActivityFeed):
+    """
+    Returns JSON activity stream as per W3C Activity Stream 2.0 spec,
+    with cursor-based pagination
+    """
+
+    raise_exception = True
     id_prefix = ["dit", "ConsentAPI"]
-
-    def test_func(self):
-        return True
 
     def get_action_id(self, parts: List) -> str:
         """
-        Returns an RFC3987 IRI ID for the given object, action and date.
+        Returns an RFC3987 IRI ID for the given object and action
         """
         return ":".join([str(i) for i in self.id_prefix + parts])
 
@@ -64,8 +66,7 @@ class W3CModelJSONActivityFeed(
 
     def serialize(self, request: HttpRequest, *args, **kwargs) -> str:
         """
-        Returns JSON activity stream as per W3C Activity Stream 2.0 spec,
-        with cursor-based pagination
+        Serialize activity stream to JSON, and handle pagination
         """
         items = self.items(request, *args, **kwargs)
 
@@ -88,3 +89,25 @@ class W3CModelJSONActivityFeed(
             response["next"] = f"{url}?cursor={paginator.cursor(page[-1])}"
 
         return json.dumps(response, indent=4 if "pretty" in request.GET else None)
+
+    def dispatch(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
+        """
+        Handle HTTP request
+        """
+
+        # Allow authenticated calls only
+        #
+        # The base class always returns a HttpResponse object with a 200 status
+        # code regardless of the auth result, so we catch exceptions here and
+        # return an appropriate status code instead
+        try:
+            user = authenticate(request)
+        except (AuthenticationFailed, InvalidCredentials) as e:
+            return HttpResponseForbidden(e, content_type="text/plain")
+        else:
+            if user is not None:
+                login(request, user)
+
+        return HttpResponse(
+            self.serialize(request, *args, **kwargs), content_type="application/json"
+        )
