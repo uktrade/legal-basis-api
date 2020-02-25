@@ -100,6 +100,7 @@ class W3CModelJSONActivityFeed(ModelJSONActivityFeed):
         # The base class always returns a HttpResponse object with a 200 status
         # code regardless of the auth result, so we catch exceptions here and
         # return an appropriate status code instead
+
         try:
             user = authenticate(request)
         except (AuthenticationFailed, InvalidCredentials) as e:
