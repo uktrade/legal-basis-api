@@ -83,8 +83,6 @@ MIDDLEWARE: Tuple[str, ...] = (
     # Django HTTP Referrer Policy:
     "django_http_referrer_policy.middleware.ReferrerPolicyMiddleware",
     "django_structlog.middlewares.RequestMiddleware",
-    # Admin IP restriction
-    "admin_ip_restrictor.middleware.AdminIPRestrictorMiddleware",
 )
 
 ROOT_URLCONF = "server.urls"
@@ -214,12 +212,6 @@ LOGIN_URL = reverse_lazy("authbroker_client:login")
 LOGIN_REDIRECT_URL = reverse_lazy("admin:index")
 
 INTERNAL_IPS = ("127.0.0.1",)
-
-# Admin IP restriction
-RESTRICT_ADMIN = True
-TRUST_PRIVATE_IP = True
-# comma-separated list of IPs expected
-ALLOWED_ADMIN_IPS = env.list("ALLOWED_ADMIN_IPS", default=["127.0.0.1", "::1"])
 
 # Activity Stream Credentials
 ACTIVITY_STREAM_URL = env("ACTIVITY_STREAM_URL", cast=furl)
