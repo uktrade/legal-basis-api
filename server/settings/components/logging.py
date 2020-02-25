@@ -57,6 +57,7 @@ LOGGING = {
             "level": LOGLEVEL,
             "propagate": False,
         },
+        "": {"handlers": ["django.server"], "level": LOGLEVEL, "propagate": False,},
     },
 }
 

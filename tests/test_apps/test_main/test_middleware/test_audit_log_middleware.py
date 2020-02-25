@@ -76,7 +76,7 @@ class TestAuditLogMiddleWare:
         action.send.assert_called_once_with(
             sender=request.user,
             action_object=instance,
-            verb="created",
+            verb="Create",
             remote_addr="127.0.0.1",
         )
 
@@ -96,7 +96,7 @@ class TestAuditLogMiddleWare:
         action.send.assert_called_once_with(
             sender=request.user,
             action_object=instance,
-            verb="updated",
+            verb="Update",
             remote_addr="127.0.0.1",
         )
 
@@ -113,7 +113,7 @@ class TestAuditLogMiddleWare:
         action.send.assert_called_once_with(
             sender=request.user,
             action_object=instance,
-            verb="deleted",
+            verb="Delete",
             remote_addr="127.0.0.1",
         )
 
@@ -198,7 +198,7 @@ class TestAuditLogMiddleWare:
 
         kwargs = {
             "target": instance,
-            "verb": "added",
+            "verb": "Add",
         }
 
         action.send.assert_has_calls(
@@ -224,7 +224,7 @@ class TestAuditLogMiddleWare:
 
         kwargs = {
             "target": instance,
-            "verb": "removed",
+            "verb": "Remove",
         }
 
         action.send.assert_has_calls(
@@ -244,9 +244,7 @@ class TestAuditLogMiddleWare:
             instance=instance, action_kwargs={},
         )
 
-        action.send.assert_called_once_with(
-            verb="cleared consents", action_object=instance
-        )
+        action.send.assert_called_once_with(verb="Update", action_object=instance)
 
     def test_get_remote_addr_x_forwarded_for(self):
         middleware = AuditLogMiddleware(self.get_response)

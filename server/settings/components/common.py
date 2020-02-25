@@ -76,13 +76,13 @@ MIDDLEWARE: Tuple[str, ...] = (
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "server.apps.main.middleware.AuditLogMiddleware",
-    # Axes:
-    "axes.middleware.AxesMiddleware",
     # hawk rest
     "hawkrest.middleware.HawkResponseMiddleware",
     # Django HTTP Referrer Policy:
     "django_http_referrer_policy.middleware.ReferrerPolicyMiddleware",
     "django_structlog.middlewares.RequestMiddleware",
+    # Axes:
+    "axes.middleware.AxesMiddleware",
 )
 
 ROOT_URLCONF = "server.urls"
@@ -172,6 +172,7 @@ AUTHENTICATION_BACKENDS = (
     "axes.backends.AxesBackend",
     "django.contrib.auth.backends.ModelBackend",
     "authbroker_client.backends.AuthbrokerBackend",
+    "server.apps.main.auth.HawkUserAuthentication",
 )
 
 PASSWORD_HASHERS = [
