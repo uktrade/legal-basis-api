@@ -14,6 +14,7 @@ environment: &environment
   ACTIVITY_STREAM_URL: https://localhost/v3/
   ACTIVITY_STREAM_ID: fake_id
   ACTIVITY_STREAM_KEY: fake_key
+  REDIS_URL: redis://localhost/
 
 workflows:
   version: 2
@@ -32,6 +33,11 @@ jobs:
 
       # postgres:11.6
       - image: circleci/postgres@sha256:be29ab5e437ef926a222081eb15f8fca602a89b4c7987b909a5b6a10f282026e
+        environment:
+          <<: *environment
+
+      # redis:5.0.7-alpine
+      - image: circleci/redis@sha256:8aaec4ec9b084dce3d2e49607035825f2bc7abd9ea0e69718d410f74448b1012
         environment:
           <<: *environment
 

@@ -1,14 +1,12 @@
+from server.settings.components import env
+
 # Caching
 # https://docs.djangoproject.com/en/2.2/topics/cache/
 
 CACHES = {
-    "default": {"BACKEND": "django.core.cache.backends.locmem.LocMemCache",},
-    "axes_cache": {"BACKEND": "django.core.cache.backends.dummy.DummyCache",},
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": f"{env.str('REDIS_URL')}?db=0",
+        "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient",},
+    }
 }
-
-
-# django-axes
-# https://django-axes.readthedocs.io/en/latest/configuration.html
-# See #known-configuration-problems section
-
-AXES_CACHE = "axes_cache"

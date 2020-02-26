@@ -22,6 +22,15 @@ from server.settings.components import BASE_DIR, env
 
 SECRET_KEY = env.str("DJANGO_SECRET_KEY")
 
+# create required env vars from CloudFoundry VCAP_SERVICES json env var
+VCAP_SERVICES = env.json("VCAP_SERVICES", {})
+
+if "REDIS_URL" not in os.environ:
+    try:
+        os.environ["REDIS_URL"] = VCAP_SERVICES["redis"][0]["credentials"]["uri"]
+    except (KeyError, IndexError):
+        pass
+
 # Application definition:
 
 INSTALLED_APPS: Tuple[str, ...] = (
@@ -182,6 +191,9 @@ PASSWORD_HASHERS = [
     "django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher",
     "django.contrib.auth.hashers.Argon2PasswordHasher",
 ]
+
+# Sessions
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 
 
 # Security
