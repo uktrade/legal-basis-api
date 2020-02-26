@@ -192,6 +192,9 @@ PASSWORD_HASHERS = [
     "django.contrib.auth.hashers.Argon2PasswordHasher",
 ]
 
+# Sessions
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+
 
 # Security
 # https://docs.djangoproject.com/en/2.2/topics/security/
