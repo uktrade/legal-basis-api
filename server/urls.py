@@ -17,16 +17,13 @@ from django.views.generic import TemplateView
 from health_check import urls as health_urls
 
 from server.apps.api import urls as api_urls
-from server.apps.main import urls as main_urls
 from server.apps.main.feeds import W3CModelJSONActivityFeed
-from server.apps.main.views import index
 
 admin.autodiscover()
 
 
 urlpatterns = [
     # Apps:
-    path("main/", include(main_urls, namespace="main")),
     path("api/v1/", include(api_urls, namespace="v1")),
     # Health checks:
     path("health/", include(health_urls)),  # noqa: DJ05
@@ -48,8 +45,6 @@ urlpatterns = [
             template_name="txt/robots.txt", content_type="text/plain",
         ),
     ),
-    # It is a good practice to have explicit index view:
-    path("", index, name="index"),
 ]
 
 if settings.DEBUG:  # pragma: no cover
