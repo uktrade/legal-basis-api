@@ -31,7 +31,7 @@ urlpatterns = [
     # Health checks:
     path("health/", include(health_urls)),  # noqa: DJ05
     # Django Admin Oauth2
-    path("auth/", include("authbroker_client.urls")),
+    path("admin/auth/", include("authbroker_client.urls")),
     # django-admin:
     path("admin/doc/", include(admindocs_urls)),  # noqa: DJ05
     path("admin/", admin.site.urls),
