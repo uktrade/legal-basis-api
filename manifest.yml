@@ -1,21 +1,4 @@
 ---
 applications:
-  - name: legal-basis-api-dev
-    services:
-      - legal-basis-db
-      - legal-basis-redis
-    buildpack: https://github.com/cloudfoundry/python-buildpack.git#v1.7.5
-    env:
-      DJANGO_ENV: "production"
-      DJANGO_SECRET_KEY: "secret"
-      DOMAIN_NAME: "legal-basis-api-dev.london.cloudapps.digital"
----
-applications:
-  - name: legal-basis-api-staging
-    services:
-      - legal-basis-db
-      - legal-basis-redis
-    routes:
-      - route: legal-basis-api-staging.apps.internal
-      - route: legal-basis-api-staging.london.cloudapps.digital
-    buildpack: https://github.com/cloudfoundry/python-buildpack.git#v1.7.5
+  - buildpack: https://github.com/cloudfoundry/python-buildpack.git#v1.7.5
+    stack: cflinuxfs3
