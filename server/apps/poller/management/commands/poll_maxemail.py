@@ -43,7 +43,7 @@ class Command(BaseCommand):
         return email_consent
 
     def get_client(self) -> MaxEmail:
-        return MaxEmail(settings.MAXEMAIL_USERNAME, settings.MAXEMAIL_PASSWORD)
+        return MaxEmail(settings.MAXEMAIL_USERNAME, settings.MAXEMAIL_PASSWORD)  # type: ignore
 
     @transaction.atomic()
     def update_consent(self, email_address, meta=None) -> None:
@@ -97,8 +97,7 @@ class Command(BaseCommand):
     def run(self, *args, **options) -> None:
         client = self.get_client()
 
-        unsub_list = client.get_unsubscribe_list()
-        unsub_list_id = unsub_list["list_id"]
+        unsub_list_id = self._get_unsub_list_id(client)
 
         results = client.get_members_for_list(unsub_list_id)
         total = int(results["list_total"])
@@ -116,6 +115,14 @@ class Command(BaseCommand):
                     unsub_list_id, start=progress_bar.n
                 )
                 self.write(pformat(results))
+
+    def _get_unsub_list_id(self, client) -> str:
+        unsub_list = client.get_unsubscribe_list()
+        if unsub_list:
+            unsub_list_id = unsub_list["list_id"]
+        else:
+            raise Exception("Cannot find unsubscribe list")
+        return unsub_list_id
 
     def handle(self, *args, **options):
         run_forever = options.pop("forever")
