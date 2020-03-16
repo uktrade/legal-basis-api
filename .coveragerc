@@ -1,0 +1,6 @@
+[report]
+omit =
+    *migrations*
+    *manage.py
+    *apps.py
+    **pypoetry/virtualenvs/**

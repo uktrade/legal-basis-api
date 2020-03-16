@@ -16,7 +16,7 @@ from phonenumbers import NumberParseException
 from requests_hawk import HawkAuth
 
 from server.apps.main.models import KEY_TYPE, Commit, Consent, LegalBasis
-from server.apps.poller.clients import FormsApi
+from server.apps.poller.api_client.activity import FormsApi
 from server.apps.poller.models import ActivityStreamType
 
 
