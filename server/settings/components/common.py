@@ -85,7 +85,9 @@ MIDDLEWARE: Tuple[str, ...] = (
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    # ours
     "server.apps.main.middleware.AuditLogMiddleware",
+    "server.apps.main.middleware.NeverCacheMiddleware",
     # hawk rest
     "hawkrest.middleware.HawkResponseMiddleware",
     # Django HTTP Referrer Policy:
