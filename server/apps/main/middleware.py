@@ -134,13 +134,13 @@ class AuditLogMiddleware:
             return remote_addr.split(",")[0]
         return request.META.get("REMOTE_ADDR")
 
-class NeverCacheMiddleware:
 
+class NeverCacheMiddleware:
     def __init__(self, get_response):
         self.get_response = get_response
 
     def __call__(self, request):
         response = self.get_response(request)
-        response['Cache-Control'] = "no-cache, no-store, must-revalidate, private"
-        response['Pragma'] = "no-cache"
+        response["Cache-Control"] = "no-cache, no-store, must-revalidate, private"
+        response["Pragma"] = "no-cache"
         return response
