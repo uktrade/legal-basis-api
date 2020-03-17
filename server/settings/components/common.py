@@ -66,6 +66,7 @@ INSTALLED_APPS: Tuple[str, ...] = (
     "django_http_referrer_policy",
     "hawkrest",
     "authbroker_client",
+    "elasticapm.contrib.django",
     # Activity Stream
     "actstream",
 )
@@ -239,7 +240,17 @@ ACTSTREAM_SETTINGS = {
 # libphonenumber
 PHONENUMBER_DEFAULT_REGION = env.str("PHONENUMBER_DEFAULT_REGION", default="GB")
 
-MAXEMAIL_BASE_URL = env('MAXEMAIL_BASE_URL', cast=furl)
-MAXEMAIL_USERNAME = env.str('MAXEMAIL_USERNAME')
-MAXEMAIL_PASSWORD = env.str('MAXEMAIL_PASSWORD')
-MAXEMAIL_UNSUBSCRIBE_LIST_NAME = env.str('MAXEMAIL_UNSBUSCRIBE_LIST_NAME', default="Master Unsubscribe List")
+MAXEMAIL_BASE_URL = env("MAXEMAIL_BASE_URL", cast=furl)
+MAXEMAIL_USERNAME = env.str("MAXEMAIL_USERNAME")
+MAXEMAIL_PASSWORD = env.str("MAXEMAIL_PASSWORD")
+MAXEMAIL_UNSUBSCRIBE_LIST_NAME = env.str(
+    "MAXEMAIL_UNSBUSCRIBE_LIST_NAME", default="Master Unsubscribe List"
+)
+
+# Elastic APM
+ELASTIC_APM = {
+    "SERVICE_NAME": "Consent API",
+    "SECRET_TOKEN": env.str("ELASTIC_APM_SECRET_TOKEN"),
+    "SERVER_URL": "https://apm.ci.uktrade.io:8200",
+    "ENVIRONMENT": env.str("DJANGO_ENV"),
+}
