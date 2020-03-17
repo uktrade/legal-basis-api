@@ -46,6 +46,7 @@ phonenumberslite = "^8.11.3"
 django-extended-choices = "^1.3.3"
 django-cursor-pagination = "^0.1.4"
 django-redis = "^4.11.0"
+elastic-apm = "^5.4.3"
 
 
 [tool.poetry.dev-dependencies]

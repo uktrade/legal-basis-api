@@ -2,6 +2,7 @@
 version: 2
 
 environment: &environment
+  DJANGO_ENV: test
   DJANGO_SECRET_KEY: 4c1nzrs&8^g+t$tt**wl7u8)0p8ql3vr28rjn1mdcnr*crjz*#
   DATABASE_URL: postgres://postgres@127.0.0.1:5432/legal-basis
   AUTHBROKER_URL: https://sso.trade.gov.uk/
@@ -15,6 +16,7 @@ environment: &environment
   ACTIVITY_STREAM_ID: fake_id
   ACTIVITY_STREAM_KEY: fake_key
   REDIS_URL: redis://localhost/
+  ELASTIC_APM_DISABLE_SEND: true
 
 workflows:
   version: 2
