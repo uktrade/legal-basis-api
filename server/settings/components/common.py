@@ -85,7 +85,9 @@ MIDDLEWARE: Tuple[str, ...] = (
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    # ours
     "server.apps.main.middleware.AuditLogMiddleware",
+    "server.apps.main.middleware.NeverCacheMiddleware",
     # hawk rest
     "hawkrest.middleware.HawkResponseMiddleware",
     # Django HTTP Referrer Policy:
@@ -246,6 +248,21 @@ MAXEMAIL_PASSWORD = env.str("MAXEMAIL_PASSWORD")
 MAXEMAIL_UNSUBSCRIBE_LIST_NAME = env.str(
     "MAXEMAIL_UNSBUSCRIBE_LIST_NAME", default="Master Unsubscribe List"
 )
+
+
+# Whitenoise
+def add_whitenoise_headers(headers, _path, _url):
+    """
+    add security headers to static files
+    """
+    headers["Cache-Control"] = "no-cache, no-store, must-revalidate, private"
+    headers["Pragma"] = "no-cache"
+    headers["X-Content-Type-Options"] = "nosniff"
+    headers["X-Frame-Options"] = "DENY"
+    headers["X-XSS-Protection"] = "1; mode=block"
+
+
+WHITENOISE_ADD_HEADERS_FUNCTION = add_whitenoise_headers
 
 # Elastic APM
 ELASTIC_APM = {
