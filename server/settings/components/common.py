@@ -248,9 +248,10 @@ MAXEMAIL_UNSUBSCRIBE_LIST_NAME = env.str(
 )
 
 # Elastic APM
-ELASTIC_APM = {
-    "SERVICE_NAME": "Consent API",
-    "SECRET_TOKEN": env.str("ELASTIC_APM_SECRET_TOKEN"),
-    "SERVER_URL": "https://apm.ci.uktrade.io:8200",
-    "ENVIRONMENT": env.str("DJANGO_ENV"),
-}
+if env.str("DJANGO_ENV") != "test":
+    ELASTIC_APM = {
+        "SERVICE_NAME": "Consent API",
+        "SECRET_TOKEN": env.str("ELASTIC_APM_SECRET_TOKEN"),
+        "SERVER_URL": "https://apm.ci.uktrade.io:8200",
+        "ENVIRONMENT": env.str("DJANGO_ENV"),
+    }
