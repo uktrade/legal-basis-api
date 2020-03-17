@@ -16,7 +16,7 @@ environment: &environment
   ACTIVITY_STREAM_ID: fake_id
   ACTIVITY_STREAM_KEY: fake_key
   REDIS_URL: redis://localhost/
-  ELASTIC_APM_SECRET_TOKEN: fake
+  ELASTIC_APM_DISABLE_SEND: true
 
 workflows:
   version: 2
