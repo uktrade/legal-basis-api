@@ -295,6 +295,18 @@ requests-oauthlib = "*"
 
 [[package]]
 category = "main"
+description = "A Django Middleware to enable use of CIDR IP ranges in ALLOWED_HOSTS."
+name = "django-allow-cidr"
+optional = false
+python-versions = "*"
+version = "0.3.1"
+
+[package.dependencies]
+Django = ">=1.8"
+netaddr = ">=0.7.19"
+
+[[package]]
+category = "main"
 description = "A helper class for handling configuration defaults of packaged apps gracefully."
 name = "django-appconf"
 optional = false
@@ -1149,6 +1161,14 @@ name = "mypy-extensions"
 optional = false
 python-versions = "*"
 version = "0.4.3"
+
+[[package]]
+category = "main"
+description = "A network address manipulation library for Python"
+name = "netaddr"
+optional = false
+python-versions = "*"
+version = "0.7.19"
 
 [[package]]
 category = "dev"
@@ -2064,7 +2084,7 @@ docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
 testing = ["jaraco.itertools", "func-timeout"]
 
 [metadata]
-content-hash = "dd648828a6d68fc6401b66aaadfd4384f4d32baa916ddde916e3460f4566a543"
+content-hash = "9f3ad97889bb864922f878ac348099ed0128f717798bebea7f3c3c227d82308d"
 python-versions = "3.7.*"
 
 [metadata.files]
@@ -2273,6 +2293,10 @@ django-activity-stream = [
 django-admin-oauth2 = [
     {file = "django-admin-oauth2-1.2.0.tar.gz", hash = "sha256:f51b2c64e43b756aad087ad56441b3fe1fb40abf6ef306f145c56406bb3cc5b5"},
     {file = "django_admin_oauth2-1.2.0-py3-none-any.whl", hash = "sha256:3282eeb69454299f9f969e780e6172b084de6a4fa59e7120437b26ecde003d95"},
+]
+django-allow-cidr = [
+    {file = "django-allow-cidr-0.3.1.tar.gz", hash = "sha256:d9a3b22c14e91c26ddd010c278ddf7e2c69a5421c862a3a3cd448ae57fd833e8"},
+    {file = "django_allow_cidr-0.3.1-py2.py3-none-any.whl", hash = "sha256:e8708c0511a78b80d9b74f718ee46685a1425e6d3520143bd00c773fdca56cc7"},
 ]
 django-appconf = [
     {file = "django-appconf-1.0.3.tar.gz", hash = "sha256:35f13ca4d567f132b960e2cd4c832c2d03cb6543452d34e29b7ba10371ba80e3"},
@@ -2621,6 +2645,10 @@ mypy = [
 mypy-extensions = [
     {file = "mypy_extensions-0.4.3-py2.py3-none-any.whl", hash = "sha256:090fedd75945a69ae91ce1303b5824f428daf5a028d2f6ab8a299250a846f15d"},
     {file = "mypy_extensions-0.4.3.tar.gz", hash = "sha256:2d82818f5bb3e369420cb3c4060a7970edba416647068eb4c5343488a6c604a8"},
+]
+netaddr = [
+    {file = "netaddr-0.7.19-py2.py3-none-any.whl", hash = "sha256:56b3558bd71f3f6999e4c52e349f38660e54a7a8a9943335f73dfc96883e08ca"},
+    {file = "netaddr-0.7.19.tar.gz", hash = "sha256:38aeec7cdd035081d3a4c306394b19d677623bf76fa0913f6695127c7753aefd"},
 ]
 nplusone = [
     {file = "nplusone-1.0.0-py2.py3-none-any.whl", hash = "sha256:96b1e6e29e6af3e71b67d0cc012a5ec8c97c6a2f5399f4ba41a2bbe0e253a9ac"},

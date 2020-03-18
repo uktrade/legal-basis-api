@@ -72,6 +72,7 @@ INSTALLED_APPS: Tuple[str, ...] = (
 )
 
 MIDDLEWARE: Tuple[str, ...] = (
+    "allow_cidr.middleware.AllowCIDRMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     # Content Security Policy:
     "csp.middleware.CSPMiddleware",
@@ -271,3 +272,6 @@ ELASTIC_APM = {
     "SERVER_URL": "https://apm.ci.uktrade.io:8200",
     "ENVIRONMENT": env.str("DJANGO_ENV"),
 }
+
+# django-allow-cidr
+ALLOWED_CIDR_NETS = ["10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16"]
