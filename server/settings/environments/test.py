@@ -1,1 +1,1 @@
-from server.settings.environments.development import *  # noqa: 401,403
+from server.settings.environments.default import *  # noqa: 401,403
