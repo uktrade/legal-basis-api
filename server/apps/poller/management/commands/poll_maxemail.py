@@ -99,28 +99,16 @@ class Command(BaseCommand):
         unsub_list_id = self._get_unsub_list_id(client)
 
         results = client.get_members_for_list(unsub_list_id)
-        total = int(results["list_total"])
 
-        self.write("Starting while loop")
-        with self.tqdm(total=total) as progress_bar:
-            self.write(f"start: progress_bar.n: {progress_bar.n}")
-            self.write(f"start: progress_bar.total: {progress_bar.total}")
-            while progress_bar.n < progress_bar.total:
-                self.write(f"inner: progress_bar.n: {progress_bar.n}")
-                self.write(f"inner: progress_bar.total: {progress_bar.total}")
+        for hit in results["records"]:
+            email_address = hit["email_address"]
+            email_parts = email_address.split("@")
+            email_log_str = f"{email_parts[0][:2]}...@...{email_parts[1][-4:]}"
 
-                for hit in results["records"]:
-                    self.write("API hit")
-                    email_address = hit["email_address"]
-                    if self._should_update(email_address):
-                        self.update_consent(email_address)
-                    progress_bar.update(1)
-                results = client.get_members_for_list(
-                    unsub_list_id, start=progress_bar.n
-                )
-                self.write(f"{len(results)} list members total")
-                self.write(f"progress_bar.n: {progress_bar.n}")
-        self.write("Exiting while loop")
+            self.write(f"Got email address {email_log_str}")
+
+            if self._should_update(email_address):
+                self.update_consent(email_address)
 
     def _get_unsub_list_id(self, client) -> str:
         unsub_list = client.get_unsubscribe_list()
