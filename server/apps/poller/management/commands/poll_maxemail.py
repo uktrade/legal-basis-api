@@ -105,6 +105,7 @@ class Command(BaseCommand):
             while progress_bar.n < progress_bar.total:
 
                 for hit in results["records"]:
+                    self.write("API hit")
                     email_address = hit["email_address"]
                     if self._should_update(email_address):
                         self.update_consent(email_address)
@@ -112,6 +113,7 @@ class Command(BaseCommand):
                 results = client.get_members_for_list(
                     unsub_list_id, start=progress_bar.n
                 )
+                self.write(f"{len(results)} API hits total")
 
     def _get_unsub_list_id(self, client) -> str:
         unsub_list = client.get_unsubscribe_list()
