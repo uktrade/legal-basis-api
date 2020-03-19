@@ -1,5 +1,4 @@
 from datetime import datetime, timedelta
-from pprint import pformat
 from time import sleep
 
 from actstream import action
@@ -107,14 +106,12 @@ class Command(BaseCommand):
 
                 for hit in results["records"]:
                     email_address = hit["email_address"]
-                    self.write(pformat(hit))
                     if self._should_update(email_address):
                         self.update_consent(email_address)
                     progress_bar.update(1)
                 results = client.get_members_for_list(
                     unsub_list_id, start=progress_bar.n
                 )
-                self.write(pformat(results))
 
     def _get_unsub_list_id(self, client) -> str:
         unsub_list = client.get_unsubscribe_list()
