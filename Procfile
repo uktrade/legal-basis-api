@@ -1,2 +1,2 @@
-web: ./bin/run.sh
+web: waitress-serve --listen=0.0.0.0:$PORT --threads=${WEB_CONCURRENCY:-4} server.wsgi:application
 formsapi_poller: ./manage.py poll_formsapi --forever
