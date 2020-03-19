@@ -17,9 +17,9 @@ queryset = LegalBasis.objects.filter(current=True)
 
 class Command(BaseCommand):
     help = """
-    Start polling for forms api submissions in activity stream.
+    Start polling for maxemail subs.
 
-    e.g. ./manage.py poll_formsapi
+    e.g. ./manage.py poll_maxemail
     """
 
     def add_arguments(self, parser):
@@ -101,8 +101,13 @@ class Command(BaseCommand):
         results = client.get_members_for_list(unsub_list_id)
         total = int(results["list_total"])
 
+        self.write("Starting while loop")
         with self.tqdm(total=total) as progress_bar:
+            self.write(f"start: progress_bar.n: {progress_bar.n}")
+            self.write(f"start: progress_bar.total: {progress_bar.total}")
             while progress_bar.n < progress_bar.total:
+                self.write(f"inner: progress_bar.n: {progress_bar.n}")
+                self.write(f"inner: progress_bar.total: {progress_bar.total}")
 
                 for hit in results["records"]:
                     self.write("API hit")
@@ -113,7 +118,9 @@ class Command(BaseCommand):
                 results = client.get_members_for_list(
                     unsub_list_id, start=progress_bar.n
                 )
-                self.write(f"{len(results)} API hits total")
+                self.write(f"{len(results)} list members total")
+                self.write(f"progress_bar.n: {progress_bar.n}")
+        self.write("Exiting while loop")
 
     def _get_unsub_list_id(self, client) -> str:
         unsub_list = client.get_unsubscribe_list()
@@ -129,7 +136,7 @@ class Command(BaseCommand):
 
         if run_forever:
             while True:
-                self.write("Polling activity stream")
+                self.write("Polling maxemail")
                 self.run(args, options)
                 self.write(f"sleeping until {datetime.now() + timedelta(seconds=60)}")
                 sleep(sleep_time)
