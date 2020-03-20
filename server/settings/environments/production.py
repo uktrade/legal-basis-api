@@ -8,6 +8,7 @@ import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 
 from server.settings.components import env
+from server.settings.components.common import INSTALLED_APPS
 
 # Production flags:
 # https://docs.djangoproject.com/en/2.2/howto/deployment/
@@ -19,6 +20,9 @@ ALLOWED_HOSTS = [
     env.str("DOMAIN_NAME")
 ]
 
+# Elastic APM always opens a connection to the APM server, even
+# if "disabled", so only enable it in production-like envs
+INSTALLED_APPS += ("elasticapm.contrib.django",)
 
 # Staticfiles
 # https://docs.djangoproject.com/en/2.2/ref/contrib/staticfiles/

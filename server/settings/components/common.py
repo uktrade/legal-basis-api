@@ -66,7 +66,6 @@ INSTALLED_APPS: Tuple[str, ...] = (
     "django_http_referrer_policy",
     "hawkrest",
     "authbroker_client",
-    "elasticapm.contrib.django",
     # Activity Stream
     "actstream",
 )
