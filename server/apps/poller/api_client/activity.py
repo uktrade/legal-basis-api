@@ -53,7 +53,7 @@ class FormsApi(ActivityStreamClient):
         filtered = {
             "id": data["id"],
             "published": data["published"],
-            "url": data.get("object", {}).get("url", "")
+            "url": data.get("object", {}).get("url", ""),
         }
         return filtered
 

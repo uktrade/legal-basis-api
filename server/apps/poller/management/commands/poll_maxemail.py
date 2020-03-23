@@ -126,7 +126,9 @@ class Command(BaseCommand):
             while True:
                 self.write("Polling maxemail")
                 self.run(args, options)
-                self.write(f"sleeping until {datetime.now() + timedelta(seconds=sleep_time)}")
+                self.write(
+                    f"sleeping until {datetime.now() + timedelta(seconds=sleep_time)}"
+                )
                 sleep(sleep_time)
         else:
             self.run(args, options)
