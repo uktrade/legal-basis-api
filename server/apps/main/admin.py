@@ -3,11 +3,18 @@ import csv
 from django.contrib import admin
 from django.http import HttpResponse
 from rest_framework.authtoken.admin import TokenAdmin
+from typing_extensions import final
 
-from server.apps.main.models import Consent, LegalBasis
+from server.apps.main.models import Commit, Consent, LegalBasis, LegalBasisCurrent
 
 
+@final
 class LegalBasisAdmin(admin.ModelAdmin):
+
+    search_fields = ("email", "phone")
+
+    readonly_fields = ("key", "current")
+
     def export_as_csv(self, request, queryset):
         consent_types = list(Consent.objects.all().values_list("name", flat=True))
         meta = self.model._meta
@@ -35,7 +42,9 @@ class LegalBasisAdmin(admin.ModelAdmin):
 
 # Register your models here.
 admin.site.register(LegalBasis, LegalBasisAdmin)
+admin.site.register(LegalBasisCurrent, LegalBasisAdmin)
 admin.site.register(Consent)
+admin.site.register(Commit)
 
 # Recommended by drf docs: https://www.django-rest-framework.org/api-guide/authentication/#with-django-admin
 TokenAdmin.raw_id_fields = ["user"]

@@ -106,3 +106,19 @@ class LegalBasis(models.Model):
                 name="only_one_key",
             )
         ]
+
+
+@final
+class LegalBasisCurrentManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(current=True)
+
+
+@final
+class LegalBasisCurrent(LegalBasis):
+
+    objects = LegalBasisCurrentManager()
+
+    class Meta:
+        proxy = True
+        verbose_name_plural = "Current LegalBases"
