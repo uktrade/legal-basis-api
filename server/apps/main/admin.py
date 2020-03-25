@@ -39,7 +39,6 @@ class LegalBasisAdmin(admin.ModelAdmin):
     # noinspection PyTypeHints
     export_as_csv.short_description = "Export as CSV"  # type: ignore
 
-    actions = ["export_as_csv"]
 
 
 # Register your models here.
