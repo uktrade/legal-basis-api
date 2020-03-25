@@ -15,6 +15,8 @@ class LegalBasisAdmin(admin.ModelAdmin):
 
     readonly_fields = ("key", "current")
 
+    list_display = ("key_type", "email", "phone", "modified_at")
+
     def export_as_csv(self, request, queryset):
         consent_types = list(Consent.objects.all().values_list("name", flat=True))
         meta = self.model._meta
