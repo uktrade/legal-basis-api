@@ -1,3 +1,6 @@
+import types
+
+from django.conf import settings
 from phonenumber_field.serializerfields import PhoneNumberField
 from rest_framework import serializers
 from rest_framework.fields import DateTimeField
@@ -20,6 +23,37 @@ class LegalBasisSerializer(serializers.ModelSerializer):
         model = LegalBasis
         exclude = ["commit"]
         depth = 1
+
+
+class LegalBasisDataWorkspaceSerializer(serializers.ModelSerializer):
+    def __init__(self, *args, **kwargs):
+        """
+        Create {consent_type}_consent field for each Consent type.
+
+        This flattens consent status in the API response, rather than returning
+        nested serialized Consent objects
+        """
+        super(LegalBasisDataWorkspaceSerializer, self).__init__(*args, **kwargs)
+
+        for name in settings.CONSENT_TYPES:
+            field_name = f"{name}_consent"
+            method_name = f"get_{field_name}"
+
+            def wrapper(_consent) -> types.MethodType:
+                def inner(self, obj) -> bool:
+                    return _consent in obj.consents.all().values_list("name", flat=True)
+
+                return types.MethodType(inner, self)
+
+            setattr(self, method_name, wrapper(name))
+
+            self.fields[field_name] = serializers.SerializerMethodField(
+                method_name=method_name
+            )
+
+    class Meta:
+        model = LegalBasis
+        exclude = ["consents", "commit"]
 
 
 class CreateLegalBasisSerializer(LegalBasisSerializer):

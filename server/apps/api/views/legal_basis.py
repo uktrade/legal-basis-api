@@ -8,6 +8,7 @@ from rest_framework.response import Response
 
 from server.apps.api.serializers import (
     CreateLegalBasisSerializer,
+    LegalBasisDataWorkspaceSerializer,
     LegalBasisSerializer,
     ListOfEmailsSerializer,
 )
@@ -63,6 +64,17 @@ class LegalBasisViewSet(viewsets.ModelViewSet):
             return self.get_paginated_response(serialized.data)
 
         return Response(body.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    @swagger_auto_schema(
+        method="get",
+        responses={status.HTTP_200_OK: LegalBasisDataWorkspaceSerializer(many=True)},
+    )
+    @action(detail=False, methods=["GET"])
+    def datahub_export(self, request) -> Response:
+        serialized = LegalBasisDataWorkspaceSerializer(
+            instance=self.paginate_queryset(self.queryset), many=True
+        )
+        return self.get_paginated_response(serialized.data)
 
     @swagger_auto_schema(
         request_body=CreateLegalBasisSerializer,
