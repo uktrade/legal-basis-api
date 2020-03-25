@@ -39,9 +39,9 @@ class LegalBasisDataWorkspaceSerializer(serializers.ModelSerializer):
             field_name = f"{name}_consent"
             method_name = f"get_{field_name}"
 
-            def wrapper(_consent) -> types.MethodType:
+            def wrapper(name) -> types.MethodType:
                 def inner(self, obj) -> bool:
-                    return _consent in obj.consents.all().values_list("name", flat=True)
+                    return name in [c.name for c in obj.consents.all()]
 
                 return types.MethodType(inner, self)
 
