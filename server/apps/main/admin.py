@@ -1,19 +1,19 @@
 import csv
 
 from django.contrib import admin
-from django.http import HttpResponse
+from django.http import HttpRequest, HttpResponse
 from rest_framework.authtoken.admin import TokenAdmin
-from typing_extensions import final
 
 from server.apps.main.models import Commit, Consent, LegalBasis, LegalBasisCurrent
 
 
-@final
 class LegalBasisAdmin(admin.ModelAdmin):
 
     search_fields = ("email", "phone")
 
     readonly_fields = ("key", "current")
+
+    list_display = ("key_type", "email", "phone", "modified_at")
 
     def export_as_csv(self, request, queryset):
         consent_types = list(Consent.objects.all().values_list("name", flat=True))
@@ -37,12 +37,15 @@ class LegalBasisAdmin(admin.ModelAdmin):
     # noinspection PyTypeHints
     export_as_csv.short_description = "Export as CSV"  # type: ignore
 
-    actions = ["export_as_csv"]
+
+class LegalBasisCurrentAdmin(LegalBasisAdmin):
+    def has_add_permission(self, request: HttpRequest) -> bool:
+        return False
 
 
 # Register your models here.
 admin.site.register(LegalBasis, LegalBasisAdmin)
-admin.site.register(LegalBasisCurrent, LegalBasisAdmin)
+admin.site.register(LegalBasisCurrent, LegalBasisCurrentAdmin)
 admin.site.register(Consent)
 admin.site.register(Commit)
 
