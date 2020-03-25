@@ -2,6 +2,7 @@ import hashlib
 
 from django.contrib.postgres.fields import CIEmailField
 from django.contrib.postgres.fields.jsonb import JSONField
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import Max, Q
 from django.db.models.fields import TextField
@@ -42,11 +43,11 @@ class LegalBasis(models.Model):
     """
 
     key = models.BinaryField(null=False)
-    email = CIEmailField(db_index=True)
-    phone = PhoneNumberField(db_index=True)
+    email = CIEmailField(db_index=True, blank=True)
+    phone = PhoneNumberField(db_index=True, blank=True)
     key_type = TextField(choices=KEY_TYPE, blank=False)
 
-    consents = models.ManyToManyField(Consent)
+    consents = models.ManyToManyField(Consent, blank=True)
     commit = models.ForeignKey(Commit, on_delete=models.PROTECT)
 
     created_at = models.DateTimeField(auto_now_add=True)
@@ -90,6 +91,14 @@ class LegalBasis(models.Model):
 
     def __str__(self) -> str:
         return f"{self.key_type}={self.email}{self.phone}"
+
+    def clean(self) -> None:
+        if not getattr(self, self.key_type):
+            raise ValidationError(
+                f"{self.key_type} must be provided if key type is {self.key_type}"
+            )
+        if all([self.email, self.phone]):
+            raise ValidationError("only one of phone or email must be supplied.")
 
     class Meta:
         verbose_name_plural = "LegalBases"
