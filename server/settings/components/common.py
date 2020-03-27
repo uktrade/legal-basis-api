@@ -75,6 +75,8 @@ MIDDLEWARE: Tuple[str, ...] = (
     "whitenoise.middleware.WhiteNoiseMiddleware",
     # Content Security Policy:
     "csp.middleware.CSPMiddleware",
+    # SSL redirect hostname exemptions
+    "server.apps.main.middleware.SslRedirectExemptHostnamesMiddleware",
     # Django:
     "django.middleware.security.SecurityMiddleware",
     "django_feature_policy.FeaturePolicyMiddleware",  # django-feature-policy
@@ -274,5 +276,7 @@ ELASTIC_APM = {
 
 # django-allow-cidr
 ALLOWED_CIDR_NETS = ["10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16"]
+SECURE_SSL_REDIRECT_EXEMPT_HOSTNAMES = ()
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 CONSENT_TYPES = ("email_marketing", "phone_marketing")

@@ -15,10 +15,7 @@ from server.settings.components.common import INSTALLED_APPS
 
 DEBUG = False
 
-ALLOWED_HOSTS = [
-    # TODO: check production hosts
-    env.str("DOMAIN_NAME")
-]
+ALLOWED_HOSTS = [env.str("DOMAIN_NAME"), ".apps.internal"]
 
 # Elastic APM always opens a connection to the APM server, even
 # if "disabled", so only enable it in production-like envs
@@ -47,8 +44,8 @@ SECURE_HSTS_SECONDS = 31536000  # the same as Caddy has
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_HSTS_PRELOAD = True
 
-SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 SECURE_SSL_REDIRECT = True
+SECURE_SSL_REDIRECT_EXEMPT_HOSTNAMES = (r"\.apps\.internal:8080$",)
 
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True

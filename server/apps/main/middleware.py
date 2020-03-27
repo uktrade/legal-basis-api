@@ -1,8 +1,10 @@
 import logging
+import re
 import uuid
 from typing import Callable, Dict, List, Optional
 
 from actstream import action
+from django.conf import settings
 from django.db.models import Model
 from django.db.models.signals import m2m_changed, post_delete, post_save
 from django.http import HttpRequest, HttpResponse
@@ -144,3 +146,26 @@ class NeverCacheMiddleware:
         response["Cache-Control"] = "no-cache, no-store, must-revalidate, private"
         response["Pragma"] = "no-cache"
         return response
+
+
+class SslRedirectExemptHostnamesMiddleware:
+    """
+    Exempts requests from SSL redirect based on hostname
+    """
+
+    def __init__(self, get_response=None):
+        self.get_response = get_response
+        self.redirect = settings.SECURE_SSL_REDIRECT
+        self.redirect_host = settings.SECURE_SSL_HOST
+        self.redirect_exempt_hostnames = [
+            re.compile(r) for r in settings.SECURE_SSL_REDIRECT_EXEMPT_HOSTNAMES
+        ]
+
+    def __call__(self, request):
+        host = self.redirect_host or request.get_host()
+
+        if self.redirect and any(
+            pattern.search(host) for pattern in self.redirect_exempt_hostnames
+        ):
+            request.META["HTTP_X_FORWARDED_PROTO"] = "https"
+        return self.get_response(request)
