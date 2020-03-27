@@ -1,6 +1,6 @@
 # legal_basis_api
 
-[![Maintainability](https://api.codeclimate.com/v1/badges/39311945e75aa22cc954/maintainability)](https://codeclimate.com/github/uktrade/legal-basis-api/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/39311945e75aa22cc954/test_coverage)](https://codeclimate.com/github/uktrade/legal-basis-api/test_coverage)
+[![Maintainability](https://api.codeclimate.com/v1/badges/39311945e75aa22cc954/maintainability)](https://codeclimate.com/github/uktrade/legal-basis-api/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/39311945e75aa22cc954/test_coverage)](https://codeclimate.com/github/uktrade/legal-basis-api/test_coverage) [![Docker Repository on Quay](https://quay.io/repository/uktrade/legal-basis-api/status "Docker Repository on Quay")](https://quay.io/repository/uktrade/legal-basis-api)
 
 Legal Basis for Consent API
 
