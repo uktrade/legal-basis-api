@@ -7,8 +7,7 @@ from actstream import action
 from django.conf import settings
 from django.db.models import Model
 from django.db.models.signals import m2m_changed, post_delete, post_save
-from django.http import HttpRequest, HttpResponse, HttpResponsePermanentRedirect
-from django.middleware.security import SecurityMiddleware
+from django.http import HttpRequest, HttpResponse
 
 from server.apps.main.models import Consent, LegalBasis
 
