@@ -163,10 +163,9 @@ class SslRedirectExemptHostnamesMiddleware:
 
     def __call__(self, request):
         host = self.redirect_host or request.get_host()
-        header, value = settings.SECURE_PROXY_SSL_HEADER
 
         if self.redirect and any(
             pattern.search(host) for pattern in self.redirect_exempt_hostnames
         ):
-            request.META[header] = value
+            request.META["HTTP_X_FORWARDED_PROTO"] = "https"
         return self.get_response(request)
