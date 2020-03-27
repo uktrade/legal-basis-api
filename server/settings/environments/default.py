@@ -73,3 +73,5 @@ NPLUSONE_LOGGER = logging.getLogger("django")
 NPLUSONE_LOG_LEVEL = logging.WARN
 
 LOGGING["loggers"]["django_structlog"]["handlers"] = ["console"]  # type: ignore
+
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
