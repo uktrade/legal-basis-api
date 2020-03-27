@@ -76,8 +76,16 @@ class CreateLegalBasisSerializer(LegalBasisSerializer):
         return super().create(validated_data)
 
     def validate(self, attrs):
+        if not attrs.get(attrs["key_type"]):
+            raise serializers.ValidationError(
+                f"{attrs['key_type']} must be provided if key type is {attrs['key_type']}"
+            )
         if not any([attrs.get("email"), attrs.get("phone")]):
             raise serializers.ValidationError("One of email or phone must be supplied")
+
+        if all([attrs.get("email"), attrs.get("phone")]):
+            raise serializers.ValidationError("Both email or phone must not be supplied")
+
         return super().validate(attrs)
 
     class Meta(LegalBasisSerializer.Meta):
