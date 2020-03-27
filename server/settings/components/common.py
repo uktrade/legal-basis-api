@@ -75,8 +75,10 @@ MIDDLEWARE: Tuple[str, ...] = (
     "whitenoise.middleware.WhiteNoiseMiddleware",
     # Content Security Policy:
     "csp.middleware.CSPMiddleware",
+    # SSL redirect hostname exemptions
+    "server.apps.main.middleware.SslRedirectExemptHostnamesMiddleware",
     # Django:
-    "server.apps.main.middleware.HostnameSslRedirectExemptSecurityMiddleware",
+    "django.middleware.security.SecurityMiddleware",
     "django_feature_policy.FeaturePolicyMiddleware",  # django-feature-policy
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.locale.LocaleMiddleware",

@@ -149,24 +149,25 @@ class NeverCacheMiddleware:
         return response
 
 
-class HostnameSslRedirectExemptSecurityMiddleware(SecurityMiddleware):
+class SslRedirectExemptHostnamesMiddleware:
+    """
+    Exempts requests from SSL redirect based on hostname
+    """
+
     def __init__(self, get_response=None):
-        super().__init__(get_response)
+        self.get_response = get_response
+        self.redirect = settings.SECURE_SSL_REDIRECT
+        self.redirect_host = settings.SECURE_SSL_HOST
         self.redirect_exempt_hostnames = [
             re.compile(r) for r in settings.SECURE_SSL_REDIRECT_EXEMPT_HOSTNAMES
         ]
 
-    def process_request(self, request):
-        path = request.path.lstrip("/")
+    def __call__(self, request):
         host = self.redirect_host or request.get_host()
-        if (
-            self.redirect
-            and not request.is_secure()
-            and not any(pattern.search(path) for pattern in self.redirect_exempt)
-            and not any(
-                pattern.search(host) for pattern in self.redirect_exempt_hostnames
-            )
+        header, value = settings.SECURE_PROXY_SSL_HEADER
+
+        if self.redirect and any(
+            pattern.search(host) for pattern in self.redirect_exempt_hostnames
         ):
-            return HttpResponsePermanentRedirect(
-                "https://%s%s" % (host, request.get_full_path())
-            )
+            request.META[header] = value
+        return self.get_response(request)
