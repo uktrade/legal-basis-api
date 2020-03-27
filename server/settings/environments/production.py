@@ -15,10 +15,7 @@ from server.settings.components.common import INSTALLED_APPS
 
 DEBUG = False
 
-ALLOWED_HOSTS = [
-    # TODO: check production hosts
-    env.str("DOMAIN_NAME")
-]
+ALLOWED_HOSTS = [env.str("DOMAIN_NAME"), ".apps.internal"]
 
 # Elastic APM always opens a connection to the APM server, even
 # if "disabled", so only enable it in production-like envs
