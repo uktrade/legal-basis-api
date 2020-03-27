@@ -1,7 +1,7 @@
 # This Dockerfile uses multi-stage build to customize DEV and PROD images:
 # https://docs.docker.com/develop/develop-images/multistage-build/
 
-FROM python:3.7.5-alpine3.9 as development_build
+FROM python:3.7-alpine3.9
 
 LABEL maintainer="legal_basis_api@Department for International Trade"
 LABEL vendor="Department for International Trade"
@@ -43,9 +43,6 @@ RUN apk --no-cache add \
 # Copy only requirements, to cache them in docker layer:
 WORKDIR /pysetup
 COPY ./poetry.lock ./pyproject.toml /pysetup/
-
-# This is a special case. We need to run this script as an entry point:
-COPY ./docker/django/entrypoint.sh /docker-entrypoint.sh
 
 # Project initialization:
 RUN poetry config virtualenvs.create false \
