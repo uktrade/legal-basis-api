@@ -270,7 +270,7 @@ WHITENOISE_ADD_HEADERS_FUNCTION = add_whitenoise_headers
 ELASTIC_APM = {
     "SERVICE_NAME": "Consent API",
     "SECRET_TOKEN": env.str("ELASTIC_APM_SECRET_TOKEN", default=None),
-    "SERVER_URL": "https://apm.elk.uktrade.digital:8200",
+    "SERVER_URL": "https://apm.elk.uktrade.digital",
     "ENVIRONMENT": env.str("DJANGO_ENV"),
 }
 
