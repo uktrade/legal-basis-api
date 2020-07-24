@@ -162,10 +162,12 @@ class SslRedirectExemptHostnamesMiddleware:
         ]
 
     def __call__(self, request):
+        request.is_allow_secure_middleware_active = True
         host = self.redirect_host or request.get_host()
 
         if self.redirect and any(
             pattern.search(host) for pattern in self.redirect_exempt_hostnames
         ):
+            request.is_allow_secure_middleware_active = False
             request.META["HTTP_X_FORWARDED_PROTO"] = "https"
         return self.get_response(request)
