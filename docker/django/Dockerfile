@@ -1,7 +1,7 @@
 # This Dockerfile uses multi-stage build to customize DEV and PROD images:
 # https://docs.docker.com/develop/develop-images/multistage-build/
 
-FROM python:3.7-alpine3.9
+FROM python:3.7-alpine3.9 as development_build
 
 LABEL maintainer="legal_basis_api@Department for International Trade"
 LABEL vendor="Department for International Trade"
@@ -50,5 +50,6 @@ RUN poetry config virtualenvs.create false \
 
 # This dir will become the mountpoint of development code:
 WORKDIR /code
+RUN mkdir /code/staticfiles
 
 COPY . /code

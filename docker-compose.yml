@@ -15,6 +15,9 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
     env_file: ./config/.env
+    network_mode: host
+    ports:
+      - "5432:5432"
 
   web:
     <<: &web
@@ -32,12 +35,19 @@ services:
       environment:
         DJANGO_DATABASE_HOST: db
     command: python -Wd manage.py runserver 0.0.0.0:8000
+    network_mode: host
     healthcheck:
       test: curl --fail http://localhost:8000/health/?format=json || exit 1
       interval: 10s
       timeout: 5s
       retries: 5
       start_period: 10s
+  redis:
+    image: redis:alpine
+    restart: on-failure
+    network_mode: host
+    ports:
+      - "6379:6379"
 
 # This task is an example of how to extend existing ones:
 # some_worker:
