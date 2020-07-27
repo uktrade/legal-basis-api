@@ -4,7 +4,9 @@ from django_filters.rest_framework import DjangoFilterBackend
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
+from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.response import Response
+from rest_framework.utils.urls import remove_query_param, replace_query_param
 
 from server.apps.api.serializers import (
     CreateLegalBasisSerializer,
@@ -13,6 +15,38 @@ from server.apps.api.serializers import (
     ListOfEmailsSerializer,
 )
 from server.apps.main.models import LegalBasis
+
+
+class ProtocolLessLimitOffsetPagination(LimitOffsetPagination):
+
+    def corrected_protocol_url(self):
+        url = self.request.build_absolute_uri()
+        if not self.request.is_allow_secure_middleware_active:
+            return url.replace('https://', 'http://')
+        return url
+
+    def get_next_link(self):
+        if self.offset + self.limit >= self.count:
+            return None
+
+        url = self.corrected_protocol_url()
+        url = replace_query_param(url, self.limit_query_param, self.limit)
+
+        offset = self.offset + self.limit
+        return replace_query_param(url, self.offset_query_param, offset)
+
+    def get_previous_link(self):
+        if self.offset <= 0:
+            return None
+
+        url = self.corrected_protocol_url()
+        url = replace_query_param(url, self.limit_query_param, self.limit)
+
+        if self.offset - self.limit <= 0:
+            return remove_query_param(url, self.offset_query_param)
+
+        offset = self.offset - self.limit
+        return replace_query_param(url, self.offset_query_param, offset)
 
 
 class LegalBasisViewSet(viewsets.ModelViewSet):
@@ -31,6 +65,7 @@ class LegalBasisViewSet(viewsets.ModelViewSet):
     lookup_field = "key"
     filterset_fields = ["consents__name", "consents", "key_type"]
     http_method_names = ["get", "post", "head"]
+    pagination_class = ProtocolLessLimitOffsetPagination
 
     def get_serializer_class(self):
         if self.action == "create":

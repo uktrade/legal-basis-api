@@ -30,3 +30,20 @@ class TestLegalBasisViewSet:
         assert response.status_code == 200
         assert response.data["count"] == 1
         assert len(response.data["results"][0]["consents"]) == 1
+
+    def test_list_endpoint_paging(self, authenticated_client):
+        """Tests pagination of results."""
+        mixer.cycle(2).blend(LegalBasis, consents__name=mixer.sequence("email_{0}"), key=None, phone='')
+
+        url = reverse('v1:legalbasis-list')
+        response = authenticated_client.get(
+            url,
+            data={
+                'offset': 1,
+                'limit': 1,
+            },
+        )
+
+        assert response.status_code == 200
+        assert response.data['count'] > 1
+        assert len(response.data['results']) == 1
