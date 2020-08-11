@@ -280,3 +280,15 @@ SECURE_SSL_REDIRECT_EXEMPT_HOSTNAMES = ()
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 CONSENT_TYPES = ("email_marketing", "phone_marketing")
+
+# Adobe Campaigns 
+
+ADOBE_PRIVATE_KEY = env.str('ADOBE_PRIVATE_KEY', '').replace('~~', """
+""")
+ADOBE_API_KEY = env.str('ADOBE_API_KEY', '')
+ADOBE_API_ID = env.str('ADOBE_API_ID', '')
+ADOBE_API_SECRET = env.str('ADOBE_API_SECRET', '')
+ADOBE_TENANT_ID = env.str('ADOBE_TENANT_ID', '')
+ADOBE_ORGANISATION_ID = env.str('ADOBE_ORGANISATION_ID', '')
+ADOBE_TECHNICAL_ACCOUNT_ID = env.str('ADOBE_TECHNICAL_ACCOUNT_ID', '')
+ADOBE_CAMPAIGN_BASE_URL = env.str('ADOBE_CAMPAIGN_BASE_URL', 'adobe_campaign')
