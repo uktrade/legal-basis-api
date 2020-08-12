@@ -15,19 +15,21 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
     env_file: ./config/.env
-
+  redis:
+    image: redis
   web:
     <<: &web
       build:
-        target: development_build
         context: .
         dockerfile: ./docker/django/Dockerfile
         args:
           DJANGO_ENV: development
       volumes:
         - django-static:/var/www/django/static
+        - .:/code
       depends_on:
         - db
+        - redis
       env_file: ./config/.env
       environment:
         DJANGO_DATABASE_HOST: db
@@ -38,6 +40,9 @@ services:
       timeout: 5s
       retries: 5
       start_period: 10s
+    networks: 
+      - default
+      - be
 
 # This task is an example of how to extend existing ones:
 # some_worker:
@@ -49,3 +54,8 @@ volumes:
   django-static:
   django-media:
   django-locale:
+
+networks:
+  be:
+    external:
+      name: data-hub-api_default
