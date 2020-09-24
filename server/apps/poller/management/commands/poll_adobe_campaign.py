@@ -128,10 +128,11 @@ class Command(BaseCommand):
             # check for unsubscriptions 
             self.write(f"Processing unsubscriptions for: {campaign.name}")
             unsubscribers = client.get_unsubscribers()
+            unsubscription_events = unsubscribers.get('content', [])
             total = unsubscribers.get('count', {}).get('value')
             with self.tqdm(total=total) as progress_bar:
                 self.write(f"Processing {total} unsubscription events")
-                for unsub in unsubscribers.get('content', []):
+                for unsub in unsubscription_events:
                     service = unsub.get('service')
                     if service == campaign.name:  # see about changing to service pkey
                         email = unsub.get('email')
@@ -146,7 +147,7 @@ class Command(BaseCommand):
                         client.delete_unsubscribers(unsub.get('PKey'))
                         consents_removed += 1
                     progress_bar.update(1)
-            if settings.ADOBE_STAGING_WORKFLOW:
+            if unsubscription_events and settings.ADOBE_STAGING_WORKFLOW:
                 self.write("Initiating cleanup workflow")
                 client.start_workflow(settings.ADOBE_STAGING_WORKFLOW)
         self.write(f"Adobe cycle complete. Unsubscribed={unsubscribed}, Consents removed={consents_removed}")
