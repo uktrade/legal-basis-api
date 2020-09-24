@@ -1,10 +1,14 @@
+import jwt
 import datetime
 import requests 
-import jwt
 from django.conf import settings
 
 
 class AdobeClient:
+    """
+    An API client for Adobe Campaigns. The client is using the custom resource endpoints and is 
+    specifically tailored to the implementation for DIT's nurture program. 
+    """
     def __init__(self):
         self.token = self.get_token()
 
@@ -32,6 +36,9 @@ class AdobeClient:
 
     @property 
     def headers(self):
+        """
+        Standard request headrs 
+        """
         return {
             'Authorization': f'Bearer {self.token}',
             'X-Api-Key': settings.ADOBE_API_KEY,
@@ -39,16 +46,31 @@ class AdobeClient:
             'Content-Type': 'application/json',
         }
 
-    def create_profile(self, email, first_name=None, last_name=None, service_pkey=None):
-        url = f"https://mc.adobe.io/{settings.ADOBE_TENANT_ID}/campaign/profileAndServices/profile"
+    def url(self, path):
+        """
+        Generate a url for Adobe Campaign for a given path.
+        """
+        return f"https://mc.adobe.io/{settings.ADOBE_TENANT_ID}/campaign/{path}"
+
+
+    def create_staging_profile(self, email, first_name=None, last_name=None, emt_id=None, extra_data=None, **kwargs):
+        """
+        Create a staging profile on the `staging` custom resource on Adobe Campaigns. Staging profiles 
+        use an internal workflow to correctly transfer into profiles within Adobe Campaign. 
+        """
+        url = self.url("profileAndServicesExt/cusStaging")
+        extra_data = extra_data or {}
         response = requests.post(url, json={
             'firstName': first_name, 
             'lastName': last_name, 
             'email': email,
-        }, headers=self.headers).json() 
-        print(response)
-        if service_pkey:
-            sub_res = self.subscribe(service_pkey, subscribe_url=response.get('subscriptions', {}).get('href'))
+            'emt_id': emt_id,
+            **extra_data
+        }, headers=self.headers)
+        print (response.text)
+        response = response.json() 
+        if 'service_pkey' in kwargs:
+            sub_res = self.subscribe(kwargs['service_pkey'], subscribe_url=response.get('subscriptions', {}).get('href'))
             print(sub_res)
         return response
 
@@ -58,32 +80,54 @@ class AdobeClient:
             subscribe_url = profile.get('subscriptions', {}).get('href')
         return requests.post(subscribe_url, json={'service': {'PKey': service_pkey}}, headers=self.headers).json()
 
+    def get_unsubscribers(self):
+        """
+        Return a list of those who unsubscribed via Adobe side. The records come from a custom resource which 
+        collects unsubscriptions via the Adobe platform. 
+        """
+        url = self.url("profileAndServicesExt/cusInvestUnsubscribes")
+        return requests.get(url, headers=self.headers).json()
+    
+    def delete_unsubscribers(self, pkey):
+        """
+        Delete an unsubscription entry
+        """
+        url = self.url(f"profileAndServicesExt/cusInvestUnsubscribes/{pkey}")
+        return requests.delete(url, headers=self.headers).json()
+
+    def unsubscribe(self, subscription_pkey):
+        """
+        Unsubscribe a profile from a service via the subscription pkey
+        """
+        url = self.url(f"profileAndServices/service/{subscription_pkey}")
+        return requests.delete(url, headers=self.headers).json()
+    
     def get_profile(self, pkey):
         """
-        Return a profile
+        Return a profile by a pkey
         """
-        url = f"https://mc.adobe.io/{settings.ADOBE_TENANT_ID}/campaign/profileAndServices/profile/{pkey}"
+        url = self.url(f"profileAndServicesExt/profile/{pkey}")
         return requests.get(url, headers=self.headers).json()
 
     def get_all_profiles(self):
         """
-        Return all subscribers (profiles)
+        Return all profiles
         """
-        url = f"https://mc.adobe.io/{settings.ADOBE_TENANT_ID}/campaign/profileAndServices/profile"
+        url = self.url("profileAndServicesExt/profile")
         return requests.get(url, headers=self.headers).json()
 
     def get_services(self):
         """
         Return all services (campaigns)
         """
-        url = f"https://mc.adobe.io/{settings.ADOBE_TENANT_ID}/campaign/profileAndServices/service"
+        url = self.url("profileAndServicesExt/service")
         return requests.get(url, headers=self.headers).json() 
 
     def get_service(self, pkey):
         """
         Return a single service by it's pkey
         """
-        url = f"https://mc.adobe.io/{settings.ADOBE_TENANT_ID}/campaign/profileAndServices/service/{pkey}"
+        url = self.url(f"profileAndServicesExt/service/{pkey}")
         return requests.get(url, headers=self.headers).json()
 
     def get_subscriptions(self, pkey):
@@ -93,13 +137,19 @@ class AdobeClient:
         service = self.get_service(pkey)
         url = service.get('subscriptions', {}).get('href')  
         return requests.get(url, headers=self.headers).json()
-    
+         
     def subscriptions(self, pkey):
         """
-        A generator to return service subscriptions
+        A generator to return service subscriptions. 
+        The first yield contains the total (int). 
+        Any subsequent yield will produce the next subscription
         """
         subscriptions = self.get_subscriptions(pkey)
-        total = self.get_url(subscriptions.get('count', {}).get('href')).get('count', 0)
+        _count_block = subscriptions.get('count', {}) 
+        if 'value' in _count_block:
+            total = _count_block.get('value')
+        else:
+            total = self.get_url(_count_block.get('href')).get('count', 0)
         yield total
         while True:
             if not subscriptions.get('content'):
@@ -111,6 +161,11 @@ class AdobeClient:
                 subscriptions = self.get_url(next_url)
             else:
                 subscriptions = {'content': []}
+    
+    def start_workflow(self, workflow_id): 
+        url = self.url(f"workflow/execution/{workflow_id}/commands")
+        response = requests.post(url, headers=self.headers, data={'method': 'start'})
+        return response.json()
 
     def get_url(self, url):
         """
