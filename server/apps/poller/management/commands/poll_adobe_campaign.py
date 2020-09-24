@@ -146,6 +146,9 @@ class Command(BaseCommand):
                         client.delete_unsubscribers(unsub.get('PKey'))
                         consents_removed += 1
                     progress_bar.update(1)
+            if settings.ADOBE_STAGING_WORKFLOW:
+                self.write("Initiating cleanup workflow")
+                client.start_workflow(settings.ADOBE_STAGING_WORKFLOW)
         self.write(f"Adobe cycle complete. Unsubscribed={unsubscribed}, Consents removed={consents_removed}")
 
     def handle(self, *args, **options):
