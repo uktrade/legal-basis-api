@@ -4,6 +4,13 @@ import requests
 from django.conf import settings
 
 
+class AdobeCampaignRequestException(Exception):
+    def __init__(self, message=None, status_code=None):
+        self.message = message
+        self.status_code = status_code 
+        super().__init__(self.message)
+
+
 class AdobeClient:
     """
     An API client for Adobe Campaigns. The client is using the custom resource endpoints and is 
@@ -53,21 +60,24 @@ class AdobeClient:
         return f"https://mc.adobe.io/{settings.ADOBE_TENANT_ID}/campaign/{path}"
 
 
-    def create_staging_profile(self, email, first_name=None, last_name=None, emt_id=None, extra_data=None, **kwargs):
+    def create_staging_profile(self, email=None, first_name=None, last_name=None, emt_id=None, extra_data=None, **kwargs):
         """
         Create a staging profile on the `staging` custom resource on Adobe Campaigns. Staging profiles 
         use an internal workflow to correctly transfer into profiles within Adobe Campaign. 
         """
         url = self.url("profileAndServicesExt/cusStaging")
         extra_data = extra_data or {}
-        response = requests.post(url, json={
-            'firstName': first_name, 
-            'lastName': last_name, 
-            'email': email,
-            'emt_id': emt_id,
-            **extra_data
-        }, headers=self.headers)
-        print (response.text)
+        if email: 
+            extra_data['email'] = email 
+        if first_name: 
+            extra_data['firstName'] = first_name 
+        if last_name:
+            extra_data['lastName'] = last_name 
+        if emt_id: 
+            extra_data['emt_id'] = emt_id 
+        response = requests.post(url, json=extra_data, headers=self.headers)
+        if response.status_code != 201: 
+            raise AdobeCampaignRequestException(message=response.text, status_code=response.status_code)
         response = response.json() 
         if 'service_pkey' in kwargs:
             sub_res = self.subscribe(kwargs['service_pkey'], subscribe_url=response.get('subscriptions', {}).get('href'))
@@ -164,7 +174,7 @@ class AdobeClient:
     
     def start_workflow(self, workflow_id): 
         url = self.url(f"workflow/execution/{workflow_id}/commands")
-        response = requests.post(url, headers=self.headers, data={'method': 'start'})
+        response = requests.post(url, headers=self.headers, json={'method': 'start'})
         return response.json()
 
     def get_url(self, url):
