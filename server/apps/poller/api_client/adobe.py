@@ -1,6 +1,8 @@
-import jwt
 import datetime
+
 import requests
+import jwt
+
 from django.conf import settings
 
 

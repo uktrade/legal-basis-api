@@ -1,9 +1,7 @@
 from typing import Optional, Tuple
-
 from django.db import models
 from typing_extensions import final
 from server.apps.poller.api_client.adobe import AdobeClient
-
 
 @final
 class ActivityStreamType(models.Model):
