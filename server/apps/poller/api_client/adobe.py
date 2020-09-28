@@ -59,7 +59,7 @@ class AdobeClient:
         """
         return f"https://mc.adobe.io/{settings.ADOBE_TENANT_ID}/campaign/{path}"
 
-    def create_staging_profile(
+    def create_staging_profile(  # noqa: C901
             self, email=None, first_name=None, last_name=None,
             emt_id=None, extra_data=None, **kwargs):
         """
