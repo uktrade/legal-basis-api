@@ -281,7 +281,7 @@ SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 CONSENT_TYPES = ("email_marketing", "phone_marketing")
 
-# Adobe Campaigns 
+# Adobe Campaigns
 
 ADOBE_PRIVATE_KEY = env.str('ADOBE_PRIVATE_KEY', '').replace('~~', """
 """)
