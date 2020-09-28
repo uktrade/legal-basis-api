@@ -15,7 +15,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('pkey', models.CharField(max_length=255, unique=True)),
-                ('name', models.CharField(blank=True, max_length=500, null=True)),
+                ('name', models.CharField(blank=True, max_length=500, null=True)),  # noqa
                 ('last_fetched_at', models.DateTimeField(blank=True, null=True)),
                 ('active', models.BooleanField(default=False)),
             ],
