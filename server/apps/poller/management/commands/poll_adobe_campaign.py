@@ -103,6 +103,12 @@ class Command(BaseCommand):
         return AdobeCampaign.objects.filter(active=True)
 
     def validate_campaign_subscribers(self, campaign, client):
+        """
+        For each campaign on adobe, check that the subscribers have current
+        consent.
+        Returns the number of unsubscribe actions due to no current
+        consent found.
+        """
         self.write(f"Processing: {campaign.name}")
         subscribers = client.subscriptions(campaign.pkey)
         total = next(subscribers)
@@ -121,6 +127,12 @@ class Command(BaseCommand):
         return unsubscribed
 
     def process_unsubscribe_events(self, campaign, client):
+        """
+        Fetch all unsubscription events from Adobe, and for each,
+        if a record exists in consent service, remove it's consent.
+        Returns a tuple with the number of actual consents removed
+        and a boolean denoting if any unsubscription events occured.
+        """
         self.write(f"Processing unsubscriptions for: {campaign.name}")
         unsubscribers = client.get_unsubscribers()
         unsubscription_events = unsubscribers.get('content', [])
@@ -152,6 +164,7 @@ class Command(BaseCommand):
         for campaign in service_campaigns:
             # Validate campaign subscribers
             unsubscribed = self.validate_campaign_subscribers(campaign, client)
+            # Check unsubscription events
             consents_removed, has_unsubs = self.process_unsubscribe_events(campaign, client)
             if has_unsubs and settings.ADOBE_STAGING_WORKFLOW:
                 self.write("Initiating cleanup workflow")
