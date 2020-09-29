@@ -1,6 +1,6 @@
 import datetime
 
-import jwt
+import jwt  # noqa
 import requests
 from django.conf import settings
 
