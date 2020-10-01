@@ -6,7 +6,7 @@ from django.conf import settings
 
 
 class AdobeCampaignRequestException(Exception):
-    def __init__(self, message=None, status_code=None):
+    def __init__(self, message=None, status_code=None) -> None:
         self.message = message
         self.status_code = status_code
         super().__init__(self.message)
@@ -17,10 +17,10 @@ class AdobeClient:
     An API client for Adobe Campaigns. The client is using the custom resource endpoints and is
     specifically tailored to the implementation for DIT's nurture program.
     """
-    def __init__(self):
+    def __init__(self) -> None:
         self.token = self.get_token()
 
-    def get_token(self):
+    def get_token(self) -> str:
         """
         Generate, encode and exchange the JWT token for an access token.
         """
@@ -43,7 +43,7 @@ class AdobeClient:
         return response.get('access_token')
 
     @property
-    def headers(self):
+    def headers(self) -> dict:
         """
         Standard request headers
         """
@@ -54,7 +54,7 @@ class AdobeClient:
             'Content-Type': 'application/json',
         }
 
-    def url(self, path):
+    def url(self, path) -> str:
         """
         Generate a url for Adobe Campaign for a given path.
         """
@@ -78,21 +78,21 @@ class AdobeClient:
             extra_data['lastName'] = last_name
         if emt_id:
             extra_data['emt_id'] = emt_id
-        response = requests.post(url, json=extra_data, headers=self.headers)
+        response: requests.Response = requests.post(url, json=extra_data, headers=self.headers)
         if response.status_code != 201:
             raise AdobeCampaignRequestException(
                 message=response.text,
                 status_code=response.status_code)
-        response = response.json()
+        response_data = response.json()
         # this is implemented for future use but not going to be used at this point.
         # See docstring of the subscribe method.
         if 'service_pkey' in kwargs:
             self.subscribe(
                 kwargs['service_pkey'],
-                subscribe_url=response.get('subscriptions', {}).get('href'))
-        return response
+                subscribe_url=response_data.get('subscriptions', {}).get('href'))
+        return response_data
 
-    def subscribe(self, service_pkey, profile_pkey=None, subscribe_url=None):
+    def subscribe(self, service_pkey, profile_pkey=None, subscribe_url=None) -> dict:
         """
         Subscribe a profile to a campaign. This method was implemented but will not be used
         directly as we are instead loading profiles into a staging area in adobe and using
@@ -107,7 +107,7 @@ class AdobeClient:
             headers=self.headers
         ).json()
 
-    def get_unsubscribers(self):
+    def get_unsubscribers(self) -> dict:
         """
         Return a list of those who unsubscribed via Adobe side. The records come from a
         custom resource which collects unsubscriptions via the Adobe platform.
@@ -115,49 +115,49 @@ class AdobeClient:
         url = self.url("profileAndServicesExt/cusInvestUnsubscribes")
         return requests.get(url, headers=self.headers).json()
 
-    def delete_unsubscribers(self, pkey):
+    def delete_unsubscribers(self, pkey) -> dict:
         """
         Delete an unsubscription entry
         """
         url = self.url(f"profileAndServicesExt/cusInvestUnsubscribes/{pkey}")
         return requests.delete(url, headers=self.headers).json()
 
-    def unsubscribe(self, subscription_pkey):
+    def unsubscribe(self, subscription_pkey) -> dict:
         """
         Unsubscribe a profile from a service via the subscription pkey
         """
         url = self.url(f"profileAndServices/service/{subscription_pkey}")
         return requests.delete(url, headers=self.headers).json()
 
-    def get_profile(self, pkey):
+    def get_profile(self, pkey) -> dict:
         """
         Return a profile by a pkey
         """
         url = self.url(f"profileAndServicesExt/profile/{pkey}")
         return requests.get(url, headers=self.headers).json()
 
-    def get_all_profiles(self):
+    def get_all_profiles(self) -> dict:
         """
         Return all profiles
         """
         url = self.url("profileAndServicesExt/profile")
         return requests.get(url, headers=self.headers).json()
 
-    def get_services(self):
+    def get_services(self) -> dict:
         """
         Return all services (campaigns)
         """
         url = self.url("profileAndServicesExt/service")
         return requests.get(url, headers=self.headers).json()
 
-    def get_service(self, pkey):
+    def get_service(self, pkey) -> dict:
         """
         Return a single service by its pkey
         """
         url = self.url(f"profileAndServicesExt/service/{pkey}")
         return requests.get(url, headers=self.headers).json()
 
-    def get_subscriptions(self, pkey):
+    def get_subscriptions(self, pkey) -> dict:
         """
         Return a campaign's subscriptions
         """
@@ -189,12 +189,12 @@ class AdobeClient:
             else:
                 subscriptions = {'content': []}
 
-    def start_workflow(self, workflow_id):
+    def start_workflow(self, workflow_id) -> dict:
         url = self.url(f"workflow/execution/{workflow_id}/commands")
         response = requests.post(url, headers=self.headers, json={'method': 'start'})
         return response.json()
 
-    def get_url(self, url):
+    def get_url(self, url) -> dict:
         """
         GET an arbitrary url
         """

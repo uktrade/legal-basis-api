@@ -6,7 +6,7 @@ from actstream import action
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.db import transaction
-from django.db.models import Model
+from django.db.models import Model, QuerySet
 from django.utils import timezone
 from django.utils.functional import cached_property
 from django_tqdm import BaseCommand
@@ -87,7 +87,7 @@ class Command(BaseCommand):
 
             self._send_action(obj)
 
-    def has_consent(self, email_address):
+    def has_consent(self, email_address) -> bool:
         """
         Returns True if this email address has a current consent, False otherwise
         """
@@ -99,10 +99,10 @@ class Command(BaseCommand):
                 pass
         return False
 
-    def get_service_campaigns(self):
+    def get_service_campaigns(self) -> QuerySet:
         return AdobeCampaign.objects.filter(active=True)
 
-    def validate_campaign_subscribers(self, campaign, client):
+    def validate_campaign_subscribers(self, campaign, client) -> int:
         """
         For each campaign on adobe, check that the subscribers have current
         consent.
@@ -126,7 +126,7 @@ class Command(BaseCommand):
         campaign.save()
         return unsubscribed
 
-    def process_unsubscribe_events(self, campaign, client):
+    def process_unsubscribe_events(self, campaign, client) -> tuple:
         """
         Fetch all unsubscription events from Adobe, and for each,
         if a record exists in consent service, remove it's consent.
