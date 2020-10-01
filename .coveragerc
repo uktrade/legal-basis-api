@@ -4,3 +4,4 @@ omit =
     *manage.py
     *apps.py
     **pypoetry/virtualenvs/**
+    app/enquiries/common/adobe.py
