@@ -53,7 +53,7 @@ class TestMaxemailClient:
             settings.MAXEMAIL_USERNAME, settings.MAXEMAIL_PASSWORD
         )
 
-    def test_get_members_for_list(self, requests_mock):
+    def test_get_members_for_list_generator_one_record(self, requests_mock):
         mock_data = {
             "list_total": "1",
             "count": 1,
@@ -78,6 +78,52 @@ class TestMaxemailClient:
         memebers_mock = requests_mock.post(
             (settings.MAXEMAIL_BASE_URL / "list").tostr(), json=mock_data
         )
-        self.client.get_members_for_list(1)
-        assert memebers_mock.called_once
-        assert "fetchRecipientsData" in memebers_mock.last_request.body
+        records = list(self.client.get_members_for_list(1))
+        assert memebers_mock.called
+        assert len(records) == 1
+        assert records[0]["email_address"] == mock_data["records"][0]["email_address"]
+
+    def test_get_members_for_list_generator_multiple_records(self, requests_mock):
+        mock_data = {
+            "list_total": "3",
+            "count": 3,
+            "records": [
+                {
+                    "email_address": "test1@digital.trade.gov.uk",
+                },
+                {
+                    "email_address": "test2@digital.trade.gov.uk",
+                },
+                {
+                    "email_address": "test3@digital.trade.gov.uk",
+                },
+            ],
+        }
+
+        memebers_mock = requests_mock.post(
+            (settings.MAXEMAIL_BASE_URL / "list").tostr(), json=mock_data
+        )
+        records = list(self.client.get_members_for_list(1))
+        assert memebers_mock.called
+        assert len(records) == 3
+        assert records[0]["email_address"] == mock_data["records"][0]["email_address"]
+        assert records[1]["email_address"] == mock_data["records"][1]["email_address"]
+        assert records[2]["email_address"] == mock_data["records"][2]["email_address"]
+
+    def test_get_members_for_list_generator_paging(self, requests_mock):
+        mock_data = {
+            "list_total": "3",
+            "count": 1,
+            "records": [
+                {
+                    "email_address": "test1@digital.trade.gov.uk",
+                },
+            ],
+        }
+
+        memebers_mock = requests_mock.post(
+            (settings.MAXEMAIL_BASE_URL / "list").tostr(), json=mock_data
+        )
+        records = list(self.client.get_members_for_list(1, limit=1))
+        assert memebers_mock.called
+        assert len(records) == 3
