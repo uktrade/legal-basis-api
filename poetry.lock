@@ -1256,7 +1256,7 @@ python-versions = "*"
 version = "0.7.5"
 
 [[package]]
-category = "dev" 
+category = "dev"
 description = "Python Development Workflow for Humans."
 name = "pipenv"
 optional = false
@@ -1397,7 +1397,7 @@ toml = ">=0.7.1"
 [[package]]
 category = "main"
 description = "Python parsing module"
-name = "pyparsing"<<<<<<< adobecampaign
+name = "pyparsing"
 2144
  
 
