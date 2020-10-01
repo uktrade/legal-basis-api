@@ -7,7 +7,6 @@ https://docs.djangoproject.com/en/2.2/topics/settings/
 For the full list of settings and their config, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
-
 import os
 from typing import Dict, List, Tuple, Union
 
