@@ -87,7 +87,7 @@ safety = "^1.8"
 dotenv-linter = "^0.1"
 django-migration-linter = "^1.4"
 django_extensions = "^2.2.5"
-flake8-isort = "^2.8.0"
+flake8-isort = "4.0.0"
 black = {version = "^19.10b0", allow-prereleases = true}
 pylint = "^2.4.4"
 autopep8 = "^1.4.4"
