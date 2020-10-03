@@ -154,9 +154,9 @@ class Command(BaseCommand):
             self.write(f"Processing {total} unsubscription events")
             for unsub in unsubscription_events:
                 service = unsub.get('service')
+                email = unsub.get('email')
                 # see about changing to service pkey
                 if service == campaign.name and self._should_update(email):
-                    email = unsub.get('email')
                     self.update_consent(
                         email_address=email,
                         meta={
