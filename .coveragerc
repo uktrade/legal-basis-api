@@ -5,3 +5,4 @@ omit =
     *apps.py
     **pypoetry/virtualenvs/**
     **adobe.py
+    .venv/*
