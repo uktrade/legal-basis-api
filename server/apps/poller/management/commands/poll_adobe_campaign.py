@@ -47,13 +47,12 @@ class Command(BaseCommand):
 
     @cached_property
     def email_consent(self) -> Consent:
-        email_consent, _ = Consent.objects.get_or_create(name="email_address")
+        email_consent, _ = Consent.objects.get_or_create(name="email_marketing")
         return email_consent
 
 
     @transaction.atomic()
     def update_consent(self, email_address, meta=None, consent=True) -> None:
-        # self.write("Updating consent")
         if meta is None:
             meta = {}
         commit = Commit(extra=meta)
@@ -86,6 +85,19 @@ class Command(BaseCommand):
                 obj.consents.remove(self.email_consent)
 
             self._send_action(obj)
+
+    def _should_update(self, email_address) -> bool:
+        # check if there is already a legal basis for this email address
+        try:
+            lb: LegalBasis = queryset.get(email=email_address)
+        except LegalBasis.DoesNotExist:
+            return True
+
+        # check if it is already opted out
+        if self.email_consent in lb.consents.all():
+            return True
+
+        return False
 
     def has_consent(self, email_address) -> bool:
         """
@@ -142,7 +154,8 @@ class Command(BaseCommand):
             self.write(f"Processing {total} unsubscription events")
             for unsub in unsubscription_events:
                 service = unsub.get('service')
-                if service == campaign.name:  # see about changing to service pkey
+                # see about changing to service pkey
+                if service == campaign.name and self._should_update(email):
                     email = unsub.get('email')
                     self.update_consent(
                         email_address=email,
@@ -169,7 +182,9 @@ class Command(BaseCommand):
             if has_unsubs and settings.ADOBE_STAGING_WORKFLOW:
                 self.write("Initiating cleanup workflow")
                 client.start_workflow(settings.ADOBE_STAGING_WORKFLOW)
-        self.write(f"Adobe cycle complete. Unsubscribed={unsubscribed}, Consents removed={consents_removed}")
+        self.write(
+            f"Adobe cycle complete. Unsubscribed={unsubscribed}, Consents removed={consents_removed}"
+        )
 
     def handle(self, *args, **options):
         run_forever = options.pop("forever")
