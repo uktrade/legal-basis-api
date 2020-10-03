@@ -752,7 +752,7 @@ description = "the modular source code checker: pep8 pyflakes and co"
 name = "flake8"
 optional = false
 python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,>=2.7"
-version = "3.8.3"
+version = "3.8.4"
 
 [package.dependencies]
 mccabe = ">=0.6.0,<0.7.0"
@@ -2103,14 +2103,14 @@ marker = "python_version < \"3.8\""
 name = "zipp"
 optional = false
 python-versions = ">=3.6"
-version = "3.2.0"
+version = "3.3.0"
 
 [package.extras]
 docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
 testing = ["pytest (>=3.5,<3.7.3 || >3.7.3)", "pytest-checkdocs (>=1.2.3)", "pytest-flake8", "pytest-cov", "jaraco.test (>=3.2.0)", "jaraco.itertools", "func-timeout", "pytest-black (>=0.3.7)", "pytest-mypy"]
 
 [metadata]
-content-hash = "26f19f0f406c376a0c442bd0094d7eb7eaaefe3273819fa3f41dd7b1f204beb6"
+content-hash = "36ce8ac31bc45611467cf1b0805c4ade31db6960b6214dfedcb1267120985795"
 lock-version = "1.0"
 python-versions = "3.7.*"
 
@@ -2482,8 +2482,8 @@ faker = [
     {file = "Faker-0.9.1.tar.gz", hash = "sha256:c2ce42dd8361e6d392276006d757532562463c8642b1086709584200b7fd7758"},
 ]
 flake8 = [
-    {file = "flake8-3.8.3-py2.py3-none-any.whl", hash = "sha256:15e351d19611c887e482fb960eae4d44845013cc142d42896e9862f775d8cf5c"},
-    {file = "flake8-3.8.3.tar.gz", hash = "sha256:f04b9fcbac03b0a3e58c0ab3a0ecc462e023a9faf046d57794184028123aa208"},
+    {file = "flake8-3.8.4-py2.py3-none-any.whl", hash = "sha256:749dbbd6bfd0cf1318af27bf97a14e28e5ff548ef8e5b1566ccfb25a11e7c839"},
+    {file = "flake8-3.8.4.tar.gz", hash = "sha256:aadae8761ec651813c24be05c6f7b4680857ef6afaae4651a4eccaef97ce6c3b"},
 ]
 flake8-django = [
     {file = "flake8-django-0.0.4.tar.gz", hash = "sha256:7329ec2e2b8b194e8109639c534359014c79df4d50b14f4b85b8395edc5d6760"},
@@ -3091,6 +3091,6 @@ yamllint = [
     {file = "yamllint-1.25.0.tar.gz", hash = "sha256:b1549cbe5b47b6ba67bdeea31720f5c51431a4d0c076c1557952d841f7223519"},
 ]
 zipp = [
-    {file = "zipp-3.2.0-py3-none-any.whl", hash = "sha256:43f4fa8d8bb313e65d8323a3952ef8756bf40f9a5c3ea7334be23ee4ec8278b6"},
-    {file = "zipp-3.2.0.tar.gz", hash = "sha256:b52f22895f4cfce194bc8172f3819ee8de7540aa6d873535a8668b730b8b411f"},
+    {file = "zipp-3.3.0-py3-none-any.whl", hash = "sha256:eed8ec0b8d1416b2ca33516a37a08892442f3954dee131e92cfd92d8fe3e7066"},
+    {file = "zipp-3.3.0.tar.gz", hash = "sha256:64ad89efee774d1897a58607895d80789c59778ea02185dd846ac38394a8642b"},
 ]
