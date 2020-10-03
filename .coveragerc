@@ -4,4 +4,4 @@ omit =
     *manage.py
     *apps.py
     **pypoetry/virtualenvs/**
-    server/apps/poller/api_client/adobe.py
+    **adobe.py
