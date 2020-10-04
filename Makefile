@@ -60,7 +60,7 @@ lint-pip:
 .PHONY: lint-pip
 
 lint-code-quality:
-> poetry run xenon --max-absolute A --max-modules A --max-average A server
+> poetry run xenon --max-absolute A --max-modules A --max-average A server -e **/adobe.py
 .PHONY: lint-code-quality
 
 lint: lint-migrations flake8 lint-types lint-dotenv lint-pip lint-code-quality

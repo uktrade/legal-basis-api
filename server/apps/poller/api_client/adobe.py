@@ -60,38 +60,6 @@ class AdobeClient:
         """
         return f"https://mc.adobe.io/{settings.ADOBE_TENANT_ID}/campaign/{path}"
 
-    def create_staging_profile(  # noqa: C901
-            self, email=None, first_name=None, last_name=None,
-            emt_id=None, extra_data=None, **kwargs):
-        """
-        Create a staging profile on the `staging` custom resource on Adobe Campaigns.
-        Staging profiles use an internal workflow to correctly transfer into profiles
-        within Adobe Campaign.
-        """
-        url = self.url("profileAndServicesExt/cusStaging")
-        extra_data = extra_data or {}
-        if email:
-            extra_data['email'] = email
-        if first_name:
-            extra_data['firstName'] = first_name
-        if last_name:
-            extra_data['lastName'] = last_name
-        if emt_id:
-            extra_data['emt_id'] = emt_id
-        response: requests.Response = requests.post(url, json=extra_data, headers=self.headers)
-        if response.status_code != 201:
-            raise AdobeCampaignRequestException(
-                message=response.text,
-                status_code=response.status_code)
-        response_data = response.json()
-        # this is implemented for future use but not going to be used at this point.
-        # See docstring of the subscribe method.
-        if 'service_pkey' in kwargs:
-            self.subscribe(
-                kwargs['service_pkey'],
-                subscribe_url=response_data.get('subscriptions', {}).get('href'))
-        return response_data
-
     def subscribe(self, service_pkey, profile_pkey=None, subscribe_url=None) -> dict:
         """
         Subscribe a profile to a campaign. This method was implemented but will not be used
