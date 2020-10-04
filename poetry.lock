@@ -587,10 +587,10 @@ description = "Web APIs for Django, made easy."
 name = "djangorestframework"
 optional = false
 python-versions = ">=3.5"
-version = "3.12.1"
+version = "3.11.2"
 
 [package.dependencies]
-django = ">=2.2"
+django = ">=1.11"
 
 [[package]]
 category = "dev"
@@ -2110,7 +2110,7 @@ docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
 testing = ["pytest (>=3.5,<3.7.3 || >3.7.3)", "pytest-checkdocs (>=1.2.3)", "pytest-flake8", "pytest-cov", "jaraco.test (>=3.2.0)", "jaraco.itertools", "func-timeout", "pytest-black (>=0.3.7)", "pytest-mypy"]
 
 [metadata]
-content-hash = "36ce8ac31bc45611467cf1b0805c4ade31db6960b6214dfedcb1267120985795"
+content-hash = "fd4d1eb3e966c5b9b82ab80c18a026289d16b115cefc62f4b41fa16400de2859"
 lock-version = "1.0"
 python-versions = "3.7.*"
 
@@ -2411,8 +2411,8 @@ django-tqdm = [
     {file = "django_tqdm-1.0.0.tar.gz", hash = "sha256:c7fa0aadbe512fb7bff83f1d800094313b044eed9ac0552e1c22da49d84b2121"},
 ]
 djangorestframework = [
-    {file = "djangorestframework-3.12.1-py3-none-any.whl", hash = "sha256:5c5071fcbad6dce16f566d492015c829ddb0df42965d488b878594aabc3aed21"},
-    {file = "djangorestframework-3.12.1.tar.gz", hash = "sha256:d54452aedebb4b650254ca092f9f4f5df947cb1de6ab245d817b08b4f4156249"},
+    {file = "djangorestframework-3.11.2-py3-none-any.whl", hash = "sha256:5cc724dc4b076463497837269107e1995b1fbc917468d1b92d188fd1af9ea789"},
+    {file = "djangorestframework-3.11.2.tar.gz", hash = "sha256:a5967b68a04e0d97d10f4df228e30f5a2d82ba63b9d03e1759f84993b7bf1b53"},
 ]
 doc8 = [
     {file = "doc8-0.8.1-py2.py3-none-any.whl", hash = "sha256:4d58a5c8c56cedd2b2c9d6e3153be5d956cf72f6051128f0f2255c66227df721"},
