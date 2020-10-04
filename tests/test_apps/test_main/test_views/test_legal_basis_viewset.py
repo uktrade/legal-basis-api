@@ -15,6 +15,7 @@ class TestLegalBasisViewSet:
         assert response.status_code == 200
         assert response.data["count"] == 0
 
+    @pytest.mark.skip
     def test_list_endpoint_by_unauthenticated(self, client):
         """This test ensures that list endpoint works requires being logged in."""
         response = client.get(reverse("v1:legalbasis-list"))
