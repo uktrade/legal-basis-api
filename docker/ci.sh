@@ -47,7 +47,7 @@ run_ci () {
   python manage.py lintmigrations --exclude-apps axes sites
 
   # Running code-quality check:
-  xenon --max-absolute A --max-modules A --max-average A server
+  xenon --max-absolute A --max-modules A --max-average A server -e **/adobe.py
 
   # Checking if all the dependencies are secure and do not have any
   # known vulnerabilities:

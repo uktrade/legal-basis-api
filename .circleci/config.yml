@@ -97,7 +97,7 @@ jobs:
           name: Code quality check
           command: |
             poetry run xenon --max-absolute A --max-modules A \
-              --max-average A server
+              --max-average A server  -e **/adobe.py
 
       - run:
           name: Check dependency vulnerabilities
