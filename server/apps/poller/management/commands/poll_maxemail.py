@@ -98,10 +98,10 @@ class Command(BaseCommand):
 
         unsub_list_id = self._get_unsub_list_id(client)
 
-        results = client.get_members_for_list(unsub_list_id)
-
-        for hit in results["records"]:
-            email_address = hit["email_address"]
+        count = updated = 0
+        for recipient in client.get_members_for_list(unsub_list_id):
+            count += 1
+            email_address = recipient["email_address"]
             email_parts = email_address.split("@")
             email_log_str = f"{email_parts[0][:2]}...@...{email_parts[1][-4:]}"
 
@@ -109,6 +109,9 @@ class Command(BaseCommand):
 
             if self._should_update(email_address):
                 self.update_consent(email_address)
+                updated += 1
+
+        self.write(f"Updated {updated} records out of {count} in total")
 
     def _get_unsub_list_id(self, client) -> str:
         unsub_list = client.get_unsubscribe_list()
