@@ -103,13 +103,7 @@ class Command(BaseCommand):
         """
         Returns True if this email address has a current consent, False otherwise
         """
-        if email_address:
-            try:
-                queryset.get(email=email_address)
-                return True
-            except LegalBasis.DoesNotExist:
-                pass
-        return False
+        return queryset.filter(email=email_address).exists()
 
     def get_service_campaigns(self) -> QuerySet:
         return AdobeCampaign.objects.filter(active=True)
