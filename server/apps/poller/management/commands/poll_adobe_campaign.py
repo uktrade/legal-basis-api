@@ -166,7 +166,7 @@ class Command(BaseCommand):
 
     def run(self, *args, **options) -> None:
         client = AdobeClient()
-
+        unsubscribed = consents_removed = 0
         service_campaigns = self.get_service_campaigns()
         for campaign in service_campaigns:
             # Validate campaign subscribers

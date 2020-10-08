@@ -51,7 +51,7 @@ django-allow-cidr = "^0.3.1"
 tablib = "^1.1.0"
 str2bool = "^1.1"
 PyJWT = "1.7.1"
-
+cryptography = "3.1.1"
 
 [tool.poetry.dev-dependencies]
 django-debug-toolbar = "^2.1"
