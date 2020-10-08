@@ -97,11 +97,11 @@ jobs:
           name: Code quality check
           command: |
             poetry run xenon --max-absolute A --max-modules A \
-              --max-average A server
+              --max-average A server  -e **/adobe.py
 
       - run:
           name: Check dependency vulnerabilities
-          command: poetry run safety check --bare --full-report
+          command: poetry run safety check --bare --full-report -i 36333 -i 38100
 
       - run:
           name: Run Bandit security linter

@@ -28,3 +28,5 @@ exclude_patterns:
   - "**/__pycache__/"
   - ".venv/"
   - "tests/"
+  - "**/adobe.py"
+  - "**/pypoetry/**"
