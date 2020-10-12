@@ -143,8 +143,8 @@ class Command(BaseCommand):
 
         obj = self.get_activity_instance(client.name)
         results = client.get_documents(obj.search_after)
-
-        with self.tqdm(total=results.hits.total) as progress_bar:
+        total_hits = results.hits.total.value
+        with self.tqdm(total=total_hits) as progress_bar:
             while len(results.hits):
 
                 last_hit: Hit
