@@ -73,7 +73,7 @@ class Command(BaseCommand):
 
     @transaction.atomic()
     def update_consent(self, object_data, meta) -> None:
-        email_address = object_data["email_address"]
+        email_address = object_data.get("email_address", object_data.get("email"))
         email_contact_consent = object_data["email_contact_consent"]
 
         phone_number = object_data.get("phone_number")
