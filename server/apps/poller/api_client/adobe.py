@@ -83,19 +83,18 @@ class AdobeClient:
         url = self.url("profileAndServicesExt/cusInvestUnsubscribes")
         return requests.get(url, headers=self.headers).json()
 
-    def delete_unsubscribers(self, pkey) -> dict:
+    def delete_unsubscribers(self, pkey) -> object:
         """
         Delete an unsubscription entry
         """
         url = self.url(f"profileAndServicesExt/cusInvestUnsubscribes/{pkey}")
-        return requests.delete(url, headers=self.headers).json()
+        return requests.delete(url, headers=self.headers)
 
-    def unsubscribe(self, subscription_pkey) -> dict:
+    def unsubscribe(self, subscription_url) -> dict:
         """
-        Unsubscribe a profile from a service via the subscription pkey
+        Unsubscribe a profile from a service via the subscription url
         """
-        url = self.url(f"profileAndServices/service/{subscription_pkey}")
-        return requests.delete(url, headers=self.headers).json()
+        return requests.delete(subscription_url, headers=self.headers).json()
 
     def get_profile(self, pkey) -> dict:
         """
