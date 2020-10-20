@@ -125,7 +125,7 @@ class Command(BaseCommand):
                 if profile:
                     email_address = profile.get('email')
                     if self.has_consent(email_address) is False:
-                        client.unsubscribe(subscription.get('PKey'))
+                        client.unsubscribe(subscription['href'])
                         unsubscribed += 1
                 progress_bar.update(1)
         campaign.last_fetched_at = timezone.now()
@@ -150,7 +150,7 @@ class Command(BaseCommand):
                 service = unsub.get('service')
                 email = unsub.get('email')
                 # see about changing to service pkey
-                if service == campaign.name and self._should_update(email):
+                if campaign.name.startswith(service) and self._should_update(email):
                     self.update_consent(
                         email_address=email,
                         meta={
@@ -170,7 +170,8 @@ class Command(BaseCommand):
         service_campaigns = self.get_service_campaigns()
         for campaign in service_campaigns:
             # Validate campaign subscribers
-            unsubscribed = self.validate_campaign_subscribers(campaign, client)
+            # Temprarily disabling consent validation
+            # unsubscribed = self.validate_campaign_subscribers(campaign, client)
             # Check unsubscription events
             consents_removed, has_unsubs = self.process_unsubscribe_events(campaign, client)
             if has_unsubs and settings.ADOBE_STAGING_WORKFLOW:
