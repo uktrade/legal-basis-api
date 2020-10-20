@@ -184,14 +184,14 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         run_forever = options.pop("forever")
         sleep_time = options.pop("sleep_time")
-
-        if run_forever:
-            while True:
-                self.write("Polling Adobe Campaign")
+        if settings.ADOBE_POLLER:
+            if run_forever:
+                while True:
+                    self.write("Polling Adobe Campaign")
+                    self.run(args, options)
+                    self.write(
+                        f"sleeping until {datetime.now() + timedelta(seconds=sleep_time)}"
+                    )
+                    sleep(sleep_time)
+            else:
                 self.run(args, options)
-                self.write(
-                    f"sleeping until {datetime.now() + timedelta(seconds=sleep_time)}"
-                )
-                sleep(sleep_time)
-        else:
-            self.run(args, options)
