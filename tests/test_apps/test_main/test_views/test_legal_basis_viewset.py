@@ -48,3 +48,24 @@ class TestLegalBasisViewSet:
         assert response.status_code == 200
         assert response.data['count'] > 1
         assert len(response.data['results']) == 1
+
+    def test_bulk_lookup_endpoint(self, authenticated_client):
+        """Test bulk lookup endpoint."""
+        emails = ['foo_0@bar.com', 'foo_1@bar.com']
+        mixer.cycle(2).blend(
+            LegalBasis, key=None, phone="", key_type="email", email=(email for email in emails)
+        )
+
+        url = reverse('v1:legalbasis-bulk-lookup')
+        response = authenticated_client.post(
+            url,
+            data={
+                'emails': [emails[0].upper(), emails[1]],
+            },
+        )
+        assert response.status_code == 200
+        assert response.data['count'] == 2
+        assert len(response.data['results']) == 2
+
+        result_emails = [result['email'] for result in response.data['results']]
+        assert result_emails == emails

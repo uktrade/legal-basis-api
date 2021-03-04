@@ -33,6 +33,6 @@ def _auth_backends(settings):
 def authenticated_client(client, django_user_model):
     username = "user1"
     password = "bar"
-    django_user_model.objects.create_user(username=username, password=password)
+    django_user_model.objects.create_user(username=username, password=password, is_superuser=True)
     client.login(username=username, password=password)
     return client
