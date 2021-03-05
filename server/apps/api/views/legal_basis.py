@@ -88,9 +88,9 @@ class LegalBasisViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=["POST"])
     def bulk_lookup(self, request) -> Response:
         body = ListOfEmailsSerializer(data=request.data)
-        emails = [email.lower() for email in body.data["emails"]]
-
         if body.is_valid():
+            emails = [email.lower() for email in body.data["emails"]]
+
             basis_objs = self.paginate_queryset(
                 self.filter_queryset(self.queryset).filter(
                     email__in=emails
