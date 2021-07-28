@@ -1,6 +1,3 @@
-# This Dockerfile uses multi-stage build to customize DEV and PROD images:
-# https://docs.docker.com/develop/develop-images/multistage-build/
-
 FROM python:3.7-alpine as development_build
 
 LABEL maintainer="legal_basis_api@Department for International Trade"
