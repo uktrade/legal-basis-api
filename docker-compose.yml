@@ -20,27 +20,20 @@ services:
           DJANGO_ENV: development
       volumes:
         - django-static:/var/www/django/static
+        - .:/code
       depends_on:
         - db
       env_file: ./config/.env
       environment:
         DJANGO_DATABASE_HOST: db
-    command: python -Wd manage.py runserver 0.0.0.0:8000
-    ports:
-      - "8000:8000"
-    volumes:
-      - .:/code
-    healthcheck:
-      test: curl --fail http://localhost:8000/health/?format=json || exit 1
-      interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 10s
+      command: python -Wd manage.py runserver 0.0.0.0:8000
+      ports:
+        - "8000:8000"
 
   redis:
     image: redis:alpine
     restart: on-failure
-    
+
     ports:
       - "6379:6379"
 
