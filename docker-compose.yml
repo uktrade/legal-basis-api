@@ -12,23 +12,23 @@ services:
       - "5432:5432"
 
   web:
-      build:
-        target: development_build
-        context: .
-        dockerfile: ./docker/django/Dockerfile
-        args:
-          DJANGO_ENV: development
-      volumes:
-        - django-static:/var/www/django/static
-        - .:/code
-      depends_on:
-        - db
-      env_file: ./config/.env
-      environment:
-        DJANGO_DATABASE_HOST: db
-      command: python -Wd manage.py runserver 0.0.0.0:8000
-      ports:
-        - "8000:8000"
+    build:
+      target: development_build
+      context: .
+      dockerfile: ./docker/django/Dockerfile
+      args:
+        DJANGO_ENV: development
+    volumes:
+      - django-static:/var/www/django/static
+      - .:/code
+    depends_on:
+      - db
+    env_file: ./config/.env
+    environment:
+      DJANGO_DATABASE_HOST: db
+    command: python -Wd manage.py runserver 0.0.0.0:8000
+    ports:
+      - "8000:8000"
 
   redis:
     image: redis:alpine
