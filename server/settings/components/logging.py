@@ -3,6 +3,8 @@ import sys
 
 import structlog
 
+from django_log_formatter_ecs import ECSFormatter
+
 LOGLEVEL = os.environ.get("LOGLEVEL", "info").upper()
 
 LOGGING = {
@@ -13,14 +15,7 @@ LOGGING = {
         "require_debug_true": {"()": "django.utils.log.RequireDebugTrue",},
     },
     "formatters": {
-        "json": {
-            "()": structlog.stdlib.ProcessorFormatter,
-            "processor": structlog.processors.JSONRenderer(),
-        },
-        "color": {
-            "()": structlog.stdlib.ProcessorFormatter,
-            "processor": structlog.dev.ConsoleRenderer(),
-        },
+        "ecs_formatter": {"()": ECSFormatter},
         "django.server": {
             "()": "django.utils.log.ServerFormatter",
             "format": "[{server_time}] {message}",
@@ -31,33 +26,22 @@ LOGGING = {
         "console": {
             "class": "logging.StreamHandler",
             "filters": ["require_debug_true"],
-            "formatter": "color",
             "stream": sys.stdout,
         },
-        "django.server": {
+        "ecs": {
             "class": "logging.StreamHandler",
-            "formatter": "django.server",
-            "stream": sys.stdout,
-        },
-        "structlog": {
-            "class": "logging.StreamHandler",
-            "formatter": "json",
+            "formatter": "ecs_formatter",
             "stream": sys.stdout,
         },
     },
     "loggers": {
-        "django": {"handlers": ["console"], "level": LOGLEVEL},
-        "django_structlog": {
-            "handlers": ["structlog"],
-            "level": LOGLEVEL,
-            "propagate": False,
-        },
+        "django": {"handlers": ["ecs"], "level": LOGLEVEL},
         "django.server": {
-            "handlers": ["django.server"],
+            "handlers": ["ecs"],
             "level": LOGLEVEL,
             "propagate": False,
         },
-        "": {"handlers": ["django.server"], "level": LOGLEVEL, "propagate": False,},
+        "": {"handlers": ["ecs"], "level": LOGLEVEL, "propagate": False,},
     },
 }
 
@@ -65,7 +49,7 @@ LOGGING = {
 def remove_host(_, __, event_dict):
     # The 'host' key seems to be a string, but according to ECS, should be
     # an object. It's easiest to just delete it since it doesn't seem useful
-    event_dict.pop('host', None)
+    event_dict.pop("host", None)
     return event_dict
 
 
