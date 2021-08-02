@@ -7,7 +7,6 @@ values are overridden.
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 from server.settings.components import env
-from server.settings.components.common import INSTALLED_APPS
 
 # Production flags:
 # https://docs.djangoproject.com/en/2.2/howto/deployment/

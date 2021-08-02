@@ -9,7 +9,6 @@ from typing import List
 
 from server.settings.components import env
 from server.settings.components.common import INSTALLED_APPS, MIDDLEWARE
-from server.settings.components.logging import LOGGING
 
 # Setting the development status:
 
