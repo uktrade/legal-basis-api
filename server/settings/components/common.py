@@ -265,14 +265,6 @@ def add_whitenoise_headers(headers, _path, _url):
 
 WHITENOISE_ADD_HEADERS_FUNCTION = add_whitenoise_headers
 
-# Elastic APM
-# ELASTIC_APM = {
-#     "SERVICE_NAME": "Consent API",
-#     "SECRET_TOKEN": env.str("ELASTIC_APM_SECRET_TOKEN", default=None),
-#     "SERVER_URL": "https://apm.elk.uktrade.digital",
-#     "ENVIRONMENT": env.str("DJANGO_ENV"),
-# }
-
 # django-log-formatter-ecs https://github.com/uktrade/django-log-formatter-ecs#settings
 DLFE_APP_NAME = env.str("DLFE_APP_NAME", "Consent API")
 DLFE_LOG_SENSITIVE_USER_DATA = False
