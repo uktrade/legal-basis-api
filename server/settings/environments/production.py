@@ -16,10 +16,6 @@ DEBUG = False
 
 ALLOWED_HOSTS = [env.str("DOMAIN_NAME"), ".apps.internal"]
 
-# Elastic APM always opens a connection to the APM server, even
-# if "disabled", so only enable it in production-like envs
-INSTALLED_APPS += ("elasticapm.contrib.django",)
-
 # Staticfiles
 # https://docs.djangoproject.com/en/2.2/ref/contrib/staticfiles/
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"

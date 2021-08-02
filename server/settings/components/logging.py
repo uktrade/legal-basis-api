@@ -36,11 +36,7 @@ LOGGING = {
     },
     "loggers": {
         "django": {"handlers": ["ecs"], "level": LOGLEVEL},
-        "django.server": {
-            "handlers": ["ecs"],
-            "level": LOGLEVEL,
-            "propagate": False,
-        },
+        "django.server": {"handlers": ["ecs"], "level": LOGLEVEL, "propagate": False,},
         "": {"handlers": ["ecs"], "level": LOGLEVEL, "propagate": False,},
     },
 }
