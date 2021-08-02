@@ -53,6 +53,7 @@ str2bool = "^1.1"
 PyJWT = "1.7.1"
 cryptography = "3.4.6"
 py = "1.10.0"
+django-log-formatter-ecs = "^0.0.5"
 
 [tool.poetry.dev-dependencies]
 django-debug-toolbar = "^2.1"
