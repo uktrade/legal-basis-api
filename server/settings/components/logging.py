@@ -31,7 +31,7 @@ LOGGING = {
         "ecs": {
             "class": "logging.StreamHandler",
             "formatter": "ecs_formatter",
-            "stream": sys.stdout,
+            # "stream": sys.stdout,
         },
     },
     "loggers": {
