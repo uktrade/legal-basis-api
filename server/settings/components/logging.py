@@ -2,6 +2,7 @@ import os
 import sys
 
 import structlog
+import ecs_logging
 
 LOGLEVEL = os.environ.get("LOGLEVEL", "info").upper()
 
@@ -61,14 +62,6 @@ LOGGING = {
     },
 }
 
-
-def remove_host(_, __, event_dict):
-    # The 'host' key seems to be a string, but according to ECS, should be
-    # an object. It's easiest to just delete it since it doesn't seem useful
-    event_dict.pop('host', None)
-    return event_dict
-
-
 structlog.configure(
     processors=[
         structlog.stdlib.filter_by_level,
@@ -80,7 +73,7 @@ structlog.configure(
         structlog.processors.format_exc_info,
         structlog.processors.UnicodeDecoder(),
         structlog.processors.ExceptionPrettyPrinter(),
-        remove_host,
+        ecs_logging.StructlogFormatter(),
         structlog.stdlib.ProcessorFormatter.wrap_for_formatter,
     ],
     context_class=structlog.threadlocal.wrap_dict(dict),

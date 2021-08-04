@@ -692,6 +692,17 @@ optional = false
 python-versions = ">=3.6,<4.0"
 
 [[package]]
+name = "ecs-logging"
+version = "1.0.1"
+description = "Logging formatters for ECS (Elastic Common Schema) in Python"
+category = "main"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
+
+[package.extras]
+develop = ["pytest", "pytest-cov", "mock", "structlog", "elastic-apm"]
+
+[[package]]
 name = "elastic-apm"
 version = "5.9.0"
 description = "The official Python module for Elastic APM"
@@ -2034,7 +2045,7 @@ watchdog = ["watchdog"]
 
 [[package]]
 name = "whitenoise"
-version = "5.2.0"
+version = "5.3.0"
 description = "Radically simplified static file serving for WSGI applications"
 category = "main"
 optional = false
@@ -2094,7 +2105,7 @@ testing = ["pytest (>=3.5,!=3.7.3)", "pytest-checkdocs (>=1.2.3)", "pytest-flake
 [metadata]
 lock-version = "1.1"
 python-versions = "3.7.*"
-content-hash = "8e9d21725c526e8b48c3887e071e5f75ede8b31b7fbf9d184e3c29252989457c"
+content-hash = "ab5e0ee8e7a54710c6057700db597253f6e7d6c734410be625aa0b4c968b125f"
 
 [metadata.files]
 alabaster = [
@@ -2438,6 +2449,10 @@ drf-yasg = [
 dump-env = [
     {file = "dump-env-1.2.0.tar.gz", hash = "sha256:9b9ee7a8afe2a8194a712d12a925cc54f0b3178833491fdced5dcb6f68b56c60"},
     {file = "dump_env-1.2.0-py3-none-any.whl", hash = "sha256:ca26f6d87a33418adb794338e748a0d3507014e3388250077c696e8c96634562"},
+]
+ecs-logging = [
+    {file = "ecs-logging-1.0.1.tar.gz", hash = "sha256:5721bd8f548509048c8a5619ad6e823daa4d2b89d7d431a6a23e50c978f73dcb"},
+    {file = "ecs_logging-1.0.1-py2.py3-none-any.whl", hash = "sha256:2d104acf9f55008003ad1ff6ee057e2f54c1bd8021f8ac60158310702e4bfe4d"},
 ]
 elastic-apm = [
     {file = "elastic-apm-5.9.0.tar.gz", hash = "sha256:89a3ec089a9d24bfe909dc89736d880863e6eba929f176b9fc07e1150c30defd"},
@@ -3121,8 +3136,8 @@ werkzeug = [
     {file = "Werkzeug-1.0.1.tar.gz", hash = "sha256:6c80b1e5ad3665290ea39320b91e1be1e0d5f60652b964a3070216de83d2e47c"},
 ]
 whitenoise = [
-    {file = "whitenoise-5.2.0-py2.py3-none-any.whl", hash = "sha256:05d00198c777028d72d8b0bbd234db605ef6d60e9410125124002518a48e515d"},
-    {file = "whitenoise-5.2.0.tar.gz", hash = "sha256:05ce0be39ad85740a78750c86a93485c40f08ad8c62a6006de0233765996e5c7"},
+    {file = "whitenoise-5.3.0-py2.py3-none-any.whl", hash = "sha256:d963ef25639d1417e8a247be36e6aedd8c7c6f0a08adcb5a89146980a96b577c"},
+    {file = "whitenoise-5.3.0.tar.gz", hash = "sha256:d234b871b52271ae7ed6d9da47ffe857c76568f11dd30e28e18c5869dbd11e12"},
 ]
 wrapt = [
     {file = "wrapt-1.12.1.tar.gz", hash = "sha256:b62ffa81fb85f4332a4f609cab4ac40709470da05643a082ec1eb88e6d9b97d7"},
