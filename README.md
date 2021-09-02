@@ -34,10 +34,10 @@ import mohawk
 import requests
 import json
 
-def hawk_request(method, url, key_id, secret_key, data):
+def hawk_request(method, url, data):
     header = mohawk.Sender({
-        'id': key_id,
-        'key': secret_key,
+        'id': 'REPLACE_ME',
+        'key': 'REPLACE_ME',
         'algorithm': 'sha256'
     }, url, method, content_type='application/json', content=data).request_header
 
@@ -46,12 +46,10 @@ def hawk_request(method, url, key_id, secret_key, data):
         'Content-Type': 'application/json',
     }).raise_for_status()
 
-# To record email marketing consent
+# To grant email marketing consent
 hawk_request(
     method='POST',
     url="https://legal-basis-api.test/api/v1/person/",
-    key_id="REPLACE_ME",
-    secret_key='REPLACE_ME',
     data=json.dumps({
 	  "consents": ["email_marketing"],
 	  "modified_at": "2021-08-27T16:37:32.229Z",
@@ -60,15 +58,28 @@ hawk_request(
 	}),
 )
 
-# To record phone marketing consent
+# To grant phone marketing consent
 hawk_request(
     method='POST',
     url="https://legal-basis-api.test/api/v1/person/",
-    key_id="REPLACE_ME",
-    secret_key="REPLACE_ME",
     data=json.dumps({
         "consents": ["phone_marketing"],
         "modified_at": "2021-08-27T16:37:32.229Z",
+        "phone": "12340000000",
+        "key_type": "phone"
+    }),
+)
+
+# To revoke consent
+# Note the modified_at is later than the modified_at of the corresponding grant.
+# The legal-basis-api assumes the most recent according to this datetime is
+# current, even if they arrived at the legal-basis-api out-of-order
+hawk_request(
+    method='POST',
+    url="https://legal-basis-api.test/api/v1/person/",
+    data=json.dumps({
+        "consents": [],
+        "modified_at": "2021-08-27T17:12:37.123Z",
         "phone": "12340000000",
         "key_type": "phone"
     }),
