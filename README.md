@@ -65,7 +65,7 @@ hawk_request(
     data=json.dumps({
         "consents": ["phone_marketing"],
         "modified_at": "2021-08-27T16:37:32.229Z",
-        "phone": "12340000000",
+        "phone": "+442071838750",  # In E.164 format
         "key_type": "phone",
     }),
 )
@@ -80,7 +80,7 @@ hawk_request(
     data=json.dumps({
         "consents": [],
         "modified_at": "2021-08-27T17:12:37.123Z",
-        "phone": "12340000000",
+        "phone": "+442071838750",  # In E.164 format
         "key_type": "phone",
     }),
 )
