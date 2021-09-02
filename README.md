@@ -25,7 +25,7 @@ When developing locally, we use:
 
 Full documentation is available here: [`docs/`](docs).
 
-### Example code to register marketing consent
+### Example code to register the granting or revoking of marketing consent
 
 The API is Hawk-authenticated. From Python, the [mohawk library](https://mohawk.readthedocs.io/en/latest/) can be used to sign requests:
 
