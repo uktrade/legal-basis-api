@@ -51,11 +51,11 @@ hawk_request(
     method='POST',
     url="https://legal-basis-api.test/api/v1/person/",
     data=json.dumps({
-	  "consents": ["email_marketing"],
-	  "modified_at": "2021-08-27T16:37:32.229Z",
-	  "email": "user@domain.test",
-	  "key_type": "email"
-	}),
+        "consents": ["email_marketing"],
+        "modified_at": "2021-08-27T16:37:32.229Z",
+        "email": "user@domain.test",
+        "key_type": "email",
+    }),
 )
 
 # To grant phone marketing consent
@@ -66,7 +66,7 @@ hawk_request(
         "consents": ["phone_marketing"],
         "modified_at": "2021-08-27T16:37:32.229Z",
         "phone": "12340000000",
-        "key_type": "phone"
+        "key_type": "phone",
     }),
 )
 
@@ -81,7 +81,7 @@ hawk_request(
         "consents": [],
         "modified_at": "2021-08-27T17:12:37.123Z",
         "phone": "12340000000",
-        "key_type": "phone"
+        "key_type": "phone",
     }),
 )
 ```
