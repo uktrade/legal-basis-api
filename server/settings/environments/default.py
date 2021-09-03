@@ -9,7 +9,6 @@ from typing import List
 
 from server.settings.components import env
 from server.settings.components.common import INSTALLED_APPS, MIDDLEWARE
-from server.settings.components.logging import LOGGING
 
 # Setting the development status:
 
@@ -72,6 +71,5 @@ MIDDLEWARE = ("nplusone.ext.django.NPlusOneMiddleware",) + MIDDLEWARE  # noqa: W
 NPLUSONE_LOGGER = logging.getLogger("django")
 NPLUSONE_LOG_LEVEL = logging.WARN
 
-LOGGING["loggers"]["django_structlog"]["handlers"] = ["console"]  # type: ignore
 
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "http")
