@@ -1,6 +1,8 @@
 import csv
 
 from django.contrib import admin
+from django.contrib.auth.models import Permission
+
 from django.http import HttpRequest, HttpResponse
 from rest_framework.authtoken.admin import TokenAdmin
 
@@ -48,6 +50,7 @@ admin.site.register(LegalBasis, LegalBasisAdmin)
 admin.site.register(LegalBasisCurrent, LegalBasisCurrentAdmin)
 admin.site.register(Consent)
 admin.site.register(Commit)
+admin.site.register(Permission)
 
 # Recommended by drf docs: https://www.django-rest-framework.org/api-guide/authentication/#with-django-admin
 TokenAdmin.raw_id_fields = ["user"]
