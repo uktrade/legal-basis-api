@@ -7,6 +7,7 @@ It may be also used for extending doctest's context:
 """
 
 import pytest
+from django.contrib.auth.models import Group, Permission
 
 
 @pytest.fixture(autouse=True)
@@ -33,6 +34,53 @@ def _auth_backends(settings):
 def authenticated_client(client, django_user_model):
     username = "user1"
     password = "bar"
-    django_user_model.objects.create_user(username=username, password=password, is_superuser=True)
+    django_user_model.objects.create_user(username=username, password=password, is_superuser=False)
     client.login(username=username, password=password)
+    return client
+
+
+@pytest.fixture()
+def read_write_client(client, django_user_model):
+    user = django_user_model.objects.create_user(
+        username="read-write", password="password"
+    )
+    group = Group.objects.create(name="Read/write users")
+    group.permissions.add(
+        Permission.objects.get(codename="view_legalbasis"),
+        Permission.objects.get(codename="add_legalbasis"),
+        Permission.objects.get(codename="view_consent"),
+        Permission.objects.get(codename="add_consent"),
+    )
+    user.groups.add(group)
+    client.login(username=user.username, password="password")
+    return client
+
+
+@pytest.fixture()
+def read_only_client(client, django_user_model):
+    user = django_user_model.objects.create_user(
+        username="read-only", password="password"
+    )
+    group = Group.objects.create(name="Read only users")
+    group.permissions.add(
+        Permission.objects.get(codename="view_legalbasis"),
+        Permission.objects.get(codename="view_consent"),
+    )
+    user.groups.add(group)
+    client.login(username=user.username, password="password")
+    return client
+
+
+@pytest.fixture()
+def write_only_client(client, django_user_model):
+    user = django_user_model.objects.create_user(
+        username="write-only", password="password"
+    )
+    group = Group.objects.create(name="Write only users")
+    group.permissions.add(
+        Permission.objects.get(codename="add_legalbasis"),
+        Permission.objects.get(codename="add_consent"),
+    )
+    user.groups.add(group)
+    client.login(username=user.username, password="password")
     return client

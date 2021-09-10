@@ -63,6 +63,7 @@ class CreateLegalBasisSerializer(LegalBasisSerializer):
     modified_at = serializers.DateTimeField(required=False)
 
     def to_internal_value(self, data):
+        data = data.copy()
         data["key_type"] = "email" if data.get("email") else "phone"
         return super().to_internal_value(data)
 
@@ -84,7 +85,9 @@ class CreateLegalBasisSerializer(LegalBasisSerializer):
             raise serializers.ValidationError("One of email or phone must be supplied")
 
         if all([attrs.get("email"), attrs.get("phone")]):
-            raise serializers.ValidationError("Both email or phone must not be supplied")
+            raise serializers.ValidationError(
+                "Both email or phone must not be supplied"
+            )
 
         return super().validate(attrs)
 

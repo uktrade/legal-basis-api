@@ -8,10 +8,12 @@ For the full list of settings and their config, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 import os
+import uuid
 from typing import Dict, List, Tuple, Union
 
 from django.urls import reverse_lazy
 from django.utils.translation import ugettext_lazy as ugt
+from django_structlog.middlewares.request import RequestMiddleware, logger
 from furl import furl
 
 from server.settings.components import BASE_DIR, env
@@ -293,3 +295,15 @@ ADOBE_TECHNICAL_ACCOUNT_ID = env.str('ADOBE_TECHNICAL_ACCOUNT_ID', '')
 ADOBE_CAMPAIGN_BASE_URL = env.str('ADOBE_CAMPAIGN_BASE_URL', 'adobe_campaign')
 ADOBE_STAGING_WORKFLOW = env.str('ADOBE_UNSUB_WORKFLOW', 'WKF29')
 ADOBE_POLLER = env.str('ADOBE_POLLER', 'False') == 'True'
+
+
+# Monkey patch django-structlog to ensure the request user is not None before binding
+def bind_user_id(_, request):
+    if hasattr(request, "user") and request.user is not None:
+        user_id = request.user.pk
+        if isinstance(user_id, uuid.UUID):
+            user_id = str(user_id)
+        logger.bind(user_id=user_id)
+
+
+RequestMiddleware.bind_user_id = bind_user_id
