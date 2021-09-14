@@ -1,0 +1,177 @@
+{
+	"info": {
+		"_postman_id": "c0022fa4-5633-4fb3-ada5-a1b603cc7cf8",
+		"name": "Consent Service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create email marketing consent",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"consents\": [\n        \"email_marketing\"\n    ],\n    \"modified_at\": \"2021-08-27T16:37:32.229Z\",\n    \"email\": \"user@domain.test\",\n    \"key_type\": \"email\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{consent_service_host}}/api/v1/person/",
+					"protocol": "https",
+					"host": [
+						"{{consent_service_host}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"person",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create phone marketing consent",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"consents\": [\n        \"phone_marketing\"\n    ],\n    \"modified_at\": \"2021-08-27T16:37:32.229Z\",\n    \"phone\": \"+442071838750\",\n    \"key_type\": \"phone\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{consent_service_host}}/api/v1/person/",
+					"protocol": "https",
+					"host": [
+						"{{consent_service_host}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"person",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"/*****************************************************************************/",
+					"",
+					"const hawkId = pm.variables.get('consent_service_hawk_id');",
+					"const hawkKey = pm.variables.get('consent_service_hawk_key');",
+					"",
+					"/*****************************************************************************/",
+					"",
+					"const timestamp = parseInt(new Date().getTime() / 1000);",
+					"const nonce = CryptoJS.enc.Base64.stringify(CryptoJS.lib.WordArray.random(6));",
+					"const url = pm.request.url;",
+					"console.log(url)",
+					"const port = url.port || (url.protocol == 'https' && 443) || 80;",
+					"",
+					"const canonical_payload = `` +",
+					"    `hawk.1.payload\\n${pm.request.headers.get('content-type')}\\n${request.data}\\n`;",
+					"const hash = CryptoJS.enc.Base64.stringify(CryptoJS.SHA256(canonical_payload));",
+					"const canonical_request = `` +",
+					"    `hawk.1.header\\n${timestamp}\\n${nonce}\\n${request.method}\\n${url.getPathWithQuery()}\\n` +",
+					"    `${pm.variables.replaceIn(url.getHost())}\\n${port}\\n${hash}\\n\\n`;",
+					"const mac = CryptoJS.enc.Base64.stringify(CryptoJS.HmacSHA256(canonical_request, hawkKey));",
+					"",
+					"pm.request.headers.add({",
+					"    key: 'authorization',",
+					"    value: `` +",
+					"        `Hawk mac=\"${mac}\", hash=\"${hash}\", id=\"${hawkId}\", ` +",
+					"        `ts=\"${timestamp}\", nonce=\"${nonce}\"`",
+					"});"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "consent_service_hawk_id",
+			"value": "replace-me"
+		},
+		{
+			"key": "consent_service_hawk_key",
+			"value": "replace-me"
+		},
+		{
+			"key": "consent_service_host",
+			"value": "replace-me"
+		}
+	]
+}
