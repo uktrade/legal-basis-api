@@ -112,6 +112,228 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Get marketing consent (Bulk lookup)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"emails\": [\"user@domain.test\", \"email_2@domain.test\"]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{consent_service_host}}/api/v1/person/bulk_lookup/",
+					"protocol": "https",
+					"host": [
+						"{{consent_service_host}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"person",
+						"bulk_lookup",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get marketing consent (List)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true,
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{consent_service_host}}/api/v1/person/",
+					"protocol": "https",
+					"host": [
+						"{{consent_service_host}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"person",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get marketing consent (Single key)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true,
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{consent_service_host}}/api/v1/person/user@domain.test/",
+					"protocol": "https",
+					"host": [
+						"{{consent_service_host}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"person",
+						"user@domain.test",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get marketing consent (DataHub export)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true,
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"emails\": [\"user@domain.test\", \"email_2@domain.test\"]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{consent_service_host}}/api/v1/person/bulk_lookup/",
+					"protocol": "https",
+					"host": [
+						"{{consent_service_host}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"person",
+						"bulk_lookup",
+						""
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"event": [
@@ -130,7 +352,6 @@
 					"const timestamp = parseInt(new Date().getTime() / 1000);",
 					"const nonce = CryptoJS.enc.Base64.stringify(CryptoJS.lib.WordArray.random(6));",
 					"const url = pm.request.url;",
-					"console.log(url)",
 					"const port = url.port || (url.protocol == 'https' && 443) || 80;",
 					"",
 					"const canonical_payload = `` +",
