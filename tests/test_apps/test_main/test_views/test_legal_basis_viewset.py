@@ -44,12 +44,7 @@ class TestLegalBasisViewSet:
         )
 
         url = reverse('v1:legalbasis-bulk-lookup')
-        response = read_write_client.post(
-            url,
-            data={
-                'emails': [emails[0].upper(), emails[1]],
-            },
-        )
+        response = read_write_client.get(f'{url}?email={emails[0].upper()}&email={emails[1]}')
         assert response.status_code == 200
         assert response.data['count'] == 2
         assert len(response.data['results']) == 2
@@ -60,12 +55,11 @@ class TestLegalBasisViewSet:
     def test_read_only_bulk_lookup(self, read_only_client):
         lb1 = mixer.blend(LegalBasis, consents__name="email", key=None, phone="")
         mixer.blend(LegalBasis, consents__name="phone", key=None, email="")
-        response = read_only_client.post(
-            reverse("v1:legalbasis-bulk-lookup"),
-            data={"emails": [lb1.email]},
-            format="json",
+        response = read_only_client.get(
+            f'{reverse("v1:legalbasis-bulk-lookup")}?email={lb1.email}'
         )
-        assert response.status_code == 403
+        assert response.status_code == 200
+        assert response.data["count"] == 1
 
     def test_user_with_no_permissions(self, authenticated_client):
         mixer.blend(LegalBasis, consents__name="email", key=None, phone="")
@@ -147,11 +141,16 @@ class TestLegalBasisViewSet:
     def test_read_write_bulk_lookup(self, read_write_client):
         lb1 = mixer.blend(LegalBasis, consents__name="email", key=None, phone="")
         mixer.blend(LegalBasis, consents__name="phone", key=None, email="")
-        response = read_write_client.post(
-            reverse("v1:legalbasis-bulk-lookup"),
-            data={"emails": [lb1.email]},
-            format="json",
+        response = read_write_client.get(
+            f'{reverse("v1:legalbasis-bulk-lookup")}?email={lb1.email}'
         )
         assert response.status_code == 200
         assert response.data["count"] == 1
         assert len(response.data["results"][0]["consents"]) == 1
+
+    def test_write_only_user_cannot_access_bulk_lookup(self, write_only_client):
+        lb1 = mixer.blend(LegalBasis, consents__name="email", key=None, phone="")
+        response = write_only_client.get(
+            f'{reverse("v1:legalbasis-bulk-lookup")}?email={lb1.email}'
+        )
+        assert response.status_code == 403
