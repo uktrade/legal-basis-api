@@ -23,7 +23,7 @@ When developing locally, we use:
 
 ## Documentation
 
-Full documentation is available here: [`docs/`](docs), which includes a [Postman collection](docs/Consent Service.postman_collection.json).
+Full documentation is available here: [`docs/`](docs), which includes a [Postman collection](docs/Consent%20Service.postman_collection.json).
 
 ### Example code to register the granting or revoking of marketing consent
 
