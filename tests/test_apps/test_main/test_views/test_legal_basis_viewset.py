@@ -123,13 +123,13 @@ class TestLegalBasisViewSet:
         legal_basis_count = LegalBasis.objects.all().count()
         response = write_only_client.post(
             reverse("v1:legalbasis-list"),
-            data={"phone": "+447897395794", "consents": ["phone_marketing"]},
+            data={"phone": "+447897395794", "consents": ["phone"]},
             format="json",
         )
         assert response.status_code == 201
         assert response.data["email"] == ""
         assert response.data["phone"] == "+447897395794"
-        assert response.data["consents"] == ["phone_marketing"]
+        assert response.data["consents"] == ["phone"]
         assert LegalBasis.objects.all().count() == legal_basis_count + 1
 
     def test_write_only_datahub_export(self, write_only_client):
