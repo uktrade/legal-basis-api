@@ -127,13 +127,14 @@
 				}
 			],
 			"protocolProfileBehavior": {
+				"disableBodyPruning": true,
 				"disabledSystemHeaders": {}
 			},
 			"request": {
 				"auth": {
 					"type": "noauth"
 				},
-				"method": "POST",
+				"method": "GET",
 				"header": [
 					{
 						"key": "Content-Type",
@@ -311,7 +312,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"emails\": [\"user@domain.test\", \"email_2@domain.test\"]\n}",
+					"raw": "{}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -319,7 +320,7 @@
 					}
 				},
 				"url": {
-					"raw": "https://{{consent_service_host}}/api/v1/person/bulk_lookup/",
+					"raw": "https://{{consent_service_host}}/api/v1/person/datahub_export/",
 					"protocol": "https",
 					"host": [
 						"{{consent_service_host}}"
@@ -328,7 +329,7 @@
 						"api",
 						"v1",
 						"person",
-						"bulk_lookup",
+						"datahub_export",
 						""
 					]
 				}
