@@ -81,13 +81,13 @@ class LegalBasisViewSet(viewsets.ModelViewSet):
         return super().get_object()
 
     @swagger_auto_schema(
-        method="post",
+        method="get",
         request_body=ListOfEmailsSerializer,
         responses={status.HTTP_200_OK: LegalBasisSerializer(many=True)},
     )
-    @action(detail=False, methods=["POST"])
+    @action(detail=False, methods=["GET"])
     def bulk_lookup(self, request) -> Response:
-        body = ListOfEmailsSerializer(data=request.data)
+        body = ListOfEmailsSerializer(data={'emails': request.GET.getlist("email")})
         if body.is_valid():
             emails = [email.lower() for email in body.data["emails"]]
 
