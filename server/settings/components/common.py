@@ -208,6 +208,10 @@ SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 SESSION_COOKIE_HTTPONLY = True
 CSRF_COOKIE_HTTPONLY = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
+SILENCED_SYSTEM_CHECKS = [
+    # Don't enforce SECURE_BROWSER_XSS_FILTER, which is recommended to be disabled
+    "security.W007",
+]
 
 X_FRAME_OPTIONS = "DENY"
 
