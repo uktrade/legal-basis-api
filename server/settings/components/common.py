@@ -262,7 +262,7 @@ def add_whitenoise_headers(headers, _path, _url):
     headers["Pragma"] = "no-cache"
     headers["X-Content-Type-Options"] = "nosniff"
     headers["X-Frame-Options"] = "DENY"
-    headers["X-XSS-Protection"] = "1; mode=block"
+    headers["X-XSS-Protection"] = "0"
 
 
 WHITENOISE_ADD_HEADERS_FUNCTION = add_whitenoise_headers
