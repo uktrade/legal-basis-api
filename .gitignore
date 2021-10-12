@@ -245,6 +245,3 @@ artifacts/
 
 # pytest:
 .pytest_cache/
-
-# poetry
-/requirements.txt

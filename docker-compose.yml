@@ -15,14 +15,12 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
     env_file: ./config/.env
-    network_mode: host
     ports:
       - "5432:5432"
 
   web:
     <<: &web
       build:
-        target: development_build
         context: .
         dockerfile: ./docker/django/Dockerfile
         args:
@@ -31,11 +29,12 @@ services:
         - django-static:/var/www/django/static
       depends_on:
         - db
+        - redis
       env_file: ./config/.env
       environment:
         DJANGO_DATABASE_HOST: db
+        CRYPTOGRAPHY_DONT_BUILD_RUST: 1
     command: python -Wd manage.py runserver 0.0.0.0:8000
-    network_mode: host
     healthcheck:
       test: curl --fail http://localhost:8000/health/?format=json || exit 1
       interval: 10s
@@ -45,7 +44,6 @@ services:
   redis:
     image: redis:alpine
     restart: on-failure
-    network_mode: host
     ports:
       - "6379:6379"
 

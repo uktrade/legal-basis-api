@@ -42,83 +42,89 @@ jobs:
       - image: circleci/redis@sha256:8aaec4ec9b084dce3d2e49607035825f2bc7abd9ea0e69718d410f74448b1012
         environment:
           <<: *environment
-
     steps:
       - checkout
 
-      - run:
-          name: Configure poetry
-          command: poetry config virtualenvs.in-project true
-
       - restore_cache:
           keys:
-            - v2-dependencies-{{ checksum "poetry.lock" }}
+            - v2-dependencies-{{ checksum "requirements-dev.txt" }}
 
       - run:
           name: Install dependencies
-          command: poetry install
+          command: |
+              python3 -m venv venv
+              . venv/bin/activate
+              pip install -r requirements-dev.txt
 
       - save_cache:
           paths:
-            - ./.venv
-          key: v2-dependencies-{{ checksum "poetry.lock" }}
+            - "venv"
+          key: v2-dependencies-{{ checksum "requirements-dev.txt" }}
 
       - run:
           name: Run flake8
-          command: poetry run flake8 .
+          command: |
+            . venv/bin/activate
+            make check-flake8
 
       - run:
           name: Check types
-          command: poetry run mypy server tests/**/*.py
+          command: |
+            . venv/bin/activate
+            make lint-types
 
       - run:
           name: Run pytest
           command: |
-            poetry run pytest --dead-fixtures --dup-fixtures \
+            . venv/bin/activate
+            pytest --dead-fixtures --dup-fixtures \
               --junitxml=.test-results/pytest-fixtures/results.xml &&
-            poetry run pytest --junitxml=.test-results/pytest/results.xml \
+            pytest --junitxml=.test-results/pytest/results.xml \
               --cov-report=html:coverage
 
       - run:
           name: Check django settings
-          command: poetry run ./manage.py check --deploy --fail-level WARNING
+          command: |
+            . venv/bin/activate
+            ./manage.py check --deploy --fail-level WARNING
           environment:
             DJANGO_ENV: production
 
       - run:
-          name: Validate migrations
-          command: poetry run ./manage.py makemigrations --dry-run --check
-
-      - run:
           name: Check migrations are backwards-compatible
-          command: poetry run ./manage.py lintmigrations --exclude-apps axes sites
+          command: |
+            . venv/bin/activate
+            ./manage.py lintmigrations --exclude-apps axes sites
 
       - run:
           name: Code quality check
           command: |
-            poetry run xenon --max-absolute A --max-modules A \
+            . venv/bin/activate
+            xenon --max-absolute A --max-modules A \
               --max-average A server  -e **/adobe.py
-
       - run:
           name: Run Bandit security linter
-          command: poetry run bandit -r .
-
-      - run:
-          name: Check pyproject.toml
-          command: poetry check
+          command: |
+            . venv/bin/activate
+            bandit -r server
 
       - run:
           name: Check dependency compatibility
-          command: poetry run pip check
+          command: |
+            . venv/bin/activate
+            pip check
 
       - run:
           name: Check docs
-          command: poetry run doc8 -q docs
+          command: |
+            . venv/bin/activate
+            doc8 -q --ignore-path venv docs
 
       - run:
           name: Lint YAML
           command: |
-            poetry run yamllint -s .
+            . venv/bin/activate
+            yamllint -s .
 
       - store_test_results:
           path: .test-results

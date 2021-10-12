@@ -29,4 +29,3 @@ exclude_patterns:
   - ".venv/"
   - "tests/"
   - "**/adobe.py"
-  - "**/pypoetry/**"
