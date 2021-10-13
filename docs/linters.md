@@ -98,15 +98,14 @@ Is used to lint your `.env` files. See
 [dotenv-linter](https://github.com/wemake-services/dotenv-linter) docs.
 
 ``` {.sourceCode .bash}
-dotenv-linter config/.env config/.env.template
+dotenv-linter config/.env config/sample.env
 ```
 
 Packaging
 ---------
 
-We also use `pip` and `poetry` self checks to be sure that packaging
-works correctly.
+We also use `pip` self checks to be sure that packaging works correctly.
 
 ``` {.sourceCode .bash}
-poetry check && pip check
+pip check
 ```
