@@ -8,7 +8,7 @@ def test_admin_unauthorized(client):
     assert response.status_code == 302
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 def test_health_check(client):
     """This test ensures that health check is accessible."""
     response = client.get("/health/")

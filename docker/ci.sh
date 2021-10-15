@@ -56,9 +56,6 @@ run_ci () {
   # Bandit security linting
   bandit -r .
 
-  # Checking `pyproject.toml` file contents:
-  poetry check
-
   # Checking dependencies status:
   pip check
 

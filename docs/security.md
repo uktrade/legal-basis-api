@@ -40,12 +40,7 @@ We use strong algorithms for password hashing: `bcrypt`, `PBKDF2` and
 Dependencies
 ------------
 
-We use [poetry](https://poetry.eustace.io/) which ensures that all the
-dependencies hashes match during the installation process. Otherwise,
-the build will fail. So, it is almost impossible to replace an already
-existing package with a malicious one.
-
-We also use [safety](https://github.com/pyupio/safety) to analyze
+We use [safety](https://github.com/pyupio/safety) to analyze
 vulnerable dependencies to prevent the build to go to the production
 with known unsafe dependencies.
 
@@ -126,4 +121,3 @@ Further reading
 -   [Docker security](https://docs.docker.com/engine/security/security/)
 -   [AppArmor](https://docs.docker.com/engine/security/apparmor/) and
     [bane](https://github.com/genuinetools/bane)
-

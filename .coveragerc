@@ -3,6 +3,5 @@ omit =
     *migrations*
     *manage.py
     *apps.py
-    **pypoetry**
     **adobe.py
     **.venv/**
