@@ -12,7 +12,7 @@ docker-build:
 
 .PHONY: test
 test: docker-build
-		docker-compose run --rm web pytest /code
+	DJANGO_ENV=test docker-compose run --rm web pytest /code
 
 .PHONY: lint-migrations
 lint-migrations: docker-build

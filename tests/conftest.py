@@ -8,6 +8,7 @@ It may be also used for extending doctest's context:
 
 import pytest
 from django.contrib.auth.models import Group, Permission
+from rest_framework.authtoken.models import Token
 
 
 @pytest.fixture(autouse=True)
@@ -44,6 +45,7 @@ def read_write_client(client, django_user_model):
     user = django_user_model.objects.create_user(
         username="read-write", password="password"
     )
+    Token.objects.create(user=user, key='test-hawk-key')
     group = Group.objects.create(name="Read/write users")
     group.permissions.add(
         Permission.objects.get(codename="view_legalbasis"),
@@ -61,6 +63,7 @@ def read_only_client(client, django_user_model):
     user = django_user_model.objects.create_user(
         username="read-only", password="password"
     )
+    Token.objects.create(user=user, key='test-hawk-key')
     group = Group.objects.create(name="Read only users")
     group.permissions.add(
         Permission.objects.get(codename="view_legalbasis"),
@@ -76,6 +79,7 @@ def write_only_client(client, django_user_model):
     user = django_user_model.objects.create_user(
         username="write-only", password="password"
     )
+    Token.objects.create(user=user, key='test-hawk-key')
     group = Group.objects.create(name="Write only users")
     group.permissions.add(
         Permission.objects.get(codename="add_legalbasis"),
