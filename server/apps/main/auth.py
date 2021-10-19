@@ -59,11 +59,11 @@ class HawkUserAuthentication(BaseAuthentication):
     @staticmethod
     def _seen_nonce(token, nonce, _):
         """
-        Returns true if the passed access_key_id/nonce combination has been used within 60 seconds
+        Returns true if the passed access_key_id/nonce combination has been used within 120 seconds
         """
         cache_key = f'legal-basis:{token}:{nonce}'
         seen_cache_key = not cache.add(
-            cache_key, True, timeout=60,
+            cache_key, True, timeout=120,
         )
 
         if seen_cache_key:
@@ -81,6 +81,7 @@ class HawkUserAuthentication(BaseAuthentication):
             content=request.body,
             content_type=request.content_type,
             seen_nonce=self._seen_nonce,
+            timestamp_skew_in_seconds=60,
         )
 
 
