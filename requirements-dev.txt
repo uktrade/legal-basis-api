@@ -79,7 +79,7 @@ cryptography==3.4.6
     # via -r requirements.txt
 decorator==5.1.0
     # via ipython
-django==2.2.19
+django==2.2.24
     # via
     #   -r requirements.txt
     #   django-allow-cidr
@@ -112,7 +112,7 @@ django-csp==3.7
     # via -r requirements.txt
 django-cursor-pagination==0.1.4
     # via -r requirements.txt
-django-debug-toolbar==2.2
+django-debug-toolbar==2.2.1
     # via -r requirements-dev.in
 django-environ==0.4.5
     # via -r requirements.txt
