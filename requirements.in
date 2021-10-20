@@ -43,3 +43,4 @@ ecs-logging
 django-jsonfield-backport
 structlog
 django-extensions
+mohawk

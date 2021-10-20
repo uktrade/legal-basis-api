@@ -3,7 +3,7 @@
 REST_FRAMEWORK = {
     "UNAUTHENTICATED_USER": None,
     "DEFAULT_AUTHENTICATION_CLASSES": (
-        "hawkrest.HawkAuthentication",
+        "server.apps.main.auth.HawkUserAuthentication",
         "rest_framework.authentication.SessionAuthentication",
     ),
     "DEFAULT_VERSIONING_CLASS": "rest_framework.versioning.NamespaceVersioning",
@@ -15,6 +15,3 @@ REST_FRAMEWORK = {
     "ORDERING_PARAM": "sortby",
     "TEST_REQUEST_DEFAULT_FORMAT": "json",
 }
-# Hawkrest
-HAWK_USER_LOOKUP = "server.apps.main.auth.hawk_user_lookup"
-HAWK_CREDENTIALS_LOOKUP = "server.apps.main.auth.hawk_credentials_lookup"

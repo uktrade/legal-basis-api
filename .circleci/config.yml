@@ -77,6 +77,7 @@ jobs:
           name: Run pytest
           command: |
             . venv/bin/activate
+            ./manage.py collectstatic --no-input
             pytest --dead-fixtures --dup-fixtures \
               --junitxml=.test-results/pytest-fixtures/results.xml &&
             pytest --junitxml=.test-results/pytest/results.xml \
