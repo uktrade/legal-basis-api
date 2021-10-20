@@ -1,6 +1,7 @@
 -r requirements.txt
+-r requirements-dev.txt
 
-django-debug-toolbar==2.2.1
+django-debug-toolbar
 django-querycount
 nplusone
 flake8-pytest
