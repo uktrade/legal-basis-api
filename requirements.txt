@@ -28,6 +28,24 @@ coreschema==0.0.4
     #   drf-yasg
 cryptography==3.4.6
     # via -r requirements.in
+django==2.2.24
+    # via
+    #   -r requirements.in
+    #   django-allow-cidr
+    #   django-axes
+    #   django-csp
+    #   django-feature-policy
+    #   django-filter
+    #   django-health-check
+    #   django-jsonfield
+    #   django-jsonfield-backport
+    #   django-phonenumber-field
+    #   django-redis
+    #   django-staff-sso-client
+    #   django-structlog
+    #   django-tqdm
+    #   djangorestframework
+    #   drf-yasg
 django-activity-stream==0.8.0
     # via -r requirements.in
 django-admin-oauth2==1.2.0
@@ -58,11 +76,11 @@ django-ipware==3.0.7
     # via
     #   django-axes
     #   django-structlog
+django-jsonfield==1.4.0
+    # via -r requirements.in
 django-jsonfield-backport==1.0.4
     # via -r requirements.in
 django-jsonfield-compat==0.4.4
-    # via -r requirements.in
-django-jsonfield==1.4.0
     # via -r requirements.in
 django-phonenumber-field==4.0.0
     # via -r requirements.in
@@ -76,24 +94,6 @@ django-structlog==1.6.2
     # via -r requirements.in
 django-tqdm==1.0.0
     # via -r requirements.in
-django==2.2.19
-    # via
-    #   -r requirements.in
-    #   django-allow-cidr
-    #   django-axes
-    #   django-csp
-    #   django-feature-policy
-    #   django-filter
-    #   django-health-check
-    #   django-jsonfield
-    #   django-jsonfield-backport
-    #   django-phonenumber-field
-    #   django-redis
-    #   django-staff-sso-client
-    #   django-structlog
-    #   django-tqdm
-    #   djangorestframework
-    #   drf-yasg
 djangorestframework==3.11.2
     # via
     #   -r requirements.in
@@ -107,10 +107,10 @@ ecs-logging==1.0.1
     # via -r requirements.in
 elastic-apm==5.9.0
     # via -r requirements.in
-elasticsearch-dsl==7.3.0
-    # via -r requirements.in
 elasticsearch==7.15.0
     # via elasticsearch-dsl
+elasticsearch-dsl==7.3.0
+    # via -r requirements.in
 furl==2.1.0
     # via -r requirements.in
 hawkrest==1.0.1
@@ -127,6 +127,7 @@ markupsafe==2.0.1
     # via jinja2
 mohawk==1.1.0
     # via
+    #   -r requirements.in
     #   hawkrest
     #   requests-hawk
 netaddr==0.8.0
@@ -159,21 +160,21 @@ pytz==2021.3
     #   django
 redis==3.5.3
     # via django-redis
+requests==2.26.0
+    # via
+    #   coreapi
+    #   requests-hawk
+    #   requests-oauthlib
 requests-hawk==1.0.1
     # via -r requirements.in
 requests-oauthlib==1.3.0
     # via
     #   django-admin-oauth2
     #   django-staff-sso-client
-requests==2.26.0
-    # via
-    #   coreapi
-    #   requests-hawk
-    #   requests-oauthlib
-ruamel.yaml.clib==0.2.6
-    # via ruamel.yaml
 ruamel.yaml==0.17.16
     # via drf-yasg
+ruamel.yaml.clib==0.2.6
+    # via ruamel.yaml
 sentry-sdk==0.13.5
     # via -r requirements.in
 six==1.16.0
