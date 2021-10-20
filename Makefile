@@ -34,10 +34,6 @@ lint-dotenv: docker-build
 lint-pip:
 	pip check
 
-.PHONY: lint-code-quality
-lint-code-quality:
-	xenon --max-absolute A --max-modules A --max-average A server -e **/adobe.py
-
 .PHONY: lint
 lint:
-	lint-migrations flake8 lint-types lint-dotenv lint-pip lint-code-quality
+	lint-migrations flake8 lint-types lint-dotenv lint-pip

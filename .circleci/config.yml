@@ -98,12 +98,6 @@ jobs:
             ./manage.py lintmigrations --exclude-apps axes sites
 
       - run:
-          name: Code quality check
-          command: |
-            . venv/bin/activate
-            xenon --max-absolute A --max-modules A \
-              --max-average A server  -e **/adobe.py
-      - run:
           name: Run Bandit security linter
           command: |
             . venv/bin/activate
