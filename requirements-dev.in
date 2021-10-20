@@ -6,7 +6,6 @@ nplusone
 flake8-pytest
 flake8-pytest-style
 flake8-django
-xenon
 pytest
 pytest-django
 pytest-cov
