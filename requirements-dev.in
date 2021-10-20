@@ -1,5 +1,4 @@
 -r requirements.txt
--r requirements-dev.txt
 
 django-debug-toolbar
 django-querycount
