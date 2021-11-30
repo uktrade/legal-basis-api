@@ -227,6 +227,7 @@ EMAIL_TIMEOUT = 5
 AUTHBROKER_URL = env.url("AUTHBROKER_URL").geturl()
 AUTHBROKER_CLIENT_ID = env.str("AUTHBROKER_CLIENT_ID")
 AUTHBROKER_CLIENT_SECRET = env.str("AUTHBROKER_CLIENT_SECRET")
+AUTHBROKER_USE_USER_ID_GUID = True
 
 LOGIN_URL = reverse_lazy("authbroker_client:login")
 LOGIN_REDIRECT_URL = reverse_lazy("admin:index")
