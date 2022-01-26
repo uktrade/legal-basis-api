@@ -77,7 +77,7 @@ cryptography==3.4.6
     # via -r requirements.txt
 decorator==5.1.0
     # via ipython
-django==2.2.24
+django==2.2.26
     # via
     #   -r requirements.txt
     #   django-allow-cidr
@@ -410,8 +410,6 @@ ruamel.yaml==0.17.16
     # via
     #   -r requirements.txt
     #   drf-yasg
-ruamel.yaml.clib==0.2.6
-    # via -r requirements.txt
 safety==1.9.0
     # via -r requirements-dev.in
 sentry-sdk==0.13.5
