@@ -28,7 +28,7 @@ coreschema==0.0.4
     #   drf-yasg
 cryptography==3.4.6
     # via -r requirements.in
-django==2.2.27
+django==2.2.28
     # via
     #   -r requirements.in
     #   django-allow-cidr
