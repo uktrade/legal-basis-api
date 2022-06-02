@@ -211,7 +211,7 @@ urllib3==1.26.7
     #   elasticsearch
     #   requests
     #   sentry-sdk
-waitress==2.1.1
+waitress==2.1.2
     # via -r requirements.in
 whitenoise==5.3.0
     # via -r requirements.in
