@@ -3,5 +3,4 @@ omit =
     *migrations*
     *manage.py
     *apps.py
-    **adobe.py
     **.venv/**
