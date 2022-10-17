@@ -173,7 +173,7 @@ docutils==0.17.1
     #   sphinx
 dotenv-linter==0.1.5
     # via -r requirements-dev.in
-dparse==0.5.1
+dparse==0.5.2
     # via safety
 drf-yasg==1.20.0
     # via -r requirements.txt
@@ -378,7 +378,6 @@ pytz==2021.3
 pyyaml==5.4
     # via
     #   bandit
-    #   dparse
     #   yamllint
 redis==3.5.3
     # via
