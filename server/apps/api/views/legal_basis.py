@@ -19,7 +19,7 @@ from server.apps.main.models import LegalBasis
 
 class ProtocolLessLimitOffsetPagination(LimitOffsetPagination):
 
-    def corrected_protocol_url(self):
+    def corrected_protocol_url(self) -> str:
         url = self.request.build_absolute_uri()
         if not self.request.is_allow_secure_middleware_active:
             return url.replace('https://', 'http://')
@@ -85,7 +85,7 @@ class LegalBasisViewSet(viewsets.ModelViewSet):
         request_body=ListOfEmailsSerializer,
         responses={status.HTTP_200_OK: LegalBasisSerializer(many=True)},
     )
-    @action(detail=False, methods=["GET"])
+    @action(detail=False, methods=["GET"])  # type: ignore
     def bulk_lookup(self, request) -> Response:
         body = ListOfEmailsSerializer(data={'emails': request.GET.getlist("email")})
         if body.is_valid():
@@ -105,7 +105,7 @@ class LegalBasisViewSet(viewsets.ModelViewSet):
         method="get",
         responses={status.HTTP_200_OK: LegalBasisDataWorkspaceSerializer(many=True)},
     )
-    @action(detail=False, methods=["GET"])
+    @action(detail=False, methods=["GET"])  # type: ignore
     def datahub_export(self, request) -> Response:
         serialized = LegalBasisDataWorkspaceSerializer(
             instance=self.paginate_queryset(self.queryset), many=True

@@ -34,3 +34,6 @@ bandit
 mixer
 Werkzeug
 requests-mock
+types-requests
+types-python-dateutil
+drf-yasg-stubs

@@ -1,12 +1,10 @@
 import hashlib
 
+import django.db.models as models
+import django.utils.timezone
 from django.contrib.postgres.fields import CIEmailField
-from django.contrib.postgres.fields.jsonb import JSONField
 from django.core.exceptions import ValidationError
-from django.db import models
-from django.db.models import Max, Q
-from django.db.models.fields import TextField
-from django.utils import timezone
+from django.db.models import JSONField, Max, Q, TextField
 from extended_choices import AutoChoices
 from phonenumber_field.modelfields import PhoneNumberField
 from typing_extensions import final
@@ -51,7 +49,7 @@ class LegalBasis(models.Model):
     commit = models.ForeignKey(Commit, on_delete=models.PROTECT)
 
     created_at = models.DateTimeField(auto_now_add=True)
-    modified_at = models.DateTimeField(default=timezone.now)
+    modified_at = models.DateTimeField(default=django.utils.timezone.now)
     current = models.BooleanField(default=False, db_index=True)
 
     def save(
@@ -72,7 +70,7 @@ class LegalBasis(models.Model):
             .aggregate(Max("modified_at"))["modified_at__max"]
         )
         if not self.modified_at:
-            self.modified_at = timezone.now()
+            self.modified_at = django.utils.timezone.now()
         if last_modified is None or self.modified_at > last_modified:
             self.current = True
             LegalBasis.objects.filter(key=self.key).exclude(id=self.id).update(

@@ -26,7 +26,7 @@ class LegalBasisSerializer(serializers.ModelSerializer):
 
 
 class LegalBasisDataWorkspaceSerializer(serializers.ModelSerializer):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         """
         Create {consent_type}_consent field for each Consent type.
 

@@ -28,8 +28,7 @@ workflows:
 jobs:
   build-and-test:
     docker:
-      # python:3.7.6
-      - image: circleci/python@sha256:c10b2426add407d1acc7a3491c95b83ec1308920146e7e8061468959a521d98c
+      - image: cimg/python:3.9.14
         environment:
           <<: *environment
 
