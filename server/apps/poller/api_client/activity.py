@@ -7,7 +7,7 @@ from elasticsearch_dsl import Search
 from elasticsearch_dsl.response import Hit, Response
 
 
-@dataclass  # type: ignore
+@dataclass
 class ActivityStreamClient(ABC):
 
     name: ClassVar[str]
