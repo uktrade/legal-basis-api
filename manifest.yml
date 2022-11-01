@@ -1,7 +1,7 @@
 ---
 applications:
   - buildpacks:
-      - https://github.com/cloudfoundry/python-buildpack.git#v1.7.5
+      - python_buildpack
     stack: cflinuxfs3
     health-check-type: http
     health-check-http-endpoint: /health
