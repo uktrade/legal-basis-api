@@ -76,7 +76,7 @@ coreschema==0.0.4
     #   -r requirements.txt
     #   coreapi
     #   drf-yasg
-coverage==5.5
+coverage==6.5.0
     # via
     #   pytest-cov
     #   pytest-testmon
@@ -203,6 +203,8 @@ elasticsearch==7.15.0
     #   elasticsearch-dsl
 elasticsearch-dsl==7.3.0
     # via -r requirements.txt
+exceptiongroup==1.0.1
+    # via pytest
 faker==0.9.1
     # via mixer
 flake8==3.9.2
@@ -334,9 +336,7 @@ psycopg2-binary==2.8.6
 ptyprocess==0.7.0
     # via pexpect
 py==1.10.0
-    # via
-    #   -r requirements.txt
-    #   pytest
+    # via -r requirements.txt
 pycodestyle==2.7.0
     # via
     #   autopep8
@@ -360,7 +360,7 @@ pyparsing==2.4.7
     # via
     #   -r requirements.txt
     #   packaging
-pytest==6.2.5
+pytest==7.2.0
     # via
     #   -r requirements-dev.in
     #   pytest-cov
@@ -377,7 +377,7 @@ pytest-django==3.10.0
     # via -r requirements-dev.in
 pytest-randomly==3.4.1
     # via -r requirements-dev.in
-pytest-testmon==1.0.3
+pytest-testmon==1.4.1
     # via -r requirements-dev.in
 pytest-timeout==1.4.2
     # via -r requirements-dev.in
@@ -501,12 +501,12 @@ toml==0.10.2
     #   autopep8
     #   black
     #   dparse
-    #   pytest
 tomli==2.0.1
     # via
     #   django-stubs
     #   mypy
     #   pylint
+    #   pytest
 tomlkit==0.11.6
     # via pylint
 tqdm==4.62.3

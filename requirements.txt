@@ -146,8 +146,6 @@ phonenumberslite==8.12.11
     # via -r requirements.in
 psycopg2-binary==2.8.6
     # via -r requirements.in
-py==1.10.0
-    # via -r requirements.in
 pycparser==2.20
     # via cffi
 pyjwt==2.4.0
