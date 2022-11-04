@@ -335,8 +335,6 @@ psycopg2-binary==2.8.6
     # via -r requirements.txt
 ptyprocess==0.7.0
     # via pexpect
-py==1.10.0
-    # via -r requirements.txt
 pycodestyle==2.7.0
     # via
     #   autopep8
