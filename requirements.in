@@ -38,7 +38,6 @@ tablib
 str2bool
 PyJWT
 cryptography
-py
 ecs-logging
 django-jsonfield-backport
 structlog
