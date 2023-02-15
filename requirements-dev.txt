@@ -78,7 +78,7 @@ coverage==6.5.0
     # via
     #   pytest-cov
     #   pytest-testmon
-cryptography==3.4.6
+cryptography==39.0.1
     # via -r requirements.txt
 decorator==5.1.0
     # via ipython

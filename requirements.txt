@@ -28,7 +28,7 @@ coreschema==0.0.4
     # via
     #   coreapi
     #   drf-yasg
-cryptography==3.4.6
+cryptography==39.0.1
     # via -r requirements.in
 django==3.2.17
     # via
