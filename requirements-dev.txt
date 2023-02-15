@@ -288,7 +288,7 @@ netaddr==0.8.0
     #   django-allow-cidr
 nplusone==1.0.0
     # via -r requirements-dev.in
-oauthlib==3.2.1
+oauthlib==3.2.2
     # via
     #   -r requirements.txt
     #   django-admin-oauth2

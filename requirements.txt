@@ -134,7 +134,7 @@ mohawk==1.1.0
     #   requests-hawk
 netaddr==0.8.0
     # via django-allow-cidr
-oauthlib==3.2.1
+oauthlib==3.2.2
     # via
     #   django-admin-oauth2
     #   requests-oauthlib
