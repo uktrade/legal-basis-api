@@ -30,7 +30,7 @@ coreschema==0.0.4
     #   drf-yasg
 cryptography==39.0.1
     # via -r requirements.in
-django==3.2.17
+django==3.2.18
     # via
     #   -r requirements.in
     #   django-allow-cidr
@@ -175,8 +175,6 @@ requests-oauthlib==1.3.0
     #   django-staff-sso-client
 ruamel-yaml==0.17.16
     # via drf-yasg
-ruamel-yaml-clib==0.2.7
-    # via ruamel-yaml
 sentry-sdk==1.10.1
     # via -r requirements.in
 six==1.16.0
