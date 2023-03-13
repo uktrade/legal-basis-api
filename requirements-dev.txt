@@ -10,6 +10,8 @@ appdirs==1.4.3
     # via
     #   black
     #   django-migration-linter
+appnope==0.1.3
+    # via ipython
 asgiref==3.5.2
     # via
     #   -r requirements.txt
@@ -203,6 +205,8 @@ elasticsearch==7.15.0
     #   elasticsearch-dsl
 elasticsearch-dsl==7.3.0
     # via -r requirements.txt
+exceptiongroup==1.1.1
+    # via pytest
 executing==1.2.0
     # via stack-data
 faker==0.9.1
@@ -263,10 +267,11 @@ jinja2==3.0.2
     #   sphinx
 lazy-object-proxy==1.6.0
     # via astroid
-markupsafe==2.0.1
+markupsafe==2.1.2
     # via
     #   -r requirements.txt
     #   jinja2
+    #   werkzeug
 matplotlib-inline==0.1.3
     # via ipython
 mccabe==0.6.1
@@ -427,6 +432,10 @@ ruamel-yaml==0.17.16
     # via
     #   -r requirements.txt
     #   drf-yasg
+ruamel-yaml-clib==0.2.7
+    # via
+    #   -r requirements.txt
+    #   ruamel-yaml
 safety==1.9.0
     # via -r requirements-dev.in
 sentry-sdk==1.10.1
@@ -501,7 +510,11 @@ toml==0.10.2
     #   black
     #   dparse
 tomli==2.0.1
-    # via django-stubs
+    # via
+    #   django-stubs
+    #   mypy
+    #   pylint
+    #   pytest
 tomlkit==0.11.6
     # via pylint
 tqdm==4.62.3
@@ -527,10 +540,12 @@ types-urllib3==1.26.25.1
 typing-extensions==4.4.0
     # via
     #   -r requirements.txt
+    #   astroid
     #   django-stubs
     #   django-stubs-ext
     #   dotenv-linter
     #   mypy
+    #   pylint
 uritemplate==4.0.0
     # via
     #   -r requirements.txt
@@ -547,7 +562,7 @@ waitress==2.1.2
     # via -r requirements.txt
 wcwidth==0.2.5
     # via prompt-toolkit
-werkzeug==1.0.1
+werkzeug==2.2.3
     # via -r requirements-dev.in
 whitenoise==5.3.0
     # via -r requirements.txt
