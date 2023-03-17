@@ -40,7 +40,7 @@ class TestFormsAPICommand:
             hit.object = {
                 'dit:directoryFormsApi:Submission:Data': AttrDict({
                     'email_address': 'foo@bar.com',
-                    'contact_consent': True,
+                    'contact_consent': ['consents_to_email_contact'],
                 })
             }
             hit.to_dict.return_value = {
