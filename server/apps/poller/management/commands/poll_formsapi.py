@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from pprint import pformat
 from time import sleep
 
@@ -84,7 +84,12 @@ class Command(BaseCommand):
         commit.source = meta["url"]
         commit.save()
 
-        self._update_email_consent(commit, email_address, email_contact_consent)
+        self._update_email_consent(
+            commit,
+            email_address,
+            email_contact_consent,
+            datetime.fromisoformat(meta["published"]).replace(tzinfo=timezone.utc),
+        )
 
         self._update_phone_consent(
             commit, phone_consent, phone_number, phone_number_country
@@ -124,11 +129,14 @@ class Command(BaseCommand):
         action.send(**action_kwargs)
 
     def _update_email_consent(
-        self, commit, email_address, email_contact_consent
+        self, commit, email_address, email_contact_consent, hit_modified_at
     ) -> None:
         if email_address:
             obj: LegalBasis = LegalBasis(
-                email=email_address, commit=commit, key_type=KEY_TYPE.EMAIL
+                email=email_address,
+                commit=commit,
+                key_type=KEY_TYPE.EMAIL,
+                modified_at=hit_modified_at,
             )
             obj.save()
             if email_contact_consent:
