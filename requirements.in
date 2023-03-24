@@ -19,7 +19,7 @@ sentry-sdk
 django-staff-sso-client
 django-admin-oauth2
 django-environ
-elasticsearch-dsl
+opensearch-dsl
 requests-hawk
 furl
 django-tqdm

@@ -2,16 +2,16 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from typing import ClassVar, Optional, Tuple
 
-from elasticsearch import Elasticsearch
-from elasticsearch_dsl import Search
-from elasticsearch_dsl.response import Hit, Response
+from opensearchpy import OpenSearch
+from opensearch_dsl import Search
+from opensearch_dsl.response import Hit, Response
 
 
 @dataclass
 class ActivityStreamClient(ABC):
 
     name: ClassVar[str]
-    es_client: Elasticsearch
+    es_client: OpenSearch
 
     @abstractmethod
     def should_process(self, hit: Hit):

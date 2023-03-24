@@ -9,8 +9,8 @@ from django.db import transaction
 from django.db.models import Model
 from django.utils.functional import cached_property
 from django_tqdm import BaseCommand
-from elasticsearch import Elasticsearch, RequestsHttpConnection
-from elasticsearch_dsl.response import Hit
+from opensearchpy import OpenSearch, RequestsHttpConnection
+from opensearch_dsl.response import Hit
 from phonenumber_field.phonenumber import PhoneNumber
 from phonenumbers import NumberParseException
 from requests_hawk import HawkAuth
@@ -52,7 +52,7 @@ class Command(BaseCommand):
         return phone_consent
 
     def get_client(self) -> FormsApi:
-        es_client = Elasticsearch(
+        es_client = OpenSearch(
             http_auth=HawkAuth(
                 id=settings.ACTIVITY_STREAM_ID, key=settings.ACTIVITY_STREAM_KEY
             ),
