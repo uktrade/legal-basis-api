@@ -108,7 +108,7 @@ class Command(BaseCommand):
                 pass
 
             obj = LegalBasis(
-                phone=phone_number, commit=commit, key_type=KEY_TYPE.PHONE,
+                phone=phone_number[:128], commit=commit, key_type=KEY_TYPE.PHONE,
             )
             obj.save()
             if phone_consent:
