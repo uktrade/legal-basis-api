@@ -81,7 +81,7 @@ class Command(BaseCommand):
         phone_consent = object_data.get("telephone_contact_consent")
 
         commit = Commit(extra=meta)
-        commit.source = meta["url"]
+        commit.source = meta["url"] or ''  # Not all forms API submissions have an URL
         commit.save()
 
         self._update_email_consent(
