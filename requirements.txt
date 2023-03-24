@@ -13,7 +13,7 @@ bcrypt==3.2.0
 certifi==2022.12.7
     # via
     #   elastic-apm
-    #   elasticsearch
+    #   opensearch-py
     #   requests
     #   sentry-sdk
 cffi==1.14.6
@@ -109,10 +109,6 @@ ecs-logging==1.0.1
     # via -r requirements.in
 elastic-apm==6.13.0
     # via -r requirements.in
-elasticsearch==7.15.0
-    # via elasticsearch-dsl
-elasticsearch-dsl==7.3.0
-    # via -r requirements.in
 furl==2.1.0
     # via -r requirements.in
 hawkrest==1.0.1
@@ -138,6 +134,10 @@ oauthlib==3.2.2
     # via
     #   django-admin-oauth2
     #   requests-oauthlib
+opensearch-dsl==2.1.0
+    # via -r requirements.in
+opensearch-py==2.2.0
+    # via opensearch-dsl
 orderedmultidict==1.0.1
     # via furl
 packaging==21.0
@@ -153,7 +153,9 @@ pyjwt==2.4.0
 pyparsing==2.4.7
     # via packaging
 python-dateutil==2.8.2
-    # via elasticsearch-dsl
+    # via
+    #   opensearch-dsl
+    #   opensearch-py
 pytz==2021.3
     # via
     #   babel
@@ -165,6 +167,7 @@ redis==3.5.3
 requests==2.26.0
     # via
     #   coreapi
+    #   opensearch-py
     #   requests-hawk
     #   requests-oauthlib
 requests-hawk==1.0.1
@@ -185,9 +188,10 @@ six==1.16.0
     #   django-extended-choices
     #   django-extensions
     #   django-jsonfield
-    #   elasticsearch-dsl
     #   furl
     #   mohawk
+    #   opensearch-dsl
+    #   opensearch-py
     #   orderedmultidict
     #   python-dateutil
     #   structlog
@@ -212,7 +216,7 @@ uritemplate==4.0.0
 urllib3==1.26.12
     # via
     #   elastic-apm
-    #   elasticsearch
+    #   opensearch-py
     #   requests
     #   sentry-sdk
 waitress==2.1.2

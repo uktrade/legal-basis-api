@@ -47,7 +47,7 @@ certifi==2022.12.7
     # via
     #   -r requirements.txt
     #   elastic-apm
-    #   elasticsearch
+    #   opensearch-py
     #   requests
     #   sentry-sdk
 cffi==1.14.6
@@ -199,12 +199,6 @@ ecs-logging==1.0.1
     # via -r requirements.txt
 elastic-apm==6.13.0
     # via -r requirements.txt
-elasticsearch==7.15.0
-    # via
-    #   -r requirements.txt
-    #   elasticsearch-dsl
-elasticsearch-dsl==7.3.0
-    # via -r requirements.txt
 exceptiongroup==1.1.1
     # via pytest
 executing==1.2.0
@@ -302,6 +296,12 @@ oauthlib==3.2.2
     #   -r requirements.txt
     #   django-admin-oauth2
     #   requests-oauthlib
+opensearch-dsl==2.1.0
+    # via -r requirements.txt
+opensearch-py==2.2.0
+    # via
+    #   -r requirements.txt
+    #   opensearch-dsl
 orderedmultidict==1.0.1
     # via
     #   -r requirements.txt
@@ -389,8 +389,9 @@ pytest-timeout==1.4.2
 python-dateutil==2.8.2
     # via
     #   -r requirements.txt
-    #   elasticsearch-dsl
     #   faker
+    #   opensearch-dsl
+    #   opensearch-py
 pytz==2021.3
     # via
     #   -r requirements.txt
@@ -412,6 +413,7 @@ requests==2.26.0
     # via
     #   -r requirements.txt
     #   coreapi
+    #   opensearch-py
     #   requests-hawk
     #   requests-mock
     #   requests-oauthlib
@@ -450,11 +452,12 @@ six==1.16.0
     #   django-extensions
     #   django-jsonfield
     #   doc8
-    #   elasticsearch-dsl
     #   faker
     #   furl
     #   mohawk
     #   nplusone
+    #   opensearch-dsl
+    #   opensearch-py
     #   orderedmultidict
     #   python-dateutil
     #   requests-mock
@@ -555,7 +558,7 @@ urllib3==1.26.12
     # via
     #   -r requirements.txt
     #   elastic-apm
-    #   elasticsearch
+    #   opensearch-py
     #   requests
     #   sentry-sdk
 waitress==2.1.2
