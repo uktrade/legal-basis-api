@@ -84,3 +84,20 @@ class TestFormsAPICommand:
         assert all_current_basis[0].email == 'foo@bar.com'
         assert len(all_current_basis[0].consents.all()) == 1
         assert all_current_basis[0].consents.all()[0].name == 'email_marketing'
+
+    def test_poll_formsapi_rerun(self):
+        with mock_activity_stream(published='2011-02-13 11:18:05'):
+            call_command("poll_formsapi")
+        assert len(LegalBasis.objects.all()) == 2
+        all_current_basis = list(LegalBasis.objects.filter(current=True))
+        assert len(all_current_basis) == 1
+        expected_value = datetime.datetime(2011, 2, 13, 11, 18, 5, tzinfo=datetime.timezone.utc)
+        assert all_current_basis[0].modified_at == expected_value
+
+        with mock_activity_stream(published='2010-02-13 11:18:05'):
+            call_command("poll_formsapi_rerun")
+        assert len(LegalBasis.objects.all()) == 2
+        all_current_basis = list(LegalBasis.objects.filter(current=True))
+        assert len(all_current_basis) == 1
+        expected_value = datetime.datetime(2010, 2, 13, 11, 18, 5, tzinfo=datetime.timezone.utc)
+        assert all_current_basis[0].modified_at == expected_value
