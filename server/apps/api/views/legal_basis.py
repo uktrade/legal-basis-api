@@ -57,7 +57,7 @@ class LegalBasisViewSet(viewsets.ModelViewSet):
     and returns their consent status.
     """
 
-    queryset = LegalBasis.objects.prefetch_related("consents").filter(current=True)
+    queryset = LegalBasis.objects.prefetch_related("consents").filter(current=True).order_by('id')
     serializer_class = LegalBasisSerializer
     create_serializer_class = CreateLegalBasisSerializer
     filter_backends = [DjangoFilterBackend]
