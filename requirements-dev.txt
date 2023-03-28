@@ -399,7 +399,7 @@ pyyaml==5.4
     # via
     #   bandit
     #   yamllint
-redis==3.5.3
+redis==4.5.3
     # via
     #   -r requirements.txt
     #   django-redis
