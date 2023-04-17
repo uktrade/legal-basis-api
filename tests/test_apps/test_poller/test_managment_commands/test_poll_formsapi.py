@@ -70,7 +70,7 @@ class TestFormsAPICommand:
 
     pytestmark = pytest.mark.django_db
 
-    def test_consent_added_from_contact_consent_field(self):
+    def test_consent_added_from_contact_consent_field(self, directory_forms_user):
         all_basis = list(LegalBasis.objects.all())
         assert len(all_basis) == 0
 
@@ -85,7 +85,7 @@ class TestFormsAPICommand:
         assert len(all_current_basis[0].consents.all()) == 1
         assert all_current_basis[0].consents.all()[0].name == 'email_marketing'
 
-    def test_poll_formsapi_rerun(self):
+    def test_poll_formsapi_rerun(self, directory_forms_user):
         with mock_activity_stream(published='2011-02-13 11:18:05'):
             call_command("poll_formsapi")
         assert len(LegalBasis.objects.all()) == 2
