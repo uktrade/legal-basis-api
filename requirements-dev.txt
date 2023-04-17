@@ -18,6 +18,10 @@ astroid==2.12.12
     # via pylint
 asttokens==2.2.1
     # via stack-data
+async-timeout==4.0.2
+    # via
+    #   -r requirements.txt
+    #   redis
 attrs==21.2.0
     # via
     #   black
@@ -399,7 +403,7 @@ pyyaml==5.4
     # via
     #   bandit
     #   yamllint
-redis==3.5.3
+redis==4.4.4
     # via
     #   -r requirements.txt
     #   django-redis
