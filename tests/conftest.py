@@ -88,3 +88,8 @@ def write_only_client(client, django_user_model):
     user.groups.add(group)
     client.login(username=user.username, password="password")
     return client
+
+
+@pytest.fixture()
+def directory_forms_user(django_user_model):
+    return django_user_model.objects.get_or_create(username="directoryforms")
