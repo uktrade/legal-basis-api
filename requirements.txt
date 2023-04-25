@@ -195,7 +195,7 @@ six==1.16.0
     #   orderedmultidict
     #   python-dateutil
     #   structlog
-sqlparse==0.4.2
+sqlparse==0.4.4
     # via django
 str2bool==1.1
     # via -r requirements.in
