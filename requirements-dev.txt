@@ -409,7 +409,7 @@ redis==4.4.4
     #   django-redis
 regex==2021.10.8
     # via black
-requests==2.26.0
+requests==2.31.0
     # via
     #   -r requirements.txt
     #   coreapi
