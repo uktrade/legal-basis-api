@@ -17,6 +17,10 @@ environment: &environment
   ACTIVITY_STREAM_KEY: fake_key
   REDIS_URL: redis://localhost/
   ELASTIC_APM_DISABLE_SEND: true
+  DYNAMICS_INSTANCE_URI: https://localhost
+  DYNAMICS_TENANT_ID: xxx
+  DYNAMICS_APPLICATION_ID: xxx
+  DYNAMICS_CLIENT_SECRET: xxx
 
 workflows:
   version: 2

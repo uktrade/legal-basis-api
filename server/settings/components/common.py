@@ -285,17 +285,20 @@ CONSENT_TYPES = ("email_marketing", "phone_marketing")
 
 # Adobe Campaigns
 
-ADOBE_PRIVATE_KEY = env.str('ADOBE_PRIVATE_KEY', '').replace('~~', """
-""")
-ADOBE_API_KEY = env.str('ADOBE_API_KEY', '')
-ADOBE_API_ID = env.str('ADOBE_API_ID', '')
-ADOBE_API_SECRET = env.str('ADOBE_API_SECRET', '')
-ADOBE_TENANT_ID = env.str('ADOBE_TENANT_ID', '')
-ADOBE_ORGANISATION_ID = env.str('ADOBE_ORGANISATION_ID', '')
-ADOBE_TECHNICAL_ACCOUNT_ID = env.str('ADOBE_TECHNICAL_ACCOUNT_ID', '')
-ADOBE_CAMPAIGN_BASE_URL = env.str('ADOBE_CAMPAIGN_BASE_URL', 'adobe_campaign')
-ADOBE_STAGING_WORKFLOW = env.str('ADOBE_UNSUB_WORKFLOW', 'WKF29')
-ADOBE_POLLER = env.str('ADOBE_POLLER', 'False') == 'True'
+ADOBE_PRIVATE_KEY = env.str("ADOBE_PRIVATE_KEY", "").replace(
+    "~~",
+    """
+""",
+)
+ADOBE_API_KEY = env.str("ADOBE_API_KEY", "")
+ADOBE_API_ID = env.str("ADOBE_API_ID", "")
+ADOBE_API_SECRET = env.str("ADOBE_API_SECRET", "")
+ADOBE_TENANT_ID = env.str("ADOBE_TENANT_ID", "")
+ADOBE_ORGANISATION_ID = env.str("ADOBE_ORGANISATION_ID", "")
+ADOBE_TECHNICAL_ACCOUNT_ID = env.str("ADOBE_TECHNICAL_ACCOUNT_ID", "")
+ADOBE_CAMPAIGN_BASE_URL = env.str("ADOBE_CAMPAIGN_BASE_URL", "adobe_campaign")
+ADOBE_STAGING_WORKFLOW = env.str("ADOBE_UNSUB_WORKFLOW", "WKF29")
+ADOBE_POLLER = env.str("ADOBE_POLLER", "False") == "True"
 
 
 # Monkey patch django-structlog to ensure the request user is not None before binding
@@ -308,3 +311,8 @@ def bind_user_id(_, request):
 
 
 RequestMiddleware.bind_user_id = bind_user_id
+
+DYNAMICS_INSTANCE_URI = env("DYNAMICS_INSTANCE_URI", cast=furl)
+DYNAMICS_TENANT_ID = env.str("DYNAMICS_TENANT_ID")
+DYNAMICS_APPLICATION_ID = env.str("DYNAMICS_APPLICATION_ID")
+DYNAMICS_CLIENT_SECRET = env.str("DYNAMICS_CLIENT_SECRET")

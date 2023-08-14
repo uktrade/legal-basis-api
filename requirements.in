@@ -43,3 +43,5 @@ django-jsonfield-backport
 structlog
 django-extensions
 mohawk
+msal
+typed-ast==1.5.5
