@@ -352,7 +352,7 @@ pycparser==2.20
     #   cffi
 pyflakes==2.3.1
     # via flake8
-pygments==2.10.0
+pygments==2.15.0
     # via
     #   doc8
     #   ipython
