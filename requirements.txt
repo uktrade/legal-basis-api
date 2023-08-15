@@ -31,7 +31,10 @@ coreschema==0.0.4
     #   coreapi
     #   drf-yasg
 cryptography==41.0.2
-    # via -r requirements.in
+    # via
+    #   -r requirements.in
+    #   msal
+    #   pyjwt
 django==3.2.20
     # via
     #   -r requirements.in

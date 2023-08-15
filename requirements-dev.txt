@@ -410,7 +410,7 @@ pytz==2021.3
     #   django
     #   djangorestframework
     #   drf-yasg
-pyyaml==5.4
+pyyaml==6.0.1
     # via
     #   bandit
     #   yamllint
