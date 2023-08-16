@@ -45,7 +45,7 @@ class Command(BaseCommand):
 
     @transaction.atomic()
     def update_consent(self, email_address, meta=None) -> None:
-        self.write("Updating consent")
+        self.write(f"Updating consent for {self._masked_email(email_address)}")
         if meta is None:
             meta = {}
         commit = Commit(extra=meta)
@@ -53,6 +53,22 @@ class Command(BaseCommand):
         commit.save()
 
         self._update_email_consent(commit, email_address, False)
+
+    @transaction.atomic()
+    def create_consent(self, email_address, meta=None) -> None:
+        self.write(f"Creating consent for {self._masked_email(email_address)}")
+        if meta is None:
+            meta = {}
+        commit = Commit(extra=meta)
+        commit.source = meta.get("url", settings.DYNAMICS_INSTANCE_URI)
+        commit.save()
+
+        self._update_email_consent(commit, email_address, True)
+
+    @staticmethod
+    def _masked_email(full_email: str) -> str:
+        email_parts = full_email.split("@")
+        return f"{email_parts[0][:2]}...@...{email_parts[1][-4:]}"
 
     def _send_action(self, instance: Model) -> None:
         dynamics_user, _ = get_user_model().objects.get_or_create(username="dynamics")
@@ -91,20 +107,46 @@ class Command(BaseCommand):
 
         return False
 
-    def run(self, *args, **options) -> None:
+    def _should_create(self, email_address) -> bool:
+        return not queryset.filter(
+            key_type=KEY_TYPE.EMAIL, email=email_address
+        ).exists()
+
+    def _sync_unsubs(self) -> None:
+        self.write("Syncing unsubscribed users")
         client = DynamicsClient()
         record_count = update_count = 0
         for contact in client.get_unsubscribed_contacts():
             record_count += 1
             email_address = contact["emailaddress1"]
-            email_parts = email_address.split("@")
             self.write(
-                f"Got email address {email_parts[0][:2]}...@...{email_parts[1][-4:]}"
+                f"Got unsubbed email address {self._masked_email(email_address)}"
             )
             if self._should_update(email_address):
                 self.update_consent(email_address)
                 update_count += 1
         self.write(f"Updated {update_count} records out of {record_count} in total")
+
+    def _sync_unmanaged_users(self) -> None:
+        self.write("Syncing unmanaged users")
+        client = DynamicsClient()
+        record_count = created_count = 0
+        for contact in client.get_unmanaged_contacts(created_since_days=7):
+            record_count += 1
+            email_address = contact["emailaddress1"]
+            self.write(
+                f"Got unmanaged email address {self._masked_email(email_address)}"
+            )
+            # If this email address doesn't exist, create an opted in record for it
+            if self._should_create(email_address):
+                self.create_consent(email_address)
+                created_count += 1
+
+        self.write(f"Created {created_count} records out of {record_count} in total")
+
+    def run(self, *args, **options) -> None:
+        self._sync_unsubs()
+        self._sync_unmanaged_users()
 
     def handle(self, *args, **options):
         run_forever = options.pop("forever")

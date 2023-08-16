@@ -57,3 +57,23 @@ class TestDynamicsCommand:
         out = io.StringIO()
         command = poll_dynamics.Command(stdout=out)
         assert command._should_update("foo@bar.com")
+
+    def test_should_create_exists(self):
+        Consent.objects.all().delete()
+        out = io.StringIO()
+        command = poll_dynamics.Command(stdout=out)
+        c = mixer.blend(Consent, name="email_marketing")
+        mixer.blend(
+            LegalBasis,
+            key=None,
+            phone="",
+            key_type="email",
+            email="test@example.com",
+            consents=c,
+        )
+        assert not command._should_create("test@example.com")
+
+    def test_should_create_doesnt_exist(self):
+        out = io.StringIO()
+        command = poll_dynamics.Command(stdout=out)
+        assert command._should_update("test@example.co")

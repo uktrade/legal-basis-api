@@ -48,3 +48,33 @@ class TestDynamicsClient:
             with pytest.raises(HTTPError):
                 list(self.client.get_unsubscribed_contacts())
         assert contacts_mock.call_count == self.client.max_retry_attempts
+
+    @mock.patch.object(DynamicsClient, "_get_access_token", return_value="X")
+    def test_get_unmanaged_contacts(self, _):
+        mock_data = {
+            "value": [
+                {
+                    "contact_id": 3,
+                    "emailaddress1": "test3@digital.trade.gov.uk",
+                },
+                {
+                    "contact_id": 4,
+                    "emailaddress1": "test4@digital.trade.gov.uk",
+                },
+            ]
+        }
+        with requests_mock.Mocker() as rmock:
+            contacts_mock = rmock.get(
+                (
+                    f"{self.client.contacts_url}?$filter="
+                    "donotbulkemail eq false "
+                    "and externaluseridentifier eq null "
+                    "and Microsoft.Dynamics.CRM.LastXDays(PropertyName='createdon',PropertyValue=1)"
+                ),
+                json=mock_data,
+            )
+            records = list(self.client.get_unmanaged_contacts(created_since_days=1))
+        assert contacts_mock.called
+        assert len(records) == 2
+        assert records[0]["emailaddress1"] == mock_data["value"][0]["emailaddress1"]
+        assert records[1]["emailaddress1"] == mock_data["value"][1]["emailaddress1"]

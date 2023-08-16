@@ -74,3 +74,34 @@ class DynamicsClient:
             for record in response["value"]:
                 yield record
             next_link = response.get("@odata.nextLink")
+
+    def get_unmanaged_contacts(
+        self, created_since_days: Optional[int] = None
+    ) -> Generator:
+        """
+        An unmanaged contact is one that was manually uploaded to dynamics
+        rather than synced via data-flow. We want to keep track of these
+        contacts for future reference.
+        """
+        filters = [
+            # Contact has opted in (donotbulkemail == False)
+            "donotbulkemail eq false",
+            # Contact is unmanaged by data-flow (externaluseridentifier == None)
+            "externaluseridentifier eq null",
+        ]
+        if created_since_days is not None:
+            # Contact was created in the last X days
+            filters.append(
+                f"Microsoft.Dynamics.CRM.LastXDays(PropertyName='createdon',PropertyValue={created_since_days})"
+            )
+        next_link: Optional[
+            str
+        ] = f"{self.contacts_url}?$filter={' and '.join(filters)}"
+        while next_link is not None:
+            logger.info("Fetching from %s", next_link)
+            response = self._make_request(next_link, "GET")
+            for record in response["value"]:
+                if record["emailaddress1"] is None:
+                    continue
+                yield record
+            next_link = response.get("@odata.nextLink")
