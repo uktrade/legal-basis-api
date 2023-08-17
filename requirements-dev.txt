@@ -10,8 +10,6 @@ appdirs==1.4.3
     # via
     #   black
     #   django-migration-linter
-appnope==0.1.3
-    # via ipython
 asgiref==3.5.2
     # via
     #   -r requirements.txt
@@ -47,7 +45,7 @@ black==19.10b0
     # via -r requirements-dev.in
 blinker==1.4
     # via nplusone
-certifi==2023.07.22
+certifi==2023.7.22
     # via
     #   -r requirements.txt
     #   elastic-apm
@@ -231,7 +229,7 @@ furl==2.1.0
     # via -r requirements.txt
 gitdb==4.0.7
     # via gitpython
-gitpython==3.1.30
+gitpython==3.1.32
     # via bandit
 hawkrest==1.0.1
     # via -r requirements.txt
