@@ -67,13 +67,17 @@ class DynamicsClient:
         return token_response["access_token"]
 
     def get_unsubscribed_contacts(self) -> Generator:
+        logger.info("Fetching all dynamics contacts with donotbulkemail set to true")
         next_link: Optional[str] = self.contacts_url + "?$filter=donotbulkemail eq true"
+        record_count = 0
         while next_link is not None:
             logger.info("Fetching from %s", next_link)
             response = self._make_request(next_link, "GET")
             for record in response["value"]:
+                record_count += 1
                 yield record
             next_link = response.get("@odata.nextLink")
+        logger.info("Fetched %d unsubscribed contacts in total", record_count)
 
     def get_unmanaged_contacts(
         self, created_since_days: Optional[int] = None
@@ -83,6 +87,7 @@ class DynamicsClient:
         rather than synced via data-flow. We want to keep track of these
         contacts for future reference.
         """
+        logger.info("Fetching all unmanaged contacts from dynamics")
         filters = [
             # Contact has opted in (donotbulkemail == False)
             "donotbulkemail eq false",
@@ -97,11 +102,14 @@ class DynamicsClient:
         next_link: Optional[
             str
         ] = f"{self.contacts_url}?$filter={' and '.join(filters)}"
+        record_count = 0
         while next_link is not None:
             logger.info("Fetching from %s", next_link)
             response = self._make_request(next_link, "GET")
             for record in response["value"]:
                 if record["emailaddress1"] is None:
                     continue
+                record_count += 1
                 yield record
             next_link = response.get("@odata.nextLink")
+        logger.info("Fetched %d unsubscribed contacts in total", record_count)
