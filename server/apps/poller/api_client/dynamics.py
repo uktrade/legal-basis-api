@@ -112,4 +112,4 @@ class DynamicsClient:
                 record_count += 1
                 yield record
             next_link = response.get("@odata.nextLink")
-        logger.info("Fetched %d unsubscribed contacts in total", record_count)
+        logger.info("Fetched %d unmanaged contacts in total", record_count)
