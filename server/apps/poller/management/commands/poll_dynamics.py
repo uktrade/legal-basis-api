@@ -68,7 +68,9 @@ class Command(BaseCommand):
     @staticmethod
     def _masked_email(full_email: str) -> str:
         email_parts = full_email.split("@")
-        return f"{email_parts[0][:2]}...@...{email_parts[1][-4:]}"
+        if len(email_parts) > 1:
+            return f"{email_parts[0][:2]}...@...{email_parts[1][-4:]}"
+        return email_parts[0]
 
     def _send_action(self, instance: Model) -> None:
         dynamics_user, _ = get_user_model().objects.get_or_create(username="dynamics")
