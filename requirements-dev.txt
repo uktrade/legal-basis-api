@@ -204,8 +204,6 @@ ecs-logging==1.0.1
     # via -r requirements.txt
 elastic-apm==6.13.0
     # via -r requirements.txt
-exceptiongroup==1.1.2
-    # via pytest
 executing==1.2.0
     # via stack-data
 faker==0.9.1
@@ -229,7 +227,7 @@ furl==2.1.0
     # via -r requirements.txt
 gitdb==4.0.7
     # via gitpython
-gitpython==3.1.32
+gitpython==3.1.37
     # via bandit
 hawkrest==1.0.1
     # via -r requirements.txt
@@ -445,9 +443,7 @@ ruamel-yaml==0.17.16
     #   -r requirements.txt
     #   drf-yasg
 ruamel-yaml-clib==0.2.7
-    # via
-    #   -r requirements.txt
-    #   ruamel-yaml
+    # via -r requirements.txt
 safety==1.9.0
     # via -r requirements-dev.in
 sentry-sdk==1.14.0
@@ -523,11 +519,7 @@ toml==0.10.2
     #   black
     #   dparse
 tomli==2.0.1
-    # via
-    #   django-stubs
-    #   mypy
-    #   pylint
-    #   pytest
+    # via django-stubs
 tomlkit==0.11.6
     # via pylint
 tqdm==4.62.3
@@ -555,12 +547,10 @@ types-urllib3==1.26.25.1
 typing-extensions==4.4.0
     # via
     #   -r requirements.txt
-    #   astroid
     #   django-stubs
     #   django-stubs-ext
     #   dotenv-linter
     #   mypy
-    #   pylint
 uritemplate==4.0.0
     # via
     #   -r requirements.txt
