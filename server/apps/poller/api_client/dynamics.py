@@ -8,11 +8,20 @@ from msal import ConfidentialClientApplication
 
 logger = logging.getLogger(__name__)
 
+CONTACT_POINT_TYPE_ID = 534120000  # email
+CONSENT_TYPE_ID = 534120000  # purpose
+CONSENT_PURPOSE_ID = "10000000-0000-0000-0000-000000000003"  # commercial
+CONSENT_OPTED_IN = 534120001
+CONSENT_OPTED_OUT = 534120002
+
 
 class DynamicsClient:
     token: str
     max_retry_attempts: int = 10
     contacts_url: str = f"{settings.DYNAMICS_INSTANCE_URI}/api/data/v9.2/contacts"
+    consents_url: str = (
+        f"{settings.DYNAMICS_INSTANCE_URI}/api/data/v9.2/msdynmkt_contactpointconsent4s"
+    )
 
     def __init__(self) -> None:
         self.token = self._get_access_token()
@@ -113,3 +122,49 @@ class DynamicsClient:
                 yield record
             next_link = response.get("@odata.nextLink")
         logger.info("Fetched %d unmanaged contacts in total", record_count)
+
+    def get_consents(self) -> Generator:  # noqa: C901
+        logger.info("Fetching all consent records from the dynamics consent center")
+        next_link: Optional[str] = self.consents_url
+        record_count = 0
+        while next_link is not None:
+            logger.info("Fetching from %s", next_link)
+            response = self._make_request(next_link, "GET")
+            for record in response["value"]:
+                email = record["msdynmkt_contactpointvalue"]
+                contact_point_type = record["msdynmkt_contactpointtype"]
+                consent_type = record["msdynmkt_contactpointconsenttype"]
+                purpose = record["_msdynmkt_purposeid_value"]
+                consent_value = record["msdynmkt_value"]
+                opted_in = None
+                if consent_value == CONSENT_OPTED_IN:
+                    opted_in = True
+                elif consent_value == CONSENT_OPTED_OUT:
+                    opted_in = False
+
+                # Skip records that have neither opted in or out
+                if opted_in is None:
+                    logger.info("Skipping unset consent record")
+                    continue
+
+                # Skip any consents that are not type "EMAIL"
+                if contact_point_type != CONTACT_POINT_TYPE_ID:
+                    logger.info("Skipping non-email consent")
+                    continue
+
+                # Skip consent types that are not "Purpose"
+                if consent_type != CONSENT_TYPE_ID:
+                    logger.info("Skipping non-purpose consent type")
+                    continue
+
+                # Skip purposes that are not "Commercial"
+                if purpose != CONSENT_PURPOSE_ID:
+                    logger.info("Skipping non-commercial purpose")
+                    continue
+
+                logger.info(f"User: {email} has opted {'in' if opted_in else 'out'}")
+                record_count += 1
+                yield {"email": email, "consent": opted_in}
+
+            next_link = response.get("@odata.nextLink")
+        logger.info("Fetched %d consent records in total", record_count)

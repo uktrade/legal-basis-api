@@ -117,38 +117,29 @@ class Command(BaseCommand):
     def _sync_unsubs(self) -> None:
         self.write("Syncing unsubscribed users")
         client = DynamicsClient()
-        record_count = update_count = 0
-        for contact in client.get_unsubscribed_contacts():
+        record_count = update_count = create_count = 0
+        for record in client.get_consents():
             record_count += 1
-            email_address = contact["emailaddress1"]
+            email_address = record["email"]
+            consented = record["consent"]
             self.write(
-                f"Got unsubbed email address {self._masked_email(email_address)}"
+                f"Got {'un' if not consented else ''}subbed email {self._masked_email(email_address)}"
             )
-            if self._should_update(email_address):
+            # If the contact is opted in, and we don't have a record of them, create one
+            if consented and self._should_create(email_address):
+                self.create_consent(email_address)
+                create_count += 1
+            # If the contact is opted out, and we have an opt-in record for them, opt them out
+            elif not consented and self._should_update(email_address):
                 self.update_consent(email_address)
                 update_count += 1
-        self.write(f"Updated {update_count} records out of {record_count} in total")
 
-    def _sync_unmanaged_users(self) -> None:
-        self.write("Syncing unmanaged users")
-        client = DynamicsClient()
-        record_count = created_count = 0
-        for contact in client.get_unmanaged_contacts(created_since_days=7):
-            record_count += 1
-            email_address = contact["emailaddress1"]
-            self.write(
-                f"Got unmanaged email address {self._masked_email(email_address)}"
-            )
-            # If this email address doesn't exist, create an opted in record for it
-            if self._should_create(email_address):
-                self.create_consent(email_address)
-                created_count += 1
-
-        self.write(f"Created {created_count} records out of {record_count} in total")
+        self.write(
+            f"Updated {update_count} and created {create_count} records out of {record_count} in total"
+        )
 
     def run(self, *args, **options) -> None:
         self._sync_unsubs()
-        self._sync_unmanaged_users()
 
     def handle(self, *args, **options):
         run_forever = options.pop("forever")
