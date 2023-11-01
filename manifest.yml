@@ -2,6 +2,6 @@
 applications:
   - buildpacks:
       - python_buildpack
-    stack: cflinuxfs3
+    stack: cflinuxfs4
     health-check-type: http
     health-check-http-endpoint: /health
