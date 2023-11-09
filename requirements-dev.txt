@@ -93,7 +93,7 @@ decorator==5.1.0
     # via ipython
 dill==0.3.6
     # via pylint
-django==3.2.20
+django==3.2.23
     # via
     #   -r requirements.txt
     #   django-allow-cidr
