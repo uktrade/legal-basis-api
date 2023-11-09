@@ -567,7 +567,7 @@ uritemplate==4.0.0
     #   -r requirements.txt
     #   coreapi
     #   drf-yasg
-urllib3==1.26.12
+urllib3==1.26.18
     # via
     #   -r requirements.txt
     #   elastic-apm
