@@ -229,7 +229,7 @@ furl==2.1.0
     # via -r requirements.txt
 gitdb==4.0.7
     # via gitpython
-gitpython==3.1.37
+gitpython==3.1.41
     # via bandit
 hawkrest==1.0.1
     # via -r requirements.txt
