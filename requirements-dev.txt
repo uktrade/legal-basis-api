@@ -84,7 +84,7 @@ coverage==6.5.0
     # via
     #   pytest-cov
     #   pytest-testmon
-cryptography==41.0.6
+cryptography==42.0.2
     # via
     #   -r requirements.txt
     #   msal
