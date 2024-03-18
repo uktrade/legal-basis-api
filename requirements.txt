@@ -35,7 +35,7 @@ cryptography==41.0.6
     #   -r requirements.in
     #   msal
     #   pyjwt
-django==3.2.24
+django==3.2.25
     # via
     #   -r requirements.in
     #   django-allow-cidr

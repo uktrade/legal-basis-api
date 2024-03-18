@@ -93,7 +93,7 @@ decorator==5.1.0
     # via ipython
 dill==0.3.6
     # via pylint
-django==3.2.24
+django==3.2.25
     # via
     #   -r requirements.txt
     #   django-allow-cidr
@@ -368,7 +368,6 @@ pyjwt[crypto]==2.4.0
     # via
     #   -r requirements.txt
     #   msal
-    #   pyjwt
 pylint==2.15.5
     # via -r requirements-dev.in
 pyparsing==2.4.7
