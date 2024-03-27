@@ -24,6 +24,8 @@ admin.autodiscover()
 urlpatterns = [
     # Apps:
     path("api/v1/", include(api_urls, namespace="v1")),
+    # Admin Export:
+    path("admin-export/", include('server.apps.admin_export.urls')),
     # Health checks:
     path("health/", include(health_urls)),  # noqa: DJ05
     # Django Admin Oauth2
