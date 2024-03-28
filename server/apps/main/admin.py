@@ -9,11 +9,11 @@ from server.apps.main.models import Commit, Consent, LegalBasis, LegalBasisCurre
 
 class LegalBasisAdmin(admin.ModelAdmin):
 
+    change_list_template = 'admin/change_list_csv_export.html'
     search_fields = ("email", "phone")
-
     readonly_fields = ("key", "current")
-
     list_display = ("key_type", "email", "phone", "modified_at")
+    actions = ["export_as_csv"]
 
     def export_as_csv(self, request, queryset):
         consent_types = list(Consent.objects.all().values_list("name", flat=True))

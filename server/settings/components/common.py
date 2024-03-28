@@ -39,6 +39,7 @@ INSTALLED_APPS: Tuple[str, ...] = (
     "server.apps.main",
     "server.apps.api",
     "server.apps.poller",
+    "server.apps.admin_export",
     # 3rd party django apps
     "rest_framework",
     "rest_framework.authtoken",
