@@ -17,22 +17,22 @@ Full documentation is available here: [`docs/`](docs), which includes a [Postman
 
 You will need:
 
-- `python3.7`
-- `postgresql` with version `11.6`
+- `python3.10`
+- `postgresql` with version `12`
 - `docker` with [version at least](https://docs.docker.com/compose/compose-file/#compose-and-docker-compatibility-matrix) `18.02`
 
-## Running locally
-
-To start development with `docker` you will need to create a local `.env` file based on the sample provided:
+Before starting the application, you will need to create a local `.env` file based on the sample provided:
 
 ```{.sourceCode .bash}
 cp config/sample.env config/.env
 ```
 
-You will then need to ask a team member for the sso credentials and update the `AUTHBROKER_*` values in 
+Additionally, you will then need to ask a team member for the sso credentials and update the `AUTHBROKER_*` values in 
 the newly created`.env` file.
 
-Now you are ready to build and bring up the django app.
+## Development with Docker
+
+To build and start the application with Docker simply run the following commands one after the other in your terminal:
 
 ``` {.sourceCode .bash}
 docker-compose build
