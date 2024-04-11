@@ -123,7 +123,7 @@ class LegalBasisCurrentManager(models.Manager):
 @final
 class LegalBasisCurrent(LegalBasis):
 
-    objects = LegalBasisCurrentManager()
+    objs = LegalBasisCurrentManager()
 
     class Meta:
         proxy = True

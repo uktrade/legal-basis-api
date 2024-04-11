@@ -2,7 +2,6 @@ import os
 import sys
 
 import structlog
-import ecs_logging
 
 LOGLEVEL = os.environ.get("LOGLEVEL", "info").upper()
 

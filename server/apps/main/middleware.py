@@ -1,4 +1,3 @@
-import logging
 import structlog
 import re
 import uuid
