@@ -1,4 +1,5 @@
 import logging
+import structlog
 import re
 import uuid
 from typing import Callable, Dict, List, Optional
@@ -11,7 +12,7 @@ from django.http import HttpRequest, HttpResponse
 
 from server.apps.main.models import Consent, LegalBasis
 
-logger = logging.getLogger(__name__)
+logger = structlog.get_logger(__name__)
 
 
 class AuditLogMiddleware:
