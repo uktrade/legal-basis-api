@@ -5,7 +5,6 @@ from server.settings.components.common import INSTALLED_APPS
 
 INSTALLED_APPS += (
     "django_extensions",
-    "django_migration_linter",
 )
 
 SECURE_SSL_REDIRECT = False
