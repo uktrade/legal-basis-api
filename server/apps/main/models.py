@@ -2,7 +2,6 @@ import hashlib
 
 import django.db.models as models
 import django.utils.timezone
-from django.contrib.postgres.fields import CIEmailField
 from django.core.exceptions import ValidationError
 from django.db.models import JSONField, Max, Q, TextField
 from extended_choices import AutoChoices
@@ -41,7 +40,7 @@ class LegalBasis(models.Model):
     """
 
     key = models.BinaryField(null=False)
-    email = CIEmailField(db_index=True, blank=True)
+    email = models.EmailField(db_index=True, db_collation="create_case_insensitive", blank=True)
     phone = PhoneNumberField(db_index=True, blank=True)
     key_type = TextField(choices=KEY_TYPE, blank=False)
 
