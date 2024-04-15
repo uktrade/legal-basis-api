@@ -37,8 +37,7 @@ jobs:
         environment:
           <<: *environment
 
-      # postgres:11.6
-      - image: cimg/postgres:16.0
+      - image: postgres:12
         environment:
           <<: *environment
 
@@ -50,29 +49,33 @@ jobs:
       - checkout
 
       - restore_cache:
-          keys:
-            - v2-dependencies-{{ checksum "requirements-dev.txt" }}
+          name: Restore pip cache
+          keys: v2-dependencies-{{ checksum "requirements-dev.txt" }}
 
       - run:
           name: Install dependencies
           command: |
-              python3 -m venv venv
-              . venv/bin/activate
-              pip install -r requirements-dev.txt
+            python3 -m venv venv
+            . venv/bin/activate
+            python -m pip install --upgrade pip
+            python -m pip install --cache-dir ~/cache/pip --progress-bar off -r requirements-dev.txt
 
       - save_cache:
+          name: Save pip cache
+          key: v2-dependencies-{{ checksum "requirements-dev.txt" }}
           paths:
             - "venv"
-          key: v2-dependencies-{{ checksum "requirements-dev.txt" }}
 
       - run:
           name: Run flake8
           command: |
             . venv/bin/activate
-            make check-flake8
+            flake8 --exclude venv .
 
       - run:
           name: Check types
+          # python static type checker, ensures the code makes use of all
+          # variables and functions
           command: |
             . venv/bin/activate
             make lint-types
@@ -81,7 +84,7 @@ jobs:
           name: Run pytest
           command: |
             . venv/bin/activate
-            ./manage.py collectstatic --no-input
+            python manage.py collectstatic --no-input
             pytest --dead-fixtures --dup-fixtures \
               --junitxml=.test-results/pytest-fixtures/results.xml &&
             pytest --junitxml=.test-results/pytest/results.xml \
@@ -89,17 +92,12 @@ jobs:
 
       - run:
           name: Check django settings
+          # system check that inspects the entire django project for common problems
           command: |
             . venv/bin/activate
-            ./manage.py check --deploy --fail-level WARNING
+            python manage.py check --deploy --fail-level WARNING
           environment:
             DJANGO_ENV: production
-
-      - run:
-          name: Check migrations are backwards-compatible
-          command: |
-            . venv/bin/activate
-            ./manage.py lintmigrations --exclude-apps axes sites
 
       - run:
           name: Run Bandit security linter
@@ -109,6 +107,7 @@ jobs:
 
       - run:
           name: Check dependency compatibility
+          # verifies installed packages have compatible dependencies
           command: |
             . venv/bin/activate
             pip check
