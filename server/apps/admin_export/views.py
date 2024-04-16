@@ -1,6 +1,7 @@
 import csv
 from typing import Iterator, List
 
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.contrib.postgres.aggregates import ArrayAgg
 from django.db.models import QuerySet
 from django.http import StreamingHttpResponse
@@ -20,8 +21,11 @@ class Echo:
         return value
 
 
-class ExportLegalBasisCSV(View):
+class ExportLegalBasisCSV(UserPassesTestMixin, View):
     http_method_names = ["get"]
+
+    def test_func(self) -> bool:
+        return self.request.user.is_superuser
 
     def get(self, request) -> StreamingHttpResponse:
         return StreamingHttpResponse(
