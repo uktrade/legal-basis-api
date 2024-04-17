@@ -16,7 +16,7 @@ test: docker-build
 
 .PHONY: lint-migrations
 lint-migrations: docker-build
-	docker-compose run --rm web /code/manage.py lintmigrations --exclude-apps axes sites
+	docker-compose run --rm web /code/manage.py lintmigrations --exclude-apps axes sites actstream
 
 .PHONY: check-flake8
 check-flake8:

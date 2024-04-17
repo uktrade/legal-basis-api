@@ -10,13 +10,18 @@
 version: "3.6"
 services:
   db:
-    image: "postgres:9.6.9-alpine"
+    image: postgres:12
     restart: unless-stopped
     volumes:
       - pgdata:/var/lib/postgresql/data
     env_file: ./config/.env
     ports:
       - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U lba_user legal_basis_api"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   web:
     <<: &web
@@ -34,13 +39,17 @@ services:
       environment:
         DJANGO_DATABASE_HOST: db
         CRYPTOGRAPHY_DONT_BUILD_RUST: 1
-    command: python -Wd manage.py runserver 0.0.0.0:8000
+    command: >
+      sh -c "python manage.py collectstatic --noinput &&
+             python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
     healthcheck:
       test: curl --fail http://localhost:8000/health/?format=json || exit 1
       interval: 10s
       timeout: 5s
       retries: 5
       start_period: 10s
+
   redis:
     image: redis:alpine
     restart: on-failure

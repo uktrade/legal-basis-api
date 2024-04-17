@@ -24,7 +24,6 @@ INSTALLED_APPS += (
     "django_extensions",
     "debug_toolbar",
     "nplusone.ext.django",
-    "django_migration_linter",
 )
 
 

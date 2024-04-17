@@ -10,7 +10,6 @@ from django.db.models import Model
 from django.utils.functional import cached_property
 from django_tqdm import BaseCommand
 from opensearchpy import OpenSearch, RequestsHttpConnection
-from opensearch_dsl.response import Hit
 from phonenumber_field.phonenumber import PhoneNumber
 from phonenumbers import NumberParseException
 from requests_hawk import HawkAuth
@@ -155,7 +154,6 @@ class Command(BaseCommand):
         with self.tqdm(total=total_hits) as progress_bar:
             while len(results.hits):
 
-                last_hit: Hit
                 for hit in results:
                     if client.should_process(hit):
                         self.write(pformat(hit.to_dict()))

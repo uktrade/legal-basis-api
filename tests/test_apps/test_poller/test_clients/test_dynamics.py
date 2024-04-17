@@ -13,7 +13,7 @@ class TestDynamicsClient:
         return DynamicsClient()
 
     @mock.patch.object(DynamicsClient, "_get_access_token", return_value="X")
-    def test_get_unsubscribed_contacts(self, _):
+    def test_get_unsubscribed_contacts(self, mock_value):
         mock_data = {
             "value": [
                 {
@@ -50,7 +50,7 @@ class TestDynamicsClient:
         assert contacts_mock.call_count == self.client.max_retry_attempts
 
     @mock.patch.object(DynamicsClient, "_get_access_token", return_value="X")
-    def test_get_unmanaged_contacts(self, _):
+    def test_get_unmanaged_contacts(self, mock_value):
         mock_data = {
             "value": [
                 {

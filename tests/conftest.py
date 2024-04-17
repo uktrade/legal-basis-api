@@ -31,7 +31,7 @@ def _auth_backends(settings):
     settings.AUTHENTICATION_BACKENDS = ("django.contrib.auth.backends.ModelBackend",)
 
 
-@pytest.fixture()
+@pytest.fixture
 def authenticated_client(client, django_user_model):
     username = "user1"
     password = "bar"
@@ -40,7 +40,7 @@ def authenticated_client(client, django_user_model):
     return client
 
 
-@pytest.fixture()
+@pytest.fixture
 def read_write_client(client, django_user_model):
     user = django_user_model.objects.create_user(
         username="read-write", password="password"
@@ -58,7 +58,7 @@ def read_write_client(client, django_user_model):
     return client
 
 
-@pytest.fixture()
+@pytest.fixture
 def read_only_client(client, django_user_model):
     user = django_user_model.objects.create_user(
         username="read-only", password="password"
@@ -74,7 +74,7 @@ def read_only_client(client, django_user_model):
     return client
 
 
-@pytest.fixture()
+@pytest.fixture
 def write_only_client(client, django_user_model):
     user = django_user_model.objects.create_user(
         username="write-only", password="password"
@@ -90,6 +90,6 @@ def write_only_client(client, django_user_model):
     return client
 
 
-@pytest.fixture()
+@pytest.fixture
 def directory_forms_user(django_user_model):
     return django_user_model.objects.get_or_create(username="directoryforms")

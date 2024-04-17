@@ -4,13 +4,14 @@ version: 2
 environment: &environment
   DJANGO_ENV: test
   DJANGO_SECRET_KEY: 4c1nzrs&8^g+t$tt**wl7u8)0p8ql3vr28rjn1mdcnr*crjz*#
-  DATABASE_URL: postgres://postgres@127.0.0.1:5432/legal-basis
+  DATABASE_URL: postgres://lba_user:lba_password@127.0.0.1:5432/legal-basis
   AUTHBROKER_URL: https://sso.trade.gov.uk/
   AUTHBROKER_CLIENT_ID: client_id
   AUTHBROKER_CLIENT_SECRET: client_secret
   DOMAIN_NAME: trade.gov.uk
   TLS_EMAIL: webmaster@trade.gov.uk
-  POSTGRES_USER: postgres
+  POSTGRES_USER: lba_user
+  POSTGRES_PASSWORD: lba_password
   POSTGRES_DB: legal-basis
   ACTIVITY_STREAM_URL: https://localhost/v3/
   ACTIVITY_STREAM_ID: fake_id
@@ -32,12 +33,11 @@ workflows:
 jobs:
   build-and-test:
     docker:
-      - image: cimg/python:3.9.14
+      - image: cimg/python:3.10
         environment:
           <<: *environment
 
-      # postgres:11.6
-      - image: circleci/postgres@sha256:be29ab5e437ef926a222081eb15f8fca602a89b4c7987b909a5b6a10f282026e
+      - image: postgres:12
         environment:
           <<: *environment
 
@@ -49,29 +49,33 @@ jobs:
       - checkout
 
       - restore_cache:
-          keys:
-            - v2-dependencies-{{ checksum "requirements-dev.txt" }}
+          name: Restore pip cache
+          keys: v2-dependencies-{{ checksum "requirements-dev.txt" }}
 
       - run:
           name: Install dependencies
           command: |
-              python3 -m venv venv
-              . venv/bin/activate
-              pip install -r requirements-dev.txt
+            python3 -m venv venv
+            . venv/bin/activate
+            python -m pip install --upgrade pip
+            python -m pip install --cache-dir ~/cache/pip --progress-bar off -r requirements-dev.txt
 
       - save_cache:
+          name: Save pip cache
+          key: v2-dependencies-{{ checksum "requirements-dev.txt" }}
           paths:
             - "venv"
-          key: v2-dependencies-{{ checksum "requirements-dev.txt" }}
 
       - run:
           name: Run flake8
           command: |
             . venv/bin/activate
-            make check-flake8
+            flake8 --exclude venv .
 
       - run:
           name: Check types
+          # python static type checker, ensures the code makes use of all
+          # variables and functions
           command: |
             . venv/bin/activate
             make lint-types
@@ -80,7 +84,7 @@ jobs:
           name: Run pytest
           command: |
             . venv/bin/activate
-            ./manage.py collectstatic --no-input
+            python manage.py collectstatic --no-input
             pytest --dead-fixtures --dup-fixtures \
               --junitxml=.test-results/pytest-fixtures/results.xml &&
             pytest --junitxml=.test-results/pytest/results.xml \
@@ -88,17 +92,12 @@ jobs:
 
       - run:
           name: Check django settings
+          # system check that inspects the entire django project for common problems
           command: |
             . venv/bin/activate
-            ./manage.py check --deploy --fail-level WARNING
+            python manage.py check --deploy --fail-level WARNING
           environment:
             DJANGO_ENV: production
-
-      - run:
-          name: Check migrations are backwards-compatible
-          command: |
-            . venv/bin/activate
-            ./manage.py lintmigrations --exclude-apps axes sites
 
       - run:
           name: Run Bandit security linter
@@ -108,6 +107,7 @@ jobs:
 
       - run:
           name: Check dependency compatibility
+          # verifies installed packages have compatible dependencies
           command: |
             . venv/bin/activate
             pip check

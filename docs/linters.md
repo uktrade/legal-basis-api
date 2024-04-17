@@ -61,25 +61,6 @@ xenon --max-absolute A --max-modules A --max-average A server
 
 It will return status code `0` if everything is fine.
 
-django-migration-linter
------------------------
-
-We use `django-migration-linter` to find backward incompatible
-migrations. It allows us to write 0-downtime friendly code.
-
-See
-[django-migration-linter](https://github.com/3YOURMIND/django-migration-linter)
-docs, it contains a lot of useful information about ways and tools to do
-it.
-
-That's how this check is executed:
-
-``` {.sourceCode .bash}
-python manage.py lintmigrations --exclude-apps=axes
-```
-
-Important note: you might want to exclude some packages with broken
-migrations. Sometimes, there's nothing we can do about it.
 
 yamllint
 --------

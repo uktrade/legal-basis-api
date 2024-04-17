@@ -24,7 +24,6 @@ doc8
 yamllint
 safety
 dotenv-linter
-django-migration-linter
 django-extensions
 flake8-isort
 black

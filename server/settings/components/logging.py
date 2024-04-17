@@ -2,7 +2,6 @@ import os
 import sys
 
 import structlog
-import ecs_logging
 
 LOGLEVEL = os.environ.get("LOGLEVEL", "info").upper()
 
@@ -62,8 +61,10 @@ LOGGING = {
     },
 }
 
+
 structlog.configure(
     processors=[
+        structlog.contextvars.merge_contextvars,
         structlog.stdlib.filter_by_level,
         structlog.processors.TimeStamper(fmt="iso"),
         structlog.stdlib.add_logger_name,
@@ -72,11 +73,9 @@ structlog.configure(
         structlog.processors.StackInfoRenderer(),
         structlog.processors.format_exc_info,
         structlog.processors.UnicodeDecoder(),
-        structlog.processors.ExceptionPrettyPrinter(),
-        ecs_logging.StructlogFormatter(),
         structlog.stdlib.ProcessorFormatter.wrap_for_formatter,
+
     ],
-    context_class=structlog.threadlocal.wrap_dict(dict),
     logger_factory=structlog.stdlib.LoggerFactory(),
     wrapper_class=structlog.stdlib.BoundLogger,
     cache_logger_on_first_use=True,

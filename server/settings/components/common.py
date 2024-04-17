@@ -12,7 +12,7 @@ import uuid
 from typing import Dict, List, Tuple, Union
 
 from django.urls import reverse_lazy
-from django.utils.translation import ugettext_lazy as ugt
+from django.utils.translation import gettext_lazy
 from django_structlog.middlewares.request import RequestMiddleware, logger
 from furl import furl
 
@@ -65,7 +65,6 @@ INSTALLED_APPS: Tuple[str, ...] = (
     "health_check.cache",
     "health_check.storage",
     # Third party apps
-    "django_http_referrer_policy",
     "hawkrest",
     "authbroker_client",
     # Activity Stream
@@ -81,7 +80,7 @@ MIDDLEWARE: Tuple[str, ...] = (
     "server.apps.main.middleware.SslRedirectExemptHostnamesMiddleware",
     # Django:
     "django.middleware.security.SecurityMiddleware",
-    "django_feature_policy.FeaturePolicyMiddleware",  # django-feature-policy
+    "django_permissions_policy.PermissionsPolicyMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -124,7 +123,7 @@ LANGUAGE_CODE = "en-gb"
 USE_I18N = True
 USE_L10N = False
 
-LANGUAGES = (("en", ugt("English")),)
+LANGUAGES = (("en", gettext_lazy("English")),)
 
 LOCALE_PATHS = ("locale/",)
 
