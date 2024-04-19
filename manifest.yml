@@ -2,7 +2,7 @@
 applications:
   - buildpacks:
       - python_buildpack
-    timeout: 360
+    timeout: 180
     stack: cflinuxfs4
     health-check-type: http
     health-check-http-endpoint: /health

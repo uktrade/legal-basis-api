@@ -28,7 +28,7 @@ STORAGES = {
     },
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage"
-    }
+    },
 }
 
 # Password validation
@@ -50,7 +50,7 @@ SECURE_HSTS_SECONDS = 31536000  # the same as Caddy has
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_HSTS_PRELOAD = True
 
-SECURE_SSL_REDIRECT = True
+SECURE_SSL_REDIRECT = False
 SECURE_SSL_REDIRECT_EXEMPT_HOSTNAMES = (r"\.apps\.internal:8080$",)
 
 SESSION_COOKIE_SECURE = True
@@ -60,5 +60,7 @@ SENTRY_DSN = env.str("SENTRY_DSN", default=None)
 
 if SENTRY_DSN is not None:
     sentry_sdk.hub.init(
-        dsn=SENTRY_DSN, integrations=[DjangoIntegration()], send_default_pii=True,
+        dsn=SENTRY_DSN,
+        integrations=[DjangoIntegration()],
+        send_default_pii=True,
     )
