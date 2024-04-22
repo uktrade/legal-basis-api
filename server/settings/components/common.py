@@ -209,6 +209,7 @@ SECURE_CONTENT_TYPE_NOSNIFF = True
 SILENCED_SYSTEM_CHECKS = [
     # Don't enforce SECURE_BROWSER_XSS_FILTER, which is recommended to be disabled
     "security.W007",
+    "security.W008",
 ]
 
 X_FRAME_OPTIONS = "DENY"
