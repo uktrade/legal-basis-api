@@ -185,7 +185,7 @@ six==1.16.0
     #   opensearch-py
     #   orderedmultidict
     #   python-dateutil
-sqlparse==0.4.4
+sqlparse==0.5.0
     # via django
 str2bool==1.1
     # via -r requirements.in
