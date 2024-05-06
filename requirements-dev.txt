@@ -573,7 +573,7 @@ waitress==3.0.0
     # via -r requirements.txt
 wcwidth==0.2.13
     # via prompt-toolkit
-werkzeug==3.0.2
+werkzeug==3.0.3
     # via -r requirements-dev.in
 whitenoise==6.6.0
     # via -r requirements.txt
