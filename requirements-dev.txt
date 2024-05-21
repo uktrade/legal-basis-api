@@ -411,7 +411,7 @@ redis==5.0.3
     # via
     #   -r requirements.txt
     #   django-redis
-requests==2.31.0
+requests==2.32.0
     # via
     #   -r requirements.txt
     #   msal
