@@ -18,9 +18,9 @@ CONSENT_OPTED_OUT = 534120002
 class DynamicsClient:
     token: str
     max_retry_attempts: int = 10
-    contacts_url: str = f"{settings.DYNAMICS_INSTANCE_URI}api/data/v9.2/contacts"
+    contacts_url: str = f"{settings.DYNAMICS_INSTANCE_URI}/api/data/v9.2/contacts"
     consents_url: str = (
-        f"{settings.DYNAMICS_INSTANCE_URI}api/data/v9.2/msdynmkt_contactpointconsent4s"
+        f"{settings.DYNAMICS_INSTANCE_URI}/api/data/v9.2/msdynmkt_contactpointconsent4s"
     )
 
     def __init__(self) -> None:
