@@ -36,7 +36,7 @@ class FormsApi(ActivityStreamClient):
         if "object" in hit:
             if f"{self.name}:Data" in hit.object:
                 data = hit.object[f"{self.name}:Data"]
-                if "email_contact_consent" or "contact_consent" in data:
+                if "email_contact_consent" in data or "contact_consent" in data:
                     return True
                 # if "phone_number" in data:
                 #     return True
