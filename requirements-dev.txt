@@ -80,7 +80,7 @@ decorator==5.1.1
     # via ipython
 dill==0.3.8
     # via pylint
-django==4.2.11
+django==4.2.14
     # via
     #   -r requirements.txt
     #   django-activity-stream
