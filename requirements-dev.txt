@@ -447,7 +447,7 @@ safety==3.1.0
     # via -r requirements-dev.in
 safety-schemas==0.0.2
     # via safety
-sentry-sdk==1.44.1
+sentry-sdk==2.8.0
     # via -r requirements.txt
 shellingham==1.5.4
     # via typer
