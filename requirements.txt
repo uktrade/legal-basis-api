@@ -195,7 +195,7 @@ structlog==24.1.0
     #   django-structlog
 tablib==3.6.1
     # via -r requirements.in
-tqdm==4.66.2
+tqdm==4.66.3
     # via django-tqdm
 typed-ast==1.5.5
     # via -r requirements.in
