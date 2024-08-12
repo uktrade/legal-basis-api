@@ -173,7 +173,7 @@ requests-oauthlib==2.0.0
     # via
     #   django-admin-oauth2
     #   django-staff-sso-client
-sentry-sdk==1.44.1
+sentry-sdk==2.8.0
     # via -r requirements.in
 six==1.16.0
     # via
