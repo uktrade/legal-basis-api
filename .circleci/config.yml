@@ -41,8 +41,7 @@ jobs:
         environment:
           <<: *environment
 
-      # redis:5.0.7-alpine
-      - image: circleci/redis@sha256:8aaec4ec9b084dce3d2e49607035825f2bc7abd9ea0e69718d410f74448b1012
+      - image: cimg/redis:5.0.14
         environment:
           <<: *environment
     steps:
