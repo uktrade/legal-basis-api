@@ -569,7 +569,7 @@ urllib3==1.26.19
     #   requests
     #   safety
     #   sentry-sdk
-waitress==3.0.0
+waitress==3.0.1
     # via -r requirements.txt
 wcwidth==0.2.13
     # via prompt-toolkit
