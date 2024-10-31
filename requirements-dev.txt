@@ -70,7 +70,7 @@ coverage[toml]==7.4.4
     # via
     #   pytest-cov
     #   pytest-testmon
-cryptography==42.0.5
+cryptography==43.0.1
     # via
     #   -r requirements.txt
     #   authlib
@@ -80,7 +80,7 @@ decorator==5.1.1
     # via ipython
 dill==0.3.8
     # via pylint
-django==4.2.15
+django==4.2.16
     # via
     #   -r requirements.txt
     #   django-activity-stream
@@ -569,11 +569,11 @@ urllib3==1.26.19
     #   requests
     #   safety
     #   sentry-sdk
-waitress==3.0.0
+waitress==3.0.1
     # via -r requirements.txt
 wcwidth==0.2.13
     # via prompt-toolkit
-werkzeug==3.0.3
+werkzeug==3.0.6
     # via -r requirements-dev.in
 whitenoise==6.6.0
     # via -r requirements.txt
